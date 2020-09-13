@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/ratpoison-window-manager.html"/>
+	
+
+	
+	<title>Ratpoison window manager - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>Ratpoison window manager</h3></div>
+<div id="content"><br><b>Ratpoison</b> is a fast tiling window manager, written in C, which goal is to minimize the use of the mouse.<br><br><br><h4>Install ratpoison</h4><br>In Debian:<br><br><code>$ sudo aptitude install ratpoison</code><br><br><br>Get source code:<br><br><code>$ git clone git://git.savannah.nongnu.org/ratpoison.git</code><br><br><br><h4>Launch ratpoison</h4><br>If we want to launch it quickly, without setting anything:<br><br><code>$ startx $(which ratpoison) -- :2</code>  # launch a new X server with ratpoison client in screen 2<br><br><br><h4>Useful Key bindinds</h4><br><kbd>C-t .</kbd>  # for menu<br><br><kbd>C-t ?</kbd>  # for help<br><br><kbd>C-t c</kbd>  # open a terminal<br><br><kbd>C-t a</kbd>  # display date<br><br><kbd>C-t w</kbd>  # list all windows<br><br><kbd>C-t A</kbd>  # set window title.<br><br><kbd>C-t k</kbd>  # kill current window.<br><br><kbd>C-t !</kbd>  # execute a shell command.<br><br><kbd>C-t &#39;</kbd>  # select a window by its number or the beginning of its name(case insensitive).<br><br><kbd>C-t 1</kbd>  # go to window number 1 (same for 2 - 9 numbers)<br><br><kbd>C-t s</kbd>  # split frame horizontally<br><br><kbd>C-t S</kbd>  # split frame vertically<br><br><kbd>C-t Tab</kbd>  # change focus to next window in frame<br><br><kbd>C-t Q</kbd>  # make current focused window the only one in frame<br><br><kbd>C-t r</kbd>  # resize frame using cursor keys and enter.<br><br><kbd>C-t R</kbd>  # remove current window from frame.<br><br><kbd>C-t f</kbd>  # select a window in current frame using numbers.<br><br><kbd>C-t u</kbd>  # undo a former command.<br><br><kbd>C-t U</kbd>  # redo undone command.<br><br><kbd>C-t x</kbd>  # swap current window with a selected by number one in current frame.<br><br><kbd>C-t F</kbd>  # show current window.<br><br><kbd>C-t C-t</kbd>  # go to last frame.<br><br><kbd>C-t t</kbd>  # send C-t <br><br><kbd>C-t :</kbd>  # execute a ratpoison command. E.g: bind d exec firefox     to create a bind to firefox.<br>These commands could afterwards be added to .ratpoisonrc file<br><br><kbd>C-t b</kbd>  # banish the mouse to a corner of the screen.<br><br><br><h4>Configure behavior of some X applications</h4><br>We perform that editing <b>$HOME/.Xresources</b> file:<br><br>E.g:<br><pre>emacs*Background:  black<br>emacs*Foreground:  white<br>xterm*Background:  black<br>xterm*Foreground:  white<br>xterm*Font:  -misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-15</pre><br>Next we will need to load this file using xrdb command.<br><br><br><h4>Configuration file to launch X when executing startx command</h4><br>When we launch startx command, script <b>$HOME/.xinitrc</b> is executed:<br><br>E.g:<br><pre>xrdb -merge ~/.Xresources<br>xscreensaver -no-splash &amp;<br>xterm &amp;<br>ratpoison &amp;<br>wait</pre><br>This script loads configuration properties for some X applications, launches xscreensaver, a terminal and executes ratpoison.<br><br>wait command waits for all other commands to finish.<br><br><br><h4>Interesting ratpoison commands</h4><br>We can enter these commands using <kbd>C-t :</kbd> or in Ratpoison configuration file.<br><br><code>set</code>  # show all settings.<br><br><code>bind</code>  # bind a key to a command. If that key was not free we need to execute <b>unbind</b> command before.<br><br><code>bargravity ne</code>  # set bar window to upper right corner (other values: nw, se, sw).<br><br><code>tmpwm</code>  # allow us to launch a temporary window manager. E.g to execute gimp application.<br><br><code>number</code>  # change number of a window.<br><br><code>select</code>  # select a window by its number or the beginning of its name(case insensitive).<br><br><code>exec</code>  # execute a program in another process.<br><br><code>msgwait</code>  # number of seconds command output is shown in the screen.<br><b>msgwait 0</b>  # disables bar window auto-hiding, then the user shows and hide it calling <kbd>windows</kbd> or <kbd>C-t w</kbd> command.<br><br><br><h4>Ratpoison configuration file</h4><br>When launched ratpoison reads commands from its configuration file <b>$HOME/.ratpoisonrc</b><br><br>An example:<br><pre>set fgcolor white<br>set bgcolor black<br>#set font &#34;courier&#34;<br>#set font &#34;fixed-10&#34;<br>set font &#34;courier-12&#34;<br>set bargravity ne<br>#set bargravity sw<br>bind F1 exec dmenu_run<br>bind F2 restart<br># launches a temporal window manager<br>bind F8 tmpwm   <br># finishes ratpoison<br>bind F9 quit<br><br>## needs (server-start) in .emacs file<br>#bind e exec emacsclient -a emacs $HOME<br><br># find an existing emacs window<br>bind e select emacs<br>bind C-e select emacs<br><br>bind C-N number<br>msgwait 10</pre><br><br>Lines starting with <b>#</b> are comments.<br><br><br><h4>Reference</h4><br><a href="https://wiki.archlinux.org/index.php/Ratpoison">https://wiki.archlinux.org/index.php/Ratpoison</a><br><br><a href="http://www.nongnu.org/ratpoison/">http://www.nongnu.org/ratpoison/</a><br><br><a href="http://www.nongnu.org/ratpoison/doc/index.html">Ratpoison manual</a><br><br><a href="http://ratpoison.wxcvbn.org/cgi-bin/wiki.pl">Ratpoison wiki</a><br><br></div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/r-language-introduction.html"/>
+	
+
+	
+	<title>R language: Introduction - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>R language: Introduction</h3></div>
+<div id="content"><br><b>R</b> is a computer <b>programming language</b> and environment focused on <b>statistics</b> and <b>graphics</b>.<br><br><br><h4>Install R in linux</h4><br><b>Ubuntu:</b><br><a href="https://cran.r-project.org/bin/linux/ubuntu/README">https://cran.r-project.org/bin/linux/ubuntu/README</a><br><br><b>Debian:</b><br><a href="https://cran.r-project.org/bin/linux/debian/">https://cran.r-project.org/bin/linux/debian/</a><br><a href="https://cran.r-project.org/bin/linux/debian/#debian-sid-unstable">https://cran.r-project.org/bin/linux/debian/#debian-sid-unstable</a><br><br>In <b>Debian Sid</b> we can install R <b>using packaging system</b>:<br><code>$ sudo aptitude install <b>r-base r-base-dev</b></code><br><br><pre>Accept this solution? [Y/n/q/?] y<br>The following NEW packages will be installed:<br>  cdbs{a} cpp-5{a} gcc-5{a} gfortran{a} gfortran-5{a} libasan2{a} <br>  libcc1-0{a} libgcc-5-dev{a} libgfortran-5-dev{a} libisl15{a} libmpx0{a} <br>  libncurses5-dev{a} libpcre3-dev{a} libpcre32-3{a} libpcrecpp0v5{a} <br>  libreadline-dev{a} libreadline6-dev{a} libtinfo-dev{a} r-base <br>  r-base-core{a} r-base-dev r-base-html{a} r-cran-boot{a} r-cran-class{a} <br>  r-cran-cluster{a} r-cran-codetools{a} r-cran-foreign{a} <br>  r-cran-kernsmooth{a} r-cran-lattice{a} r-cran-mass{a} r-cran-matrix{a} <br>  r-cran-mgcv{a} r-cran-nlme{a} r-cran-nnet{a} r-cran-rpart{a} <br>  r-cran-spatial{a} r-cran-survival{a} r-doc-html{a} r-recommended{a}</pre><br><br><br><h4>Launch R interpreter</h4><br><code>$ R</code><br><br><pre>R version 3.2.3 (2015-12-10) -- &#34;Wooden Christmas-Tree&#34;<br>Copyright (C) 2015 The R Foundation for Statistical Computing<br>Platform: x86_64-pc-linux-gnu (64-bit)<br><br>R is free software and comes with ABSOLUTELY NO WARRANTY.<br>You are welcome to redistribute it under certain conditions.<br>Type &#39;license()&#39; or &#39;licence()&#39; for distribution details.<br><br>  Natural language support but running in an English locale<br><br>R is a collaborative project with many contributors.<br>Type &#39;contributors()&#39; for more information and<br>&#39;citation()&#39; on how to cite R or R packages in publications.<br><br>Type &#39;demo()&#39; for some demos, &#39;help()&#39; for on-line help, or<br>&#39;help.start()&#39; for an HTML browser interface to help.<br>Type &#39;q()&#39; to quit R.</pre><br><br><b>&gt; prompt</b> appears.<br><b>#</b> creates <b>comments</b> until the end of the line.<br><br>We can <b>run some demos</b>:<br><code>&gt; demo()</code>  # list all available demos.<br><br>Run recursion demo:<br><code>&gt; demo(recursion)</code><br><br>Show some help:<br><code>&gt; help()</code><br><br><b>Quit</b> the session:<br><code>&gt; quit()</code><br>or<br><code>&gt; q()</code><br><br><br><br><h4>R interactive help</h4><br><b>help.start</b> function <b>launches a local web server</b> and opens a <b>web browser</b> session showing <b>R documentation</b>. <br><code>&gt; help.start()</code><br><br><br><b>Invoke interactive help in prompt</b><br><br><code>&gt; help(solve)</code><br> <br>or <br><br><code>&gt; ?solve</code><br><br>If feature has special characters or is a reserver keyword it needs quotes around:<br><code>&gt; help(&#34;[[&#34;)</code><br><code>&gt; help(&#34;if&#34;)</code><br><br><br><br><b>Search for help</b><br><br><code>&gt; help.search(&#34;solve&#34;)</code><br>or<br><code>&gt; ??solve</code><br><br><br><h4>R documentation</h4><br><a href="https://cran.r-project.org/manuals.html">R manuals</a><br><br><a href="https://cran.r-project.org/faqs.html">R FAQs</a><br><br>You can also browse this documentation locally using <b>help.start()</b> command.<br><br><br><br><h4>Reference</h4><br><a href="https://en.wikipedia.org/wiki/R_%28programming_language%29">R (programming language - Wikipedia)<br><br></div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

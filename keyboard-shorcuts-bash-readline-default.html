@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/keyboard-shorcuts-bash-readline-default.html"/>
+	
+
+	
+	<title>Bash shell: default keyboard shortcuts - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>Bash shell: default keyboard shortcuts</h3></div>
+<div id="content"><br>We are going to enumerate <b>default keyboard shortcuts</b> for <b>bash</b> shell.<br><br><br>Bash obtains most of its behavior from <b>GNU Readline</b> and <b>GNU History</b> libraries.<br><br><br><h4>Emacs vs vi key combinations</h4><br>Readline comes with <b>emacs</b> like <b>keybindings</b> by <b>default</b>.<br><br>In this document we will explain emacs like commands.<br><br><br>You could also set vi like mode in the init file.<br><br>Keybindings can be customized in Readline init file (/etc/inputrc)<br><br><br><h4>GNU Readline and History libraries</h4><br>Applications linked to GNU Readline library provide the user with editing capabilities for command lines as they are typed in.<br><br>GNU Readline also provides history functions, based on History library.<br><br><br>GNU History library can be used separately from Readline.<br><br><br><h4>Keyboard Shorcuts</h4><br><h5>Nomenclature:</h5><br>We will use this convention. E.g:<br><br><b>C-e</b>  means press <b>Control</b> and e key together.<br><br><b>M-e</b>  means press <b>meta key</b> and e.  We could simulate metakey by first pressing Esc key and afterwards letter e (<b>metafying</b> e key).<br><br><b>M-C-k</b>  means <b>metafying C-k</b> , i.e: first pressing ESC and afterwards C-k.<br><br><br><h5>Self insert</h5><br>(<kbd>a, b, A, 1, !, ...</kbd>)<br><br>Those characters and some others are inserted when its associated key is pressed.<br><br>E.g: <kbd>e</kbd>  prints an &#39;e&#39;<br><br><br><h5>Accept line</h5><br><kbd>RET</kbd>  accept a line independently of where cursor position is.<br><br><br><h5>Special symbols</h5><br><kbd>C-i</kbd>  equals <b>Tab</b><br><br><kbd>C-j</kbd>  equals <b>newline</b> character<br><br><kbd>C-m</kbd>  equals <b>Enter</b><br><br><kbd>C-d</kbd>  if pointer is at the beginning of the line and there are no other characters, this symbol equals <b>END of FILE</b> (EOF).<br><br><br><h5>Quoted insert</h5><br><kbd>C-v</kbd> (or <kbd>C-q</kbd>)  <b>quoted insert</b><br><br>If we want to insert C-e instead of executing command associated to C-e we press:<br><kbd>C-v C-e</kbd><br><br>or to insert C-v <br><kbd>C-v C-v</kbd><br><br><br><b>NOTE</b>: <b>C-s</b> and <b>C-q</b> are restricted to terminal control flow if XON/XOFF is enabled.<br><a href="http://unix.stackexchange.com/questions/72086/ctrl-s-hang-terminal-emulator">http://unix.stackexchange.com/questions/72086/ctrl-s-hang-terminal-emulator</a><br><br><br><h5>Move the cursor</h5><br><kbd>C-b</kbd>  Move back one character<br><br><kbd>C-f</kbd>  Move forward one character<br><br><br><kbd>C-a</kbd>  Move to beggining of the line<br><br><kbd>C-e</kbd>  Move to the end of the line<br><br><br><kbd>M-f</kbd>  Move forward one word<br><br><kbd>M-b</kbd>  Move backward one word.<br><br><br><br><h5>Delete characters</h5><br><kbd>DEL</kbd> or <kbd>Backspace</kbd>  Delete character to the left of the cursor<br><br><kbd>C-d</kbd>  Delete character under the cursor<br><br><kbd>M-DEL</kbd>  Delete word before cursor.<br><br><kbd>M-d</kbd>  Delete word after the cursor.<br><br><br><h5>Clear the screen</h5><br><kbd>C-l</kbd>  clear the screen and reprint current line at the top.<br><br><br><h5>Changing text</h5><br><kbd>M-u</kbd>  upcase from cursor to end of current word.<br><br><kbd>M-l</kbd>  downcase from cursor to end of current word.<br><br><kbd>C-t</kbd>  transpose characters<br><br><kbd>M-t</kbd>  transpose words<br><br><kbd>M-c</kbd>  capitalize word (from cursor to end of current word)<br><br><br><h5>Killing and Yanking commands</h5><br><kbd>C-k</kbd>  kill text from cursor to end of the line.<br><br><kbd>C-u</kbd>  kill from cursor to beginning of current line.<br><br><kbd>M-d</kbd>  kill text from cursor to the end of the word.<br><br><kbd>M-DEL</kbd>  kill text from cursor to start of current word.<br><br><kbd>C-w</kbd>  kill from cursor to previous whitespace.<br><br><kbd>C-y</kbd>  yank back previously killed text.<br><br><kbd>M-y</kbd>  rotate kill ring and yank the new top.<br><br><br><h5>Undo commands</h5><br><kbd>C-x C-u</kbd>  Undo last editing command.<br><br><kbd>C-_</kbd>      Undo last editing command.<br><br><kbd>M-r</kbd>      Undo all changes made to this line (revert line).<br><br><br><h5>Abort</h5><br><kbd>C-g</kbd> Abort current editing command (Also used to stop an incremental search)<br><br><br><h5>Point and mark</h5><br><kbd>C-@</kbd>  set the mark to the position of the point.<br><br><kbd>C-x C-x</kbd>  exchange point and mark positions.<br><br><br><h5>Passing arguments to readline commands</h5><br>We <b>pass a numeric argument using meta key</b>.<br><br><br>E.g:  move forward 3 characters<br><br><kbd>M-3 C-f</kbd><br><br><br>Eg:<br><br><kbd>M-3 w</kbd>    print www<br><br><br>We can also <b>pass negative numbers</b>:<br><br>If we first press <b>minus sign</b> argument becomes negative.<br><br>E.g:<br><br><kbd>M-- C-k</kbd>  kill text to the start of the line.<br><br><kbd>M--3 C-f</kbd>  move backward 3 characters.<br><br><br><h5>Editor</h5><br><kbd>C-x C-e</kbd> invoke an editor for current command line.<br><br><br><h5>Auto-completion</h5><br><kbd>TAB</kbd>  Attempt to <b>perform completion on the text before point</b>. The actual completion performed is <b>application-specific</b>. <br>     <br><b>Bash</b> attempts completion treating the <b>text as</b>:<br><ul><li><b>a variable</b>(if the text begins with `$&#39;)</li><br><li><b>username</b> (if the text begins with `~&#39;)</li><br><li><b>hostname</b> (if the text begins with `@&#39;)</li><br><li><b>command</b> (including aliases and functions)</li> <br><li>If none of these produces a match, <b>filename completion</b> is attempted.</li><br></ul><br><br><kbd>M-?</kbd> list possible completions.<br><br><kbd>C-x /</kbd>  show possible filename completions.<br><br><kbd>M-/</kbd>  perform filename completion.<br><br><kbd>C-x ~</kbd>  show possible username completions.<br><br><kbd>M-~</kbd>  perform username completion.<br><br><kbd>C-x $</kbd>  show possible shell variable completions.<br><br><kbd>M-$</kbd>  perform shell variable completion.<br><br><kbd>C-x @</kbd>  show possible hostname completions.<br><br><kbd>M-@</kbd>  perform hostname completion.<br><br><kbd>C-x !</kbd>  show possible completions treating text before point as a command name. It tries to match against aliases, reserved words, shell functions, etc.<br><br><kbd>M-!</kbd>  perform command completion.<br><br><kbd>M-TAB</kbd>  perform completion against command history.<br><br><br><h5>Keyboard macros</h5><br><kbd>C-x (</kbd>  start keyboard macro<br><br><kbd>C-x )</kbd>  end keyboard macro<br><br><kbd>C-x e</kbd>  execute last defined keyboard macro.<br><br><br><h5>Searching in the history</h5><br><kbd>C-r</kbd> <b>search backward (incremental)</b> in the history matching the search string typed so far.<br><br><kbd>C-s</kbd> <b>search forward (incremental)</b> in the history.  (NOTE: if you have sofware flow control enabled you will hang up your terminal, press C-q to recover)<br><br><a href="http://unix.stackexchange.com/questions/72086/ctrl-s-hang-terminal-emulator">http://unix.stackexchange.com/questions/72086/ctrl-s-hang-terminal-emulator</a><br><br><br><kbd>ESC</kbd> and <kbd>C-j</kbd> stop current incremental search maintaining current search result.<br> <br><kbd>C-g</kbd> stops incremental search and restores original value.<br><br><kbd>RET</kbd>  execute current search result.<br><br><br><kbd>M-p</kbd>  search backward (non-incremental)<br><br><kbd>M-n</kbd>  search forward (non-incremental)<br><br><br><h5>History expansion (From GNU History)</h5><br><kbd>M-&gt;</kbd>  Move to first line in history.<br><br><kbd>M-&lt;</kbd>  Move to end of the input history (usually line currently being entered)<br><br><br><kbd>C-p</kbd>  previous command in history<br><br><kbd>C-n</kbd>  next command in history<br><br><br><kbd>!!</kbd>  execute again previous command<br><br><kbd>!3</kbd>  execute again command line 3<br><br><kbd>!-n</kbd>  execute command n lines back<br><kbd>!!</kbd> equals ( !-1 )<br><br><kbd>!string</kbd>    execute a command that starts with string<br><br><kbd>!?string</kbd>    execute a command that ends with string<br><br><kbd>!?string?</kbd>   execute a command that contains string<br><br><br>Using history word designators and modifiers we can substitute part of former commands and arguments before executing them again.<br><a href="http://www.catonmat.net/blog/the-definitive-guide-to-bash-command-line-history/">http://www.catonmat.net/blog/the-definitive-guide-to-bash-command-line-history/</a><br><br><br><h5>Bash Job control</h5><br><kbd>C-z</kbd>  suspend current job (Send SIGSTOP to it)<br><br><kbd>C-y</kbd>  delayed suspension of current job (it continues until input is produced)<br><br><br><h5>Signals</h5><br><kbd>C-c</kbd>  send SIGINT to current job (Usually closes cleanly the process)<br><br><br><h5>Customize init file and reread it.</h5><br>Readline init file: <b>/etc/inputrc</b><br><br><kbd>C-x C-r</kbd>  reread Readline init file.<br><br><br><br><h4>REFERENCE</h4><br>Bash reference manual:<br><a href="https://www.gnu.org/software/bash/manual/bashref.html">https://www.gnu.org/software/bash/manual/bashref.html</a><br><a href="https://www.gnu.org/software/bash/manual/bashref.html#Command-Line-Editing">https://www.gnu.org/software/bash/manual/bashref.html#Command-Line-Editing</a><br><br>GNU Readline page:<br><a href="http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html">http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html</a><br><br>Readline Documentation:<br><a href="http://cnswww.cns.cwru.edu/php/chet/readline/readline.html">http://cnswww.cns.cwru.edu/php/chet/readline/readline.html</a><br><br>Documentation for GNU History library:<br><a href="http://cnswww.cns.cwru.edu/php/chet/readline/history.html">http://cnswww.cns.cwru.edu/php/chet/readline/history.html</a><br><br><a href="https://en.wikipedia.org/wiki/GNU_Readline">https://en.wikipedia.org/wiki/GNU_Readline</a><br><br></div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

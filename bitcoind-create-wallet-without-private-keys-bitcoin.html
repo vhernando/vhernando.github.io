@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/bitcoind-create-wallet-without-private-keys-bitcoin.html"/>
+	
+
+	
+	<title>bitcoind: How to create a wallet with no private keys - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>bitcoind: How to create a wallet with no private keys</h3></div>
+<div id="content"><br>
+We are going to <b>create a wallet with no private keys</b>. Nevertheless we will add some addresses to track them.<br>
+<br>
+First launch bitcoind node:<br>
+<code>$ bitcoind -noconnect -printtoconsole=0</code><br>
+<br>
+<br>
+<br>
+<h4>Create a new wallet</h4><br>
+We will use <b>createwallet command</b>:<br>
+<br>
+<code>$ bitcoin-cli help createwallet</code><br>
+<samp>createwallet &#34;wallet_name&#34; ( disable_private_keys )<br>
+<br>
+Creates and loads a new wallet.<br>
+<br>
+Arguments:<br>
+1. &#34;wallet_name&#34;          (string, required) The name for the new wallet. If this is a path, the wallet will be created at the path location.<br>
+2. disable_private_keys   (boolean, optional, default: false) Disable the possibility of private keys (only watchonlys are possible in this mode).<br>
+</samp><br>
+<br>
+<br>
+We <b>set disable_private_keys to true</b>:<br>
+<code>$ bitcoin-cli createwallet my_wallet true</code><br>
+<br>
+<br>
+Next time we run bitcoind we can load the already existing wallet.<br>
+<code>$ bitcoind -wallet=my_wallet -noconnect -printtoconsole=0</code><br>
+<br>
+or using loadwallet command:<br>
+<code>$ bitcoin-cli loadwallet my_wallet</code><br>
+<br>
+<br>
+<br>
+<h4>To import an address:</h4><br>
+<b>Import an address to default &#34;&#34; label</b>, and do not start a rescan:<br>
+<code>$ bitcoin-cli importaddress &#34;3foobarbazfadfasdfadfafad&#34; &#34;&#34; false</code><br>
+<br>
+We do not start a rescan until we import the last address because rescanning takes a lot of time.<br>
+<br>
+To <b>list current labels</b>:<br>
+<code>$ bitcoin-cli listlabels</code><br>
+<pre>[
+  &#34;&#34;,
+  &#34;other_label&#34;
+]</pre><br>
+<br>
+<br>
+To <b>show addresses per label</b>:<br>
+<br>
+<code>$ bitcoin-cli getaddressesbylabel &#34;&#34;</code><br>
+<pre>{
+  &#34;3foobarbazfadfasdfadfafad&#34;: {
+    &#34;purpose&#34;: &#34;receive&#34;
+  }
+}</pre><br>
+<br>
+<br>
+When adding the last address we <b>perform a rescan</b>:<br>
+<code>$ bitcoin-cli importaddress &#34;bc1foobarbazadasdfasfadaf&#34; &#34;&#34; <b>true</b></code><br>
+<br>
+<br>
+<br>
+<h4>Show current balance</h4><br>
+Once a rescan was performed, we can display current <b>balance of added addresses</b>:<br>
+<br>
+<code>$ bitcoin-cli help getbalance</code><br>
+<samp>getbalance ( &#34;(dummy)&#34; minconf include_watchonly )<br>
+<br>
+Returns the total available balance.<br>
+The available balance is what the wallet considers currently spendable, and is<br>
+thus affected by options which limit spendability such as -spendzeroconfchange.<br>
+<br>
+Arguments:<br>
+1. (dummy)           (string, optional) Remains for backward compatibility. Must be excluded or set to &#34;*&#34;.<br>
+2. minconf           (numeric, optional, default=0) Only include transactions confirmed at least this many times.<br>
+3. include_watchonly (bool, optional, default=false) Also include balance in watch-only addresses (see &#39;importaddress&#39;)</samp><br>
+<br>
+<br>
+<br>
+To show right balance <b>set include_watchonly to true</b>:<br>
+<code>$ bitcoin-cli getbalance &#34;*&#34; 1 <b>true</b></code>  # Show balance for at least one confirmation.<br>
+<samp>0.05235821</samp><br>
+<br>
+<br>
+NOTE: For commands like fundrawtransaction to work, we need the <b>public key instead of the address</b>:<br>
+<br>
+We can import the public key using <b>importpubkey command</b>:<br>
+<br>
+<code>$ bitcoin-cli help importpubkey</code><br>
+<samp>importpubkey &#34;pubkey&#34; ( &#34;label&#34; rescan )<br>
+<br>
+Adds a public key (in hex) that can be watched as if it were in your wallet but cannot be used to spend. Requires a new wallet backup.</samp><br>
+<br>
+<br>
+<br>
+<code>$ bitcoin-cli importpubkey &#34;my_public_key&#34;</code><br>
+<br>
+Import public key to &#34;&#34; label and perform a rescan:<br>
+<code>$ bitcoin-cli importpubkey &#34;my_public_key&#34; &#34;&#34; true</code><br>
+<br>
+<br>
+<br>
+When <b>showing info about an address</b>:<br>
+<br>
+<code>$ bitcoin-cli getaddressinfo &#34;bc1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&#34;</code><br>
+<pre>{
+  &#34;address&#34;: &#34;bc1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&#34;,
+  &#34;scriptPubKey&#34;: &#34;whatever&#34;,
+  &#34;ismine&#34;: false,
+  &#34;iswatchonly&#34;: true,
+  &#34;isscript&#34;: false,
+  &#34;iswitness&#34;: true,
+  &#34;witness_version&#34;: 0,
+  &#34;witness_program&#34;: &#34;whatever&#34;,
+  &#34;label&#34;: &#34;&#34;,
+  &#34;timestamp&#34;: 0,
+  &#34;labels&#34;: [
+    {
+      &#34;name&#34;: &#34;&#34;,
+      &#34;purpose&#34;: &#34;receive&#34;
+    }
+  ]
+}</pre><br>
+<br>
+<br>
+If we imported the <b>public key</b>:<br>
+<code>$ bitcoin-cli getaddressinfo &#34;bc1bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb&#34;</code><br>
+<pre>{
+  &#34;address&#34;: &#34;bc1bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb&#34;,
+  &#34;scriptPubKey&#34;: &#34;whatever&#34;,
+  &#34;ismine&#34;: false,
+  &#34;iswatchonly&#34;: true,
+  &#34;isscript&#34;: false,
+  &#34;iswitness&#34;: true,
+  &#34;witness_version&#34;: 0,
+  &#34;witness_program&#34;: &#34;whatever&#34;,
+  <b>&#34;pubkey&#34;: &#34;my_public_key&#34;,</b>
+  &#34;label&#34;: &#34;&#34;,
+  &#34;timestamp&#34;: 0,
+  &#34;labels&#34;: [
+    {
+      &#34;name&#34;: &#34;&#34;,
+      &#34;purpose&#34;: &#34;receive&#34;
+    }
+  ]
+}</pre><br>
+<br>
+<br>
+<br>
+<h4>List addresses in related groups</h4><br>
+We can <b>list addresses in related groups</b> (to track our privacy):<br>
+<br>
+<b>$ bitcoin-cli help listaddressgroupings</b><br>
+<pre>listaddressgroupings
+
+Lists groups of addresses which have had their common ownership
+made public by common use as inputs or as the resulting change
+in past transactions
+
+Result:
+[
+  [
+    [
+      &#34;address&#34;,            (string) The bitcoin address
+      amount,                 (numeric) The amount in BTC
+      &#34;label&#34;               (string, optional) The label
+    ]
+    ,...
+  ]
+  ,...
+]</pre><br>
+<br>
+<br>
+<code>$ bitcoin-cli listaddressgroupings</code><br>
+<pre>[
+  [
+    [
+      &#34;my_first_address&#34;,
+      0.20000000,
+      &#34;&#34;
+    ]
+  ],
+  [
+    [
+      &#34;my_second_address&#34;,
+      0.00000000,
+      &#34;&#34;
+    ]
+  ]
+]</pre><br>
+<br>
+<br>
+<br>
+<h4>Edit label of an existing address</h4><br>
+To change label of an address we can <b>execute again importaddress command</b>:<br>
+<br>
+<code>$ bitcoin-cli importaddress &#34;my_address&#34; &#34;new_label&#34; false</code><br>
+<br>
+We could see the new associated address using getaddressinfo command.<br>
+<br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

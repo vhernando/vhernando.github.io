@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/git-command-quick-reminder.html"/>
+	
+
+	
+	<title>Git Command Quick Reminder - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>Git Command Quick Reminder</h3></div>
+<div id="content"><br>
+Git is a <b>source code management system</b> that emphasizes speed, data integrity and distributed non-linear workflows.<br>
+<br>
+<br>
+<h4>INSTALLING GIT</h4><br>
+<code>$ aptitude install git-core</code>  # <b>git basic tools</b>.<br>
+<br>
+<b>NOTE: In Debian Unstable</b><br>
+<code>$ aptitude install git</code><br>
+<br>
+<br>
+<b>gitk</b> graphic tool.<br>
+<code>$ aptitude install gitk</code>  # this graphic tool allows us to browse a git repo.<br>
+<br>
+<br>
+<br>
+<h4>INITIALIZE A REPOSITORY</h4><br>
+<code>$ git init</code>  # <b>Creates an empty repository</b> in current directory, or reinitializes an existing one.<br>
+<code>$ git init directory_name</code>  # Creates an empty repo in directory_name directory.<br>
+<br>
+<code>$ git clone remote_url</code>  # <b>clone a</b> remote <b>repo</b>. Passing as argument a local directory this command clones a local repo.<br>
+<br>
+<code>$ git clone --depth 1 git://git.sip.router.org/sip-router kamailio</code>  # <b>clones sip-router source</b> code, creating a <b>local directory</b> named <b>kamailio</b>. &#34;<b>depth 1</b>&#34; option means it only takes one revision history. That reduces the amount of history to download, but it disallows cloning, fetching, pushing or pulling from this repo. Then, it is only suitable to generate patches.<br>
+<br>
+<code>$ git clone source_repo dest_repo</code>  # clones a local repository source_repo in another local repository dest_repo,<br>
+if both are directories.<br>
+<code>$ git clone file:///path/to/source/repo file:///path/to/dest/repo</code>  # another way to specify local directories.<br>
+This way we are sure git does not use hard links when cloning source repo.<br>
+<code>$ git clone --no-hardlinks source_local_repo dest_local_repo</code>  # clone a repository and copy object files instead of using hardlinks for local repo objects.<br>
+<br>
+<br>
+<h4>GIT SVN</h4><br>
+Git svn is a tool that allows us to <b>use git over a svn repo</b>.  It provides a bidirectional flow of changes between a Subversion and a git repository.<br>
+<br>
+<code>$ man git-svn</code><br>
+<br>
+<code>$ aptitude install git-svn</code><br>
+<br>
+<code>$ git svn init --stdlayout</code>  # <b>Creates an empty repository for git svn</b> using standard layout.<br>
+<code>$ git svn fetch</code>  # Fetches unfetched revisions from remote svn repo.<br>
+<br>
+<b>Clones a remote svn repository:</b><br>
+svn equivalent command: <code>$ svn checkout http://foo.bar.com</code><br>
+<code>$ git svn clone --stdlayout http://foo.bar.com</code><br>
+<br>
+<b>To update local repository:</b><br>
+svn equivalent command: <code>$ svn update</code><br>
+<code>$ git svn rebase</code><br>
+<br>
+To <b>commit your changes to remote repo:</b><br>
+<code>$ get svn dcommit</code><br>
+<br>
+<b>Git svn reference</b><br>
+<a href="http://git.or.cz/course/svn.html">Git - SVN Crash Course</a><br>
+<br>
+<br>
+<h4>SHOW LOGS</h4><br>
+<code>$ git log</code>  # shows general change log.<br>
+<code>$ git log -8</code>  # shows last 8 changes in the log.<br>
+<code>$ git log file_name</code>  # shows change log for file_name.<br>
+<code>$ git log branch_name</code>  # shows change log for that branch_name.<br>
+<code>$ git log branch_name file_name</code>  # shows change log for that file_name in branch_name branch.<br>
+<br>
+<br>
+<h4>SHOW DIFFERENCES</h4><br>
+<code>$ git diff</code>  # shows changes between current files and latest commit.<br>
+<code>$ git diff HEAD</code>  # Same as previous one.<br>
+<code>$ git diff HEAD~1</code> # Shows differences between current files and previous to latest post.<br>
+<code>$ git diff HEAD~2 HEAD~1</code> # Shows differences between one commit before last one and two commits before.<br>
+<code>$ git diff commit_1 commit_2</code>  # shows differences between commit_2 and commit_1. <code>$ git log</code> shows commit IDs.<br>
+It is not needed to write commit names entiretly, only first characters to match them unmistakably.<br>
+<br>
+<code>$ git diff branch_1 branch_2</code>  # shows differences between HEAD in branch_1 and HEAD in branch_2.<br>
+<code>$ git diff branch_1 branch_2 directory</code>  # shows differences for that directory between HEAD in branch_1 and HEAD in branch_2.<br>
+<br>
+<br>
+<h4>SEARCH FOR PATTERNS</h4><br>
+Find <b>lines matching</b> foo.bar <b>regular expression</b> in current working directory and its subdirectories:<br>
+<code>$ git grep -e foo.bar</code><br>
+<br>
+Show also number of line for each match:<br>
+<code>$ git grep <b>-n</b> -e foo.bar</code><br>
+<br>
+Ignore the case in the regexp match:<br>
+<code>$ git grep -n <b>-i</b> -e foo.bar</code><br>
+<br>
+Match two expresions (boolean operators: or, and, not):<br>
+<code>$ git grep -e foo --or -e bar</code><br>
+<code>$ git grep -e foo --and --not -e bar</code><br>
+<br>
+<a href="http://travisjeffery.com/b/2012/02/search-a-git-repo-like-a-ninja/">http://travisjeffery.com/b/2012/02/search-a-git-repo-like-a-ninja/</a><br>
+<br>
+<br>
+<h4>STATUS</h4><br>
+<code>$ git status</code>  # shows the working tree status.<br>
+<br>
+<br>
+<h4>SHOW OBJECTS</h4><br>
+<code>$ git show tag_name</code>  # shows tag_name tag object.<br>
+<code>$ git show HEAD</code>  # shows last commit.<br>
+<code>$ git show HEAD~1</code>  # shows previous to last commit.<br>
+<br>
+<br>
+<h4>LIST ALL FILES</h4><br>
+<code>$ git ls-files</code>  # list all files.<br>
+<br>
+<br>
+<h4>TAGS</h4><br>
+<code>$ git tag</code>  # List all tags<br>
+<br>
+<code>$ git show tag_name</code>  # Display info about a tag.<br>
+<br>
+Create a lightweight tag:<br>
+<code>$ git tag tag_name branch_name</code>  # Add a tag named tag_name into branch_name branch.<br>
+<br>
+Create an annotated tag:<br>
+<code>$ git tag -a tag_name -m &#34;Message about this annotated tag.&#34;</code><br>
+<br>
+Delete a tag in local repository:<br>
+<code>$ git tag -d tag_name</code><br>
+<br>
+Tags by default are not pushed to a remote repository, so we specifically push them:<br>
+<br>
+<code>$ git push origin --tags</code>  # Upload all tags to a remote repository.<br>
+<br>
+<code>$ git push origin tag_name</code>  # Upload a specific tag to remote repo.<br>
+<br>
+<br>
+Clone a specific tag from a remote:<br>
+<code>$ git clone -b tag_name remote_repo</code><br>
+<br>
+<br>
+<a href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">https://git-scm.com/book/en/v2/Git-Basics-Tagging</a><br>
+<br>
+<br>
+<br>
+<h4>BRANCHES</h4><br>
+<code>$ git branch -r</code>  # show remote tracked branches<br>
+<code>$ git branch</code>  # show local branches<br>
+<code>$ git branch branch_name</code>  # it creates branch_name branch.<br>
+<br>
+<code>$ git checkout master</code>  # changes into master branch.<br>
+<code>$ git checkout -b local_name remote_name</code>  # set up local_name branch to track remote branch remote_name.<br>
+E.g: <code>$ git checkout -b directfb-1.4 origin/directfb-1.4</code><br>
+<br>
+<b>Create a branch starting from an old commit</b>:<br>
+<code>$ git branch new_branch_name old_commit_hash</code>  # Create new_branch_name branch from old_commit_hash but stay in current branch.<br>
+<code>$ git checkout -b new_branch_name old_commit_hash</code>  # Create new_branch_name branch from old_commit_hash and switch to that branch.<br>
+<br>
+<b>List upstream branches</b> (the ones they were cloned from: usually origin/blah):<br>
+<code>$ git branch -vv</code><br>
+<br>
+<b>Make a local branch point to a remote branch</b><br>
+<code>$ git branch --set-upstream-to=origin/my_remote_branch my_local_branch</code><br>
+or<br>
+<code>$ git branch -u origin/my_remote_branch my_local_branch</code><br>
+Now when executing <code>$ git pull</code> it will get data from my_remote_branch into my_local_branch by default.<br>
+<br>
+<br>
+<h5>Delete a branch</h5><br>
+<code>$ git branch -d foo</code> # delete foo branch.<br>
+If some of the commits of foo branch are not also in HEAD or in upstream branch it complains about:<br>
+<pre>error: The branch &#39;foo&#39; is not fully merged.</pre><br>
+and refuses to delete the branch.<br>
+<br>
+To delete it anyway:<br>
+<code>$ git branch -D foo</code><br>
+<br>
+<a href="http://chimera.labs.oreilly.com/books/1230000000561/ch05.html#branch-deletion">Git Pocket Guide: Deleting a Branch.</a><br>
+<br>
+<br>
+<h4>GIT CHECKOUT</h4><br>
+<code>$ git checkout branch_name</code>  # changes into branch_name branch.<br>
+<code>$ git checkout file_name</code>  # recovers file_name file from HEAD index repo and restores it.<br>
+<code>$ git checkout -b local_name remote_name</code>  # set up local_name branch to track remote branch remote_name.<br>
+<br>
+<br>
+<h4>ADD, MOVE AND DELETE FILES AND DIRECTORIES TO REPO INDEX</h4><br>
+<h5>Add files</h5><br>
+<b>Add files and directories to repo index:</b><br>
+<code>$ git add file_name</code>  # Adds file_name file to repo index.<br>
+<code>$ git add directory_name</code>  # Adds a directory recursively to repo index.<br>
+<br>
+<h5>Delete files</h5><br>
+<b>Delete a file from index and from local copy:</b><br>
+<code>$ git rm file_name</code><br>
+Change still needs to be committed. File is not deleted from history.<br>
+<br>
+<b>Delete file from index without deleting your local file:</b><br>
+<code>$ git rm --cached file_name</code><br>
+<br>
+<code>$ rm file_name</code>  # This command deletes a file but it does not delete it from index.<br>
+<br>
+<h5>Move or rename files</h5><br>
+<b>Rename a file or directory:</b><br>
+<code>$ git mv orig_file new_file</code><br>
+<br>
+<b>Move a file/directory inside an existing directory</b><br>
+<code>$ git mv orig_file dest_dir</code> <br>
+<br>
+NOTE: After moving files or directories <b>changes must still be committed</b> (orig files and new files too).<br>
+<br>
+<br>
+<h4>SET AUTHOR&#39;S NAME AND EMAIL</h4><br>
+You should <b>set name and email before any commit</b>, because config changes will only affect future commits.<br>
+Existing commits will retain the info they were committed with.<br>
+There are two ways, setting environment variables or changing global config settings.<br>
+<br>
+<b>Setting environment variables</b> <br>
+i.e: GIT_COMMITTER_NAME, GIT_COMMITTER_EMAIL, GIT_AUTHOR_NAME and GIT_AUTHOR_EMAIL<br>
+This will override git-config settings if they are defined.<br>
+<br>
+<code>$ alias git_commit_as_me=&#39;env<br>
+GIT_AUTHOR_EMAIL=&#34;me@foo.bar.net&#34;<br>
+GIT_AUTHOR_NAME=&#34;My Name here&#34; git commit&#39;</code><br>
+<br>
+When committing, i.e: <br>
+<code>$ git_commit_as_me -m &#34;whatever&#34; -a</code><br>
+<br>
+<br>
+<b>Changing global config settings:</b><br>
+This changes user email and name for all git repositories, saving config changes in ~/.gitconfig<br>
+<code>$ git config --global user.name &#34;Firstname Lastname&#34;</code><br>
+<code>$ git config --global user.email &#34;my_email@foo.bar.com&#34;</code><br>
+<br>
+Then<br>
+<code>$ git commit -m &#34;whatever&#34; -a</code><br>
+will commit your changes using your name and email address.<br>
+<br>
+<br>
+<h4>COMMITTING CHANGES</h4><br>
+<code>$ git commit -m &#34;message for the commit.&#34; -a</code>  # commits all current changes into git repo.<br>
+<code>$ git commit -m &#34;message for the commit.&#34; file_name</code>  # commits current file_name changes.<br>
+<br>
+<code>$ git commit --amend</code>  # Change last commit. Usually it is used to change last commit message.<br>
+<code>$ git commit --amend --author=&amp;#39;Your Name &amp;lt;you@example.com&amp;gt;&amp;#39;</code>  # To change author in last commit.<br>
+<br>
+<b>PICK ONE COMMIT from another branch</b>, remote repo, etc, and commit it to current repo branch.<br>
+<code>$ git cherry-pick commit_id</code><br>
+<br>
+If <b>cherry-pick</b> commit fails you can <b>undo</b> it:<br>
+<code>$ git cherry-pick --abort</code><br>
+<br>
+<b>Cherry pick a range of commits:</b><br>
+<code>$ git cherry-pick commit_a_hash..commit_b_hash</code><br>
+It cherry-picks from commit_a_hash to commit_b_hash. <br>
+(IMPORTANT: commit_a_hash is excluded from the cherry-pick)<br>
+ <br>
+<br>
+<h4>DISABLE PAGER</h4><br>
+<code>$ git --no-pager diff</code>  # disable pager i.e. less when showing diff output.<br>
+<br>
+<br>
+<h4>GIT HELP</h4><br>
+<code>$ git help init</code>  # shows git help for git init command.<br>
+<code>$ git help filter-branch</code> # shows help about filter-branch<br>
+Same for every other git command.<br>
+<br>
+<br>
+<h4>GIT REMOTE</h4><br>
+<code>$ git remote</code>  # show all remote configurations for our repo.<br>
+<code>$ git remote show origin</code>  # show information about origin remote.<br>
+<br>
+<code>$ git remote add remote_config_name url</code>  # add a remote configuration from url and names it remote_config_name.<br>
+<code>$ git remote rm config_name</code>   # delete remote &#34;config_name&#34; repo from our repo configuration. All remote-tracking branches and configuration settings for the remote are removed.<br>
+<br>
+<code>$ git remote update</code>  # fetch all updates from remotes into our repo.<br>
+<br>
+<br>
+<h4>CLEANING</h4><br>
+<code>$ git clean -d -f</code>  # <b>clean untracked files and directories</b>.<br>
+<br>
+<br>
+<h4>SHOWS DIFFERENCE BETWEEN LOCAL AND REMOTE REPOS</h4><br>
+<code>$ git branch -r</code><br>
+<code>$ git remote</code> # shows remote repo name.<br>
+<samp>&gt; origin</samp><br>
+<code>$ git fetch origin</code><br>
+<code>$ git diff HEAD origin</code><br>
+or<br>
+<code>$ git diff master origin/master</code><br>
+<br>
+<br>
+<h4>CHANGE SOMETHING IN A COMMIT</h4><br>
+# Select one commit ahead from that commit.<br>
+<code>$ git rebase -i HEAD~5</code><br>
+Change in editor &#34;pick&#34; into &#34;edit&#34; (be careful) for that parent commit.<br>
+# Perform changes here<br>
+i.e: <code>$ git commit --amend</code><br>
+# After finished<br>
+<code>$ git rebase --continue</code><br>
+<br>
+<br>
+<h4>DELETE COMMITS</h4><br>
+# Delete last commit forever<br>
+<code>$ git reset --hard HEAD~1</code><br>
+<br>
+<b># Delete last commit but maintain its changes as uncommited.</b><br>
+<code>$ git reset --soft HEAD~1</code><br>
+or<br>
+<code>$ git reset HEAD~1</code><br>
+<br>
+# Completely delete latest three commits.<br>
+<code>$ git reset --hard HEAD~3</code><br>
+<br>
+<br>
+<h4>GET CHANGES FROM REMOTE</h4><br>
+<code>$ git fetch remote_name</code>  # or <code>$ git fetch</code><br>
+<code>$ git pull</code><br>
+<br>
+<code>$ git pull origin master</code>  # pull changes from remote master branch into current branch and merge them.<br>
+<br>
+<code>$ git pull origin foo:master</code>  # pull changes from foo branch in remote to master branch in local.<br>
+<br>
+<br>
+<h4>GET CHANGES FROM LOCAL REPOSITORY</h4><br>
+<code>$ git pull . edge:master</code>  # pull changes from local edge branch into local master branch.<br>
+<br>
+<br>
+<h4>CREATE AND APPLY PATCHES</h4><br>
+<code>$ git format-patch -1</code>  # <b>Create a patch</b> for latest commit.<br>
+<br>
+<code>$ git format-patch -2</code>  # Create two patches, for the two latest commits.<br>
+<br>
+To <b>apply a patch:</b><br>
+<code>$ git am patch_name</code><br>
+<br>
+<br>
+<h4>REMOVE A DIRECTORY IN ALL COMMITS</h4><br>
+<code>$ git filter-branch --tree-filter &#39;test -d src &amp;&amp; rm -rf src || echo &#34;Nothing to do&#34;&#39; --force -- --all</code><br>
+<br>
+<br>
+<h4>DELETE ALL COMMITS WITH EMPTY CHANGE-SETS</h4><br>
+<code>$ git filter-branch --tree-filter &#39;&#39; --prune-empty --force -- --all</code><br>
+<br>
+<br>
+<h4>REBASE YOUR CHANGES IF SOMEONE HAS ALREADY SUBMITTED CHANGES TO REMOTE REPO</h4><br>
+If you try to push your changes to a remote repository:<br>
+<code>$ git push origin master:master</code><br>
+and it fails because someone already sent his changes and it does not match with your tree.<br>
+<br>
+Then you could <b>rebase your tree so your changes become at the top</b> of his:<br>
+<code>$ git pull --ff --rebase origin</code><br>
+<br>
+This means download remote changes and execute git rebase, so your changes appear on the top of the tree.<br>
+<br>
+Now you can push your changes safely:<br>
+<code>$ git push origin master:master</code><br>
+<br>
+<br>
+<h4>GIT BLAME</h4><br>
+Show <b>info about last</b> performed <b>change</b> (author, date, commit id) <b>for each line</b> in a tracked file.<br>
+<code>$ git blame file_name</code><br>
+<br>
+<br>
+<h4>MERGE or CHERRY-PICK CONFLICT</h4><br>
+If a merge or a cherry-pick fails because of a conflict.<br>
+<br>
+You can reverse it:<br>
+<br>
+<b>Revert the merge</b>:<br>
+<code>$ git reset --merge</code><br>
+<br>
+<b>Reverse the cherry-pick</b>:<br>
+<code>$ git cherry-pick --abort</code><br>
+<br>
+or<br>
+<br>
+<h5>SOLVE MERGE/CHERRY-PICK CONFLICT</h5><br>
+To show pending changes:<br>
+<code>$ git diff</code><br>
+<br>
+We find e.g: a file <b>file.c</b> with conflicting changes:<br>
+<pre>&lt;&lt;&lt;&lt;&lt;<br>
+from old file<br>
+================<br>
+from new file<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+</pre><br>
+<br>
+We edit those lines solving the conflict and erasing &lt;&lt; === &gt;&gt;.<br>
+<br>
+Then add the modified file to path:<br>
+<code>$ git add file.c</code><br>
+<br>
+And finish the commit:<br>
+<code>$ git commit</code><br>
+<br>
+Message and files are automatically added by git.<br>
+ <br>
+<br>
+<a href="http://schacon.github.io/git/user-manual.html#resolving-a-merge">Resolving a merge</a><br>
+<br>
+<br>
+<h4>REFERENCE</h4><br>
+<code>$ man git</code><br>
+<code>$ man git filter-branch</code><br>
+<code>$ man git pull</code><br>
+<code>$ man git-help</code>  # same as <code>$ man git help</code><br>
+<code>$ man git grep</code><br>
+<br>
+<a href="http://progit.org/book/">Pro Git Book</a><br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/sqlite3-cheat-sheet.html"/>
+	
+
+	
+	<title>SQLite3 Cheat Sheet - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>SQLite3 Cheat Sheet</h3></div>
+<div id="content"><b>SQLite</b> is a <b>database engine</b> contained in a C library that usually stores its data in a file.<br>
+<br>
+<b>sqlite3</b> is the command line interface for SQLite version 3.<br>
+<br>
+<br>
+<h4>Install and open a database file</h4><br>
+Install sqlite3 (in Debian):<br>
+<code>$ sudo aptitude install sqlite3</code><br>
+<br>
+Open a database file:<br>
+<code>$ sqlite3 database_file.db</code><br>
+<samp>SQLite version 3.8.8.3 2015-02-25 13:29:11<br>
+Enter &#34;.help&#34; for usage hints.</samp><br>
+<br>
+A prompt appears:<br>
+<samp>sqlite&gt; </samp><br>
+<br>
+<br>
+<h4>SQLITE3 COMMANDS</h4><br>
+Show all tables<br>
+<code>sqlite&gt; .tables</code><br>
+<samp>NAMES    CLIENTS   SALES PRODUCTS</samp><br>
+<br>
+Quit<br>
+<code>sqlite&gt; .quit</code><br>
+<br>
+<br>
+Show help:<br>
+<code>sqlite&gt; .help</code><br>
+<samp>.backup ?DB? FILE      Backup DB (default &#34;main&#34;) to FILE<br>
+.bail on|off           Stop after hitting an error.  Default OFF<br>
+.clone NEWDB           Clone data into NEWDB from the existing database<br>
+.databases             List names and files of attached databases<br>
+.dump ?TABLE? ...      Dump the database in an SQL text format<br>
+                         If TABLE specified, only dump tables matching<br>
+                         LIKE pattern TABLE.<br>
+.echo on|off           Turn command echo on or off<br>
+....<br>
+</samp><br>
+<br>
+<br>
+List all databases and their associated files:<br>
+<code> sqlite&gt; .databases</code><br>
+<br>
+<br>
+Show schema of all tables:<br>
+<code> sqlite&gt; .schema</code><br>
+<br>
+Show schema of a table:<br>
+<code> sqlite&gt; .schema PRODUCTS</code><br>
+<samp>CREATE TABLE &#34;PRODUCTS&#34; (Id INTEGER PRIMARY KEY AUTOINCREMENT ,TStamp     INTEGER       NOT NULL  ,Name  VARCHAR(60)  NOT NULL ,Price      DECIMAL(10,5) NOT NULL);</samp><br>
+<br>
+Execute an UNIX command:<br>
+<code> sqlite&gt;.system ls -l</code><br>
+<br>
+<br>
+<h4>SQLite Datatypes</h4><br>
+SQlite uses dynamic typing. These are the possible storage classes:<br>
+<br>
+<b>NULL</b>: a NULL value.<br>
+<br>
+<b>INTEGER</b>: a signed integer, stored in 1, 2, 3, 4, 6, or 8 bytes depending on the magnitude of the value.<br>
+<br>
+<b>REAL</b>: a floating point value, stored as an 8-byte IEEE floating point number.<br>
+<br>
+<b>TEXT</b>: a text string, stored using the database encoding (UTF-8, UTF-16BE or UTF-16LE).<br>
+<br>
+<b>BLOB</b>: a blob of data, stored exactly as it was input.<br>
+<br>
+<a href="https://www.sqlite.org/datatype3.html">Datatypes in SQLite3</a><br>
+<br>
+<br>
+Other types like VARCHAR(N), DECIMAL(N, M) are assimilated to the former storage classes by their affinity (VARCHAR to TEXT, DECIMAL to INTEGER), so their limits (N, M..) are not enforced.<br>
+<br>
+<br>
+<h4>SQL</h4><br>
+Attach another database (client) from other file (client.db):<br>
+<code>sqlite&gt; ATTACH DATABASE &#39;client.db&#39; AS client;</code><br>
+Now .database command shows client database too.<br>
+We can access client database tables preceded by &#39;client.&#39; prefix.<br>
+<br>
+Detach a previously attached database:<br>
+<code>sqlite&gt; DETACH DATABASE client;</code><br>
+<br>
+Create a new table:<br>
+<code>sqlite&gt; CREATE TABLE VARS (name VARCHAR(128) PRIMARY KEY  ,value   VARCHAR(512)  NOT NULL);</code><br>
+<br>
+Create the table only if it does not exist already:<br>
+<code>sqlite&gt; CREATE TABLE <b>IF NOT EXISTS</b> VARS (name VARCHAR(128) PRIMARY KEY  ,value   VARCHAR(512)  NOT NULL);</code><br>
+<br>
+Show contents of a table:<br>
+<code>sqlite&gt; select * from CLIENTS;</code>                <br>
+<samp>1|Vincent<br>
+2|John</samp><br>
+<br>
+Show contents of a table limiting number of rows in the result:<br>
+<code>sqlite&gt; select * from CLIENTS LIMIT 3</code><br>
+Display at most three rows.<br>
+This LIMIT keyword can be used along ORDER BY to specify a column to order results.<br>
+<code>sqlite&gt; select * from CLIENTS ORDER BY Name DESC LIMIT 3</code><br>
+<br>
+Delete a table:<br>
+<code>sqlite&gt; drop table ticket;</code><br>
+<br>
+Rename a table:<br>
+<code>sqlite&gt; .tables</code><br>
+<samp>CASHIER</samp><br>
+<code>sqlite&gt; alter table CASHIER rename to CLIENTS;<br>
+sqlite&gt; .tables</code><br>
+<samp>CLIENTS</samp><br>
+<br>
+<br>
+Copy contents from a table into another one:<br>
+<code>sqlite&gt; INSERT INTO CLIENT SELECT * FROM CLIENT_OLD;</code><br>
+Columns returned by select have to match elements expected by insert.<br>
+<a href="https://www.sqlite.org/lang_insert.html">SQL As Understood By SQLite (Insert)</a><br>
+<br>
+Copy some contents from a table into another one:<br>
+<code>sqlite&gt; INSERT INTO CLIENT (name,value,state,address) SELECT name,value,-1,address FROM CLIENT_OLD;</code><br>
+<br>
+<br>
+Insert a column in a table, but if a conflict arises because of a UNIQUE or PRIMARY KEY constraint then replace that column:<br>
+<code>sqlite&gt; INSERT OR REPLACE INTO VARS (name,value) VALUES(&#39;color&#39;, &#39;blue&#39;);</code><br>
+<a href="https://www.sqlite.org/lang_conflict.html">SQL As Understood By SQLite (On conflict)</a><br>
+<br>
+<br>
+<h5>Add a new column to a table</h5><br>
+We add a new Difficulty column to this table:<br>
+<code>sqlite&gt; .schema ANALUX</code><br>
+<samp>CREATE TABLE ANALUX (Height INTEGER PRIMARY KEY ,Price REAL DEFAULT NULL);</samp><br>
+<br>
+Alter command adds the new column:<br>
+<code>sqlite&gt; <b>ALTER TABLE</b> ANALUX <b>ADD</b> Difficulty REAL DEFAULT NULL;</code><br>
+<br>
+<code>sqlite&gt; .schema ANALUX</code><br>
+<samp>CREATE TABLE ANALUX (Height INTEGER PRIMARY KEY ,Price REAL DEFAULT NULL ,Difficulty REAL DEFAULT NULL);</samp><br>
+<br>
+<br>
+If we want to fill Difficult column with data from other table e.g: BLOCK where Height is primary key for both tables:<br>
+<code>sqlite&gt; UPDATE ANALUX SET Difficulty = (SELECT Difficulty FROM BLOCK WHERE BLOCK.Height = ANALUX.Height);</code><br>
+<br>
+<br>
+<h5>Transactions</h5><br>
+Start a transaction:<br>
+<code>sqlite&gt;BEGIN</code><br>
+<br>
+Perform some operations...<br>
+<br>
+Commit the transaction:<br>
+<code>sqlite&gt;COMMIT</code><br>
+<br>
+If something was wrong you can roll back the transaction instead of committing it.<br>
+<code>sqlite&gt;ROLLBACK</code><br>
+<br>
+<br>
+<h4>Execute a SQL command in command line</h4><br>
+Insert a row in a table:<br>
+(Note we have to escape double quotes)<br>
+<code>$ sqlite3 foo.db &#34;INSERT INTO CASHIER VALUES (\&#34;foo\&#34;,\&#34;bar\&#34;);&#34;</code><br>
+<br>
+<br>
+<h4>Execute a SQL script in command line</h4><br>
+If we write a SQL script in a file named <b>example.sql</b> like this:<br>
+<pre>CREATE TABLE CASHIER (name    VARCHAR(10) PRIMARY KEY ,pass    VARCHAR(10) NOT NULL);<br>
+INSERT INTO CASHIER VALUES (&#34;foo&#34;,&#34;bar&#34;);<br>
+SELECT * FROM CASHIER;</pre><br>
+We can execute it:<br>
+<code>$ sqlite3 foo.db &lt; example.sql</code><br>
+<br>
+<br>
+Or using a <b>here document</b> in a shell script:<br>
+<br>
+E.g: example.sh file<br>
+<pre>#!/bin/bash<br>
+<br>
+sqlite3 foo.db &lt;&lt;EOF<br>
+CREATE TABLE CASHIER (name    VARCHAR(10) PRIMARY KEY ,pass    VARCHAR(10) NOT NULL);<br>
+INSERT INTO CASHIER VALUES (&#34;foo&#34;,&#34;bar&#34;);<br>
+SELECT * FROM CASHIER;<br>
+EOF</pre><br>
+Then we execute it:<br>
+<code>$ bash example.sh</code><br>
+<br>
+<br>
+<h4>Show execution time of a query</h4><br>
+<b>.timer</b> command shows execution time of a query. ON to enable or OFF to disable it.<br>
+<code>sqlite&gt; .timer ON</code><br>
+<pre>sqlite&gt; SELECT * FROM CASHIER;
+...
+<b>Run Time: real 0.326 user 0.000523 sys 0.000261</b>
+</pre><br>
+<br>
+To disable it:<br>
+<code>sqlite&gt; .timer OFF</code><br>
+<br>
+<br>
+<h4>Explain a SQL query</h4><br>
+We can get a high level description of how a SQL query is internaly executed.<br>
+<a href="https://www.sqlite.org/eqp.html">https://www.sqlite.org/eqp.html</a><br>
+<br>
+We add <b>EXPLAIN QUERY PLAN</b> at the beginning of the query:<br>
+<code>sqlite&gt; EXPLAIN QUERY PLAN SELECT * FROM ADDRESS;</code><br>
+<pre>QUERY PLAN
+`--SCAN TABLE ADDRESS</pre><br>
+<br>
+<br>
+<h4>REFERENCE</h4><br>
+<a href="https://www.sqlite.org/lang_corefunc.html">SQLite core functions</a><br>
+<br>
+<a href="https://www.sqlite.org/faq.html">SQLite Frequently Asked Questions</a><br>
+<br>
+<a href="http://www.sqlite.org/cli.html">SQLite Command Line Interface</a><br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

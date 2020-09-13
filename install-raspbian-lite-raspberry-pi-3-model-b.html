@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/install-raspbian-lite-raspberry-pi-3-model-b.html"/>
+	
+
+	
+	<title>How to install Raspbian Lite in Raspberry Pi 3 model B - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>How to install Raspbian Lite in Raspberry Pi 3 model B</h3></div>
+<div id="content"><br>
+Raspbian is a Debian based operating system supported by Raspberry Pi foundation.<br>
+<br>
+We are going to install Raspbian Lite Jessy in a Raspberry Pi 3 model B.<br>
+<br>
+<br>
+<h4>Download and install Raspbian</h4><br>
+Download Raspbian:<br>
+<a href="https://www.raspberrypi.org/downloads/raspbian/">https://www.raspberrypi.org/downloads/raspbian/</a><br>
+<br>
+Installation guide:<br>
+<a href="https://www.raspberrypi.org/documentation/installation/installing-images/README.md">https://www.raspberrypi.org/documentation/installation/installing-images/README.md</a><br>
+<br>
+I download Raspbian Jessie Lite:<br>
+<code>$ wget https://downloads.raspberrypi.org/raspbian_lite_latest</code><br>
+<br>
+How to install Raspbian image on Linux based system:<br>
+<a href="https://www.raspberrypi.org/documentation/installation/installing-images/linux.md">https://www.raspberrypi.org/documentation/installation/installing-images/linux.md</a><br>
+<br>
+First I uncompress the downloaded image: <br>
+<code>$ unzip raspbian_lite_latest</code><br>
+<samp>Archive:  raspbian_lite_latest<br>
+  inflating: 2017-01-11-raspbian-jessie-lite.img</samp><br>
+<br>
+<br>
+You need to insert a micro SD in your computer. <br>
+Check carefully you select the right device and don&#39;t format your computer partitions.<br>
+Also select the whole device: e.g /dev/sdb and not a partition only.<br>
+<code>$ sudo dd if=2017-01-11-raspbian-jessie-lite.img of=/dev/sdb bs=5M</code><br>
+<samp>265+1 records in<br>
+265+1 records out<br>
+1390411776 bytes (1.4 GB, 1.3 GiB) copied, 299.277 s, 4.6 MB/s</samp><br>
+<br>
+Insert the micro SD in the Raspberry Pi device.<br>
+<br>
+Connect HDMI monitor to the HDMI output in Raspberry Pi.<br>
+<br>
+Connect a usb keyboard.<br>
+<br>
+Connect a power source 5V 2A via USB OTG port.<br>
+<br>
+<br>
+<h4>Boot Raspberry Pi</h4><br>
+After connecting the power source you should see the system starting up.<br>
+<br>
+Once boot process is complete it will ask you for user and password.<br>
+<br>
+Default user and password are:<br>
+<br>
+<b>user: pi</b><br>
+<b>pass: raspberry</b><br>
+<br>
+<br>
+We change password:<br>
+<br>
+<code>$ passwd pi</code>  # Change pi password.<br>
+<br>
+<br>
+<h4>Keyboard configuration in console</h4><br>
+We configure the console keyboard.<br>
+<br>
+<code>$ sudo dpkg-reconfigure keyboard-configuration</code><br>
+<br>
+Restart the Raspberry or execute:<br>
+<code>$ sudo service keyboard-setup restart</code><br>
+<br>
+<a href="https://wiki.debian.org/Keyboard">https://wiki.debian.org/Keyboard</a><br>
+<br>
+<br>
+<h4>Configure a static address for a network interface</h4><br>
+Since I will use the Raspberry device as a server, I want it to always use the same IP address.<br>
+<a href="https://www.modmypi.com/blog/how-to-give-your-raspberry-pi-a-static-ip-address-update">https://www.modmypi.com/blog/how-to-give-your-raspberry-pi-a-static-ip-address-update</a><br>
+<br>
+Edit dhcpcd.conf file and use the values that suit you.<br>
+<code>$ sudo nano /etc/dhcpcd.conf</code><br>
+<br>
+<pre>interface eth0
+
+static ip_address=192.168.0.10/24
+static routers=192.168.0.1
+static domain_name_servers=192.168.0.1</pre><br>
+<br>
+Reboot the raspberry pi.<br>
+<br>
+<br>
+<h4>Configure your raspberry</h4><br>
+raspi-config is a tool to automate Raspberry Pi configuration.<br>
+<br>
+<code>$ sudo raspi-config</code><br>
+<br>
+You can configure the locales there.<br>
+<br>
+<br>
+<b>Enable ssh server:</b><br>
+Advanced options -&gt; enable sshd<br>
+<br>
+<br>
+Enable VNC server<br>
+<br>
+<br>
+After you finish the configuration, reboot the Raspberry.<br>
+<br>
+<br>
+<h4>Install several tools:</h4><br>
+Some programs you find useful, e.g:<br>
+<code>$ sudo aptitude install screen</code><br>
+<code>$ sudo aptitude install htop</code><br>
+<br>
+<br>
+<h4>Install Xorg from a minimal raspbian installation</h4><br>
+If you want to install Xorg windows.<br>
+<br>
+<code>$ sudo aptitude install xserver-xorg-video-fbdev</code><br>
+<code>$ sudo aptitude install xserver-xorg</code><br>
+<code>$ sudo aptitude install xinit</code><br>
+<br>
+A window manager too:<br>
+<code>$ sudo aptitude install i3-wm</code><br>
+<br>
+Launch X from console<br>
+<code>$ startx</code><br>
+<br>
+To configure the keyboard for Xorg.<br>
+<code>$ setxkbmap es</code>  # To configure Spanish keyboard in xterm.<br>
+<br>
+<br>
+<h4>Adding a new user</h4><br>
+If you don&#39;t want to get stuck to default user pi, you can create another one.<br>
+<br>
+<code>$ sudo adduser my_user</code><br>
+<code>$ sudo adduser my_user sudo</code>  # add my_user user to sudo group.<br>
+<br>
+<br>
+<h4>REFERENCE</h4><br>
+Debian and Raspberry Pi<br>
+<a href="https://wiki.debian.org/RaspberryPi">https://wiki.debian.org/RaspberryPi</a><br>
+<a href="https://wiki.debian.org/RaspberryPi3">https://wiki.debian.org/RaspberryPi3</a><br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

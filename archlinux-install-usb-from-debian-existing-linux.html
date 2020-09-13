@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/archlinux-install-usb-from-debian-existing-linux.html"/>
+	
+
+	
+	<title>How to install Arch Linux on a USB key from an existing Linux (Debian) - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>How to install Arch Linux on a USB key from an existing Linux (Debian)</h3></div>
+<div id="content"><br>
+We are going to <b>install Arch Linux</b> distro <b>in</b> an <b>USB storage device from</b> an existing GNU/Linux system (<b>Debian</b>).<br>
+<br>
+This is not about creating a live USB but a standard distro on an USB key.<br>
+<br>
+<br>
+We are going to install Arch Linux in a <b>two step process</b>. First we create an <b>Arch Linux bootstrap</b> in our Debian host system.<br>
+Then we will <b>chroot</b> into it, and after that we will install Arch Linux in the USB key.<br>
+<br>
+<br>
+<br>
+<h4>Install Arch Linux from an existing Debian system on an USB key</h4><br>
+Install from existing Linux:<br>
+<a href="https://wiki.archlinux.org/index.php/Install_from_existing_Linux">https://wiki.archlinux.org/index.php/Install_from_existing_Linux</a><br>
+<br>
+<br>
+First we plug the USB device, and check devices and partitions with lsblk command:<br>
+<code>$ lsblk -f</code><br>
+<samp>NAME   FSTYPE LABEL            UUID                                 MOUNTPOINT<br>
+sda                                                                 <br>
+├─sda1 ext4   system           cbdfff17-0865-448e-b7c1-04a50d168439 /<br>
+├─sda2 swap                    ee7134ec-a542-4c42-8b2e-8e40d3f59980 [SWAP]<br>
+└─sda3 ext4   home             9fbcbeb8-8723-43e1-8d08-340af9e14b8b /home<br>
+sdb                                                                 <br>
+└─sdb1                                                              <br>
+sr0</samp><br>
+<br>
+I am going to install it in /deb/sdb device.<br>
+<br>
+I partition the device and create a bootable only partition.<br>
+<code>$ sudo fdisk -l /dev/sdb</code><br>
+<samp>Disk /dev/sdb: 15 GiB, 16131293184 bytes, 31506432 sectors<br>
+Units: sectors of 1 * 512 = 512 bytes<br>
+Sector size (logical/physical): 512 bytes / 512 bytes<br>
+I/O size (minimum/optimal): 512 bytes / 512 bytes<br>
+Disklabel type: dos<br>
+Disk identifier: 0x04030201<br>
+<br>
+Device     Boot Start      End  Sectors Size Id Type<br>
+/dev/sdb1  *     2048 31506431 31504384  15G 83 Linux</samp><br>
+<br>
+<br>
+Format the partition with ext4 without journaling to minimize writes to USB key.<br>
+<code>$ sudo mkfs.ext4 -O &#34;^has_journal&#34; -L &#39;ArchUSB&#39; /dev/sdb1</code><br>
+<br>
+<br>
+<br>
+<h4>Downloading Arch Linux bootstrap</h4><br>
+Architecture of my system is x86_64.<br>
+<code>$ uname -m</code><br>
+<samp>x86_64</samp><br>
+<br>
+I get bootstrap ISO from a mirror listed in this page:<br>
+<a href="https://www.archlinux.org/download/">https://www.archlinux.org/download/</a><br>
+<br>
+Get bootstrap:<br>
+<code>$ curl -O http://sunsite.rediris.es/mirror/archlinux/iso/2016.11.01/archlinux-bootstrap-2016.11.01-x86_64.tar.gz</code><br>
+<br>
+I download signature to same directory:<br>
+<code>$ curl -O http://sunsite.rediris.es/mirror/archlinux/iso/2016.11.01/archlinux-bootstrap-2016.11.01-x86_64.tar.gz.sig</code><br>
+<br>
+And verify it:<br>
+<code>$ gpg --keyserver-options auto-key-retrieve --verify archlinux-bootstrap-2016.11.01-x86_64.tar.gz.sig </code><br>
+<br>
+<br>
+Directory in host system to extract the bootstrap:<br>
+<code>$ mkdir arch_chroot</code><br>
+<br>
+Extract the tarball:<br>
+<code>$ tar xzf archlinux-bootstrap-2016.11.01-x86_64.tar.gz -C arch_chroot</code><br>
+<br>
+<br>
+Edit arch_chroot/root.x86_64/etc/pacman.d/mirrorlist and uncomment the mirror you are going to use:<br>
+(Uncommenting several mirrors is a good idea)<br>
+E.g: <pre>Server = http://sunsite.rediris.es/mirror/archlinux/$repo/os/$arch</pre><br>
+<br>
+Enter the chroot:<br>
+<a href="https://wiki.archlinux.org/index.php/Change_root">https://wiki.archlinux.org/index.php/Change_root</a><br>
+<br>
+<code>$ sudo mount --bind arch_chroot/root.x86_64 arch_chroot/root.x86_64  # This will provide / in chroot env.<br>
+$ cd arch_chroot/root.x86_64/<br>
+$ sudo cp /etc/resolv.conf etc<br>
+$ sudo mount -t proc /proc proc<br>
+$ sudo mount --rbind /sys sys<br>
+$ sudo mount --rbind /dev dev<br>
+$ sudo mount --rbind /run run    # (assuming /run exists on the system)<br>
+$ sudo chroot . /bin/bash<br>
+[root@ /]#</code><br>
+We are inside the chroot jail now.<br>
+<br>
+<br>
+<br>
+<h4>Install needed packages in Arch Linux bootstrap</h4><br>
+First we are going to <b>initialize package manager pacman</b>:<br>
+<br>
+<a href="https://wiki.archlinux.org/index.php/Pacman">https://wiki.archlinux.org/index.php/Pacman</a><br>
+<br>
+Initialize pacman keyring<br>
+<a href="https://wiki.archlinux.org/index.php/Pacman-key#Initializing_the_keyring">https://wiki.archlinux.org/index.php/Pacman-key#Initializing_the_keyring</a><br>
+<br>
+<code># pacman-key --init</code><br>
+System will need entropy so open another console(in the host machine) and run <code>$ ls -Ra /</code> several times.<br>
+<br>
+<code># pacman-key --populate archlinux</code><br>
+<br>
+<br>
+<a href="https://wiki.archlinux.org/index.php/Mirrors#Enabling_a_specific_mirror">https://wiki.archlinux.org/index.php/Mirrors#Enabling_a_specific_mirror</a><br>
+synchronize package databases: (if one server does not work edit more in etc/pacman.mirrorlist)<br>
+<code># pacman -Syyu</code><br>
+:: Synchronizing package databases...<br>
+<br>
+<br>
+Install base packages:<br>
+<code># pacman -S base</code><br>
+<br>
+<br>
+<br>
+<h4>Install basic packages in Arch Linux USB key</h4><br>
+General installation guide:<br>
+<a href="https://wiki.archlinux.org/index.php/Installation_guide">https://wiki.archlinux.org/index.php/Installation_guide</a><br>
+<br>
+<br>
+Mount the USB device in /mnt directory:<br>
+<code># mount /dev/sdb1 /mnt</code><br>
+<br>
+Install base packages:<br>
+<code># pacstrap /mnt base</code><br>
+<br>
+Generate fstab (I use -U to define by UUID):<br>
+<code># genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</code><br>
+Check /mnt/etc/fstab has correct data.<br>
+<br>
+Change root into the new system:<br>
+<code># arch-chroot /mnt</code><br>
+<br>
+Set Time Zone: (change to your Region and City  /usr/share/zoneinfo/Region/City )<br>
+<code># ln -s /usr/share/zoneinfo/Europe/Madrid /etc/localtime</code><br>
+<br>
+Run hwclock(8) to generate /etc/adjtime: <br>
+<code># hwclock --systohc</code><br>
+<br>
+<br>
+<h5>Locale</h5><br>
+Uncomment en_US.UTF-8 UTF-8 and other needed localizations in /etc/locale.gen, and generate them with:<br>
+<code># locale-gen</code><br>
+<br>
+Set the LANG variable in locale.conf(5) accordingly, for example:<br>
+<br>
+/etc/locale.conf<br>
+<br>
+<pre>LANG=en_US.UTF-8</pre><br>
+<br>
+It didn&#39;t exist so I create it<br>
+<code># echo &#34;LANG=en_US.UTF-8&#34; &gt; /etc/locale.conf</code><br>
+<br>
+<br>
+<h5>Keyboard</h5><br>
+If you set the keyboard layout, make the changes persistent in vconsole.conf(5):<br>
+<br>
+/etc/vconsole.conf<br>
+<br>
+E.g: KEYMAP=de-latin1<br>
+<br>
+To list available layouts: <br>
+<code># ls /usr/share/kbd/keymaps/**/*.map.gz</code><br>
+<br>
+I choose es for Spanish keyboard:<br>
+<code># echo &#34;KEYMAP=es&#34; &gt; /etc/vconsole.conf</code><br>
+<br>
+<br>
+<h5>Hostname</h5><br>
+Create the hostname(5) file:<br>
+<br>
+/etc/hostname<br>
+<br>
+E.g: I name my system archUSB:<br>
+<code># echo &#34;archUSB&#34; &gt; /etc/hostname</code><br>
+<br>
+<br>
+Consider adding a matching entry to hosts(5):<br>
+<br>
+/etc/hosts<br>
+<br>
+<pre>127.0.0.1	localhost.localdomain	localhost
+::1		localhost.localdomain	localhost
+127.0.1.1	archUSB.localdomain	archUSB</pre><br>
+<br>
+<br>
+<h5>Root password</h5><br>
+Set the root password:<br>
+<code># passwd</code><br>
+<br>
+<br>
+<br>
+<h4>Network configuration (inside chroot jail)</h4><br>
+Configure the network for the newly installed environment<br>
+<a href="https://wiki.archlinux.org/index.php/Network_configuration">https://wiki.archlinux.org/index.php/Network_configuration</a><br>
+<br>
+For Wireless configuration, install the iw, wpa_supplicant, and dialog packages, as well as needed firmware packages.<br>
+<br>
+I install network manager:<br>
+<code># pacman -S networkmanager</code><br>
+<br>
+and dhclient:<br>
+<code># pacman -S dhclient</code><br>
+<br>
+<br>
+<br>
+<h4>Initramfs</h4><br>
+In this case we will need to create a new initramfs.<br>
+<br>
+<br>
+Modify the mkinitcpio.conf(5) file:<br>
+<br>
+I edit and uncomment this in /etc/mkinitcpio.conf so <b>block</b> appears:<br>
+<pre>HOOKS=&#34;base udev block filesystems&#34;</pre><br>
+<br>
+To avoid crc32c error when loading modules:<br>
+<pre>MODULES=&#34;crc32 libcrc32c crc32c_generic crc32c-intel crc32-pclmul&#34;</pre><br>
+<br>
+Recreate the initramfs image:<br>
+<code># mkinitcpio -p linux</code><br>
+<br>
+<br>
+<br>
+<h4>BOOTLOADER</h4><br>
+Bootloader (I select GRUB for my non-UEFY system):<br>
+<a href="https://wiki.archlinux.org/index.php/GRUB#BIOS_systems">https://wiki.archlinux.org/index.php/GRUB#BIOS_systems</a><br>
+<br>
+Install grub instead of grub-legacy:<br>
+<code># pacman -S grub</code><br>
+<br>
+<code># grub-install --target=i386-pc /dev/sdb</code><br>
+or<br>
+<code># grub-install --target=i386-pc --recheck /dev/sdb</code><br>
+<samp>Installing for i386-pc platform.<br>
+Installation finished. No error reported.</samp><br>
+<br>
+<code># grub-mkconfig -o /boot/grub/grub.cfg</code><br>
+<samp>Generating grub configuration file ...<br>
+Found linux image: /boot/vmlinuz-linux<br>
+Found initrd image(s) in /boot: initramfs-linux.img<br>
+Found fallback initrd image(s) in /boot: initramfs-linux-fallback.img<br>
+done</samp><br>
+<br>
+<br>
+Exit last chroot using exit:<br>
+<code># exit</code><br>
+<br>
+Now manually unmount all partitions (if someone busy find the cause with fuser)<br>
+<code># umount -R /mnt</code><br>
+<br>
+exit second chroot<br>
+<code># exit</code><br>
+<br>
+Now we are again in the host system:<br>
+<code>$ cd ..</code><br>
+<code>$ sudo umount -R root.x86_64</code><br>
+<br>
+<br>
+Now you can boot in your new Arch Linux USB key or test it in an emulator.<br>
+<br>
+To test the Arch Linux USB key with virtualbox:<br>
+<a href="https://vicente-hernando.appspot.com/virtualbox-debian-pyshical-hard-disk-linux.html">VirtualBox: add a physical hard disk to your virtual machine in Debian</a><br>
+<br>
+<br>
+<br>
+<h4>Network setup (in the working Arch Linux USB key)</h4><br>
+<a href="https://wiki.archlinux.org/index.php/Network_configuration">https://wiki.archlinux.org/index.php/Network_configuration</a><br>
+<br>
+I am going to configure a dynamic address on a wired NIC.<br>
+Choose one method to configure your network because several at once could conflict.<br>
+<br>
+<br>
+<br>
+<h5>Check current state of NIC devices</h5><br>
+E.g: Display all network devices:<br>
+<code>$ ip link show</code><br>
+<samp>1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1<br>
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00<br>
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DEFAULT group default qlen 1000<br>
+    link/ether 70:5a:b6:43:58:8c brd ff:ff:ff:ff:ff:ff</samp><br>
+<br>
+<br>
+E.g: Show addresses:<br>
+<code>$ ip address</code><br>
+<samp>1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1<br>
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00<br>
+    inet 127.0.0.1/8 scope host lo<br>
+       valid_lft forever preferred_lft forever<br>
+    inet6 ::1/128 scope host <br>
+       valid_lft forever preferred_lft forever<br>
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000<br>
+    link/ether 70:5a:b6:43:58:8c brd ff:ff:ff:ff:ff:ff<br>
+    inet 192.168.0.105/24 brd 192.168.0.255 scope global eth0<br>
+       valid_lft forever preferred_lft forever<br>
+    inet6 fe80::725a:b6ff:fe43:588c/64 scope link <br>
+       valid_lft forever preferred_lft forever</samp><br>
+<br>
+<br>
+<br>
+<h5>Configure the network using dhclient</h5><br>
+For this to work you need to have already installed dhclient in the bootstrap process:<br>
+<code># packman -S dhclient</code><br>
+<br>
+Enable the network device:<br>
+<code> # ip link set enp0s3 up</code><br>
+<br>
+Ask for a dynamic address:<br>
+<code> # dhclient enp0s3</code><br>
+<br>
+Check it worked:<br>
+<code> # ip address show enp0s3</code><br>
+<br>
+<code> # ping www.google.com</code><br>
+<br>
+<br>
+<br>
+<h5>How to configure a netctl profile and start it</h5><br>
+Configure network using a profile (E.g dhcp profile)<br>
+<br>
+<a href="https://wiki.archlinux.org/index.php/Netctl">https://wiki.archlinux.org/index.php/Netctl</a><br>
+<br>
+Copy an example profile:<br>
+<code># cp /etc/netctl/examples/ethernet-dhcp /etc/netctl/my-ethernet-dhcp-profile</code><br>
+<br>
+Edit it an change to match our interface name:<br>
+<code># nano /etc/netctl/my-ethernet-dhcp-profile</code><br>
+change Interface=eth0  into  Interface=enp0s3<br>
+<br>
+Be sure the device is down when starting the profile.<br>
+<code># ip link set enp0s3 down</code><br>
+<br>
+Start the profile:<br>
+<code># netctl start my-ethernet-dhcp-profile</code><br>
+<br>
+Check it works:<br>
+<code># ping www.google.com</code><br>
+<br>
+Next time you boot the system it will launch automatically.<br>
+<br>
+<br>
+<br>
+<h4>How to configure SSH server</h4><br>
+If we want to connect remotelly to the Arch Linux system we could use sshd server.<br>
+<br>
+<a href="https://wiki.archlinux.org/index.php/Secure_Shell">https://wiki.archlinux.org/index.php/Secure_Shell</a><br>
+<br>
+Install ssh server<br>
+<code># pacman openssh</code><br>
+<br>
+Edit config file for ssh server:<br>
+<code># nano /etc/ssh/ssdh_config</code><br>
+<br>
+If we want to login as root (although it is insecure)<br>
+<b>PermitRootLogin yes</b><br>
+<br>
+Launch the server<br>
+<code># systemctl edit sshd.socket</code><br>
+<br>
+<a href="https://wiki.archlinux.org/index.php/Start">https://wiki.archlinux.org/index.php/Start</a><br>
+<code># systemctl start sshd.socket</code><br>
+<br>
+if it fails, to watch the logs:<br>
+<code># journalctl /usr/bin/sshd</code><br>
+<br>
+<br>
+From remote machine:<br>
+<code>$ ssh -l root address_of_your_arch_linux_machine</code><br>
+<br>
+<br>
+<br>
+<h4>REFERENCE</h4><br>
+<a href="https://vicente-hernando.appspot.com/archlinux-distro-introduction.html">Arch Linux distro - Introduction</a><br>
+<br>
+<a href="https://wiki.archlinux.org/index.php/Improving_performance">Improving_performance (Arch Linux wiki)</a><br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

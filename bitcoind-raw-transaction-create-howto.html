@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/bitcoind-raw-transaction-create-howto.html"/>
+	
+
+	
+	<title>How to create a Bitcoin raw transaction using bitcoind - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>How to create a Bitcoin raw transaction using bitcoind</h3></div>
+<div id="content"><br>
+A <b>Bitcoin raw transaction is a chunk of bytes that contains the info about a Bitcoin transaction</b>.<br>
+<br>
+That raw transaction will become part of the blockchain when a miner adds it to a block.<br>
+<br>
+<br>
+We are going to create a Raw Transaction step by step using <b>bitcoind</b> (Bitcoin Core server).<br>
+<br>
+<br>
+<b>Recomendation: Do not store private keys in an online system</b>.<br>
+<br>
+Better create an online wallet with addresses and public keys only:<br>
+<a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a><br>
+<br>
+And run another instance of bitcoind offline with the private keys.<br>
+<br>
+<br>
+The online bitcoind will validate current blockchain, but will not be able to sign transactions.<br>
+<br>
+Offline bitcoind has the private keys but does not store the whole copy of the blockchain to validate it.<br>
+<br>
+<br>
+This tutorial also works if you have one online machine with public and private keys, but it is not safe to store<br>
+private keys in an online machine.<br>
+<br>
+<br>
+<br>
+<h4>Get current balance</h4><br>
+To get the total balance tracked by our online wallet:<br>
+<br>
+<code>(online)$ bitcoin-cli getbalance &#34;*&#34; 0 true</code><br>
+<samp>0.03311140</samp><br>
+<br>
+We have a total of 0.03311140 bitcoins!<br>
+<br>
+That is the maximum amount we could transfer.<br>
+<br>
+<br>
+<br>
+<h4>Get unspent UTXOS</h4><br>
+<b>Bitcoin is an UTXO based system</b>. You actually do not send Bitcoin to an address, but spent some existing UTXOs and create new ones.<br>
+ <br>
+We need a list of unspent UTXOs in our wallet to create the input part of our transaction.<br>
+<br>
+<code>(online)$ bitcoin-cli listunspent</code><br>
+<pre>  {
+    &#34;txid&#34;: &#34;old_transaction&#34;,
+    &#34;vout&#34;: 0,
+    &#34;address&#34;: &#34;my_old_address&#34;,
+    &#34;scriptPubKey&#34;: &#34;my_old_address_scriptpubkey&#34;,
+	...
+    &#34;amount&#34;: 0.0098,
+	...
+  },</pre><br>
+<br>
+<b>listunspent</b> command will <b>show</b> you the <b>list of UTXOs you can use to create a transaction</b>.<br>
+<br>
+Then you select the ones you want to spend.<br>
+<br>
+<br>
+To determine an <b>UTXO</b> you will need its <b>txid</b> and <b>vout</b>.<br>
+<br>
+You will also need the <b>scriptPubKey</b> when signing the transaction.<br>
+<br>
+Total amount spent needs to be lower than the sum of all amount of UTXOs we are using.<br>
+<br>
+<br>
+In the <b>offline computer</b> we can <b>check if we actually own the bitcoin address</b>: &#34;my_old_address&#34;<br>
+<br>
+<code>(offline) $ bitcoin-cli getaddressinfo &#34;my_old_address&#34;</code><br>
+<pre>{
+  &#34;address&#34;: &#34;my_old_address&#34;,
+  &#34;scriptPubKey&#34;: &#34;my_old_address_scriptpubkey&#34;,
+  ...
+  &#34;ismine&#34;: true,
+  &#34;iswatchonly&#34;: false,
+  &#34;isscript&#34;: false,
+  &#34;iswitness&#34;: true,
+  ...
+  &#34;pubkey&#34;: &#34;my_old_address_public_key&#34;,
+}</pre><br>
+<br>
+<b>ismine true</b> shows that you own that witness address and you will be able to spend it.<br>
+<br>
+<b>public key</b> in <b>&#34;pubkey&#34;</b> is important to create the transaction. <b>We import the public key</b> in the online bitcoind:<br>
+<br>
+<code>(online)$ bitcoin-cli importpubkey &#34;my_old_address_public_key&#34; false</code><br>
+<br>
+<br>
+Note down the <b>scriptPubKey</b> because we will use it when signing the transaction.<br>
+<br>
+<br>
+<br>
+<h4>Create the Raw Transaction</h4><br>
+First we need the <b>destination address</b> where we are going <b>to send the funds to</b>.<br>
+<br>
+In this example we are going to use only one destination address. i.e: &#34;bc1q_my_destination_address&#34;<br>
+<br>
+Help about createrawtransaction command:<br>
+<code>(online)$ bitcoin-cli help createrawtransaction</code><br>
+<samp>createrawtransaction [{&#34;txid&#34;:&#34;id&#34;,&#34;vout&#34;:n},...] [{&#34;address&#34;:amount},{&#34;data&#34;:&#34;hex&#34;},...] ( locktime ) ( replaceable )</samp><br>
+<br>
+<br>
+Now we <b>create the raw transaction</b>:<br>
+<br>
+NOTE: We send 0.004 bitcoin to bc1_my_destination_address, because we do not spend the whole UTXO amount we will need a change address for fundrawtransaction command.<br>
+<br>
+<code>(online)$ bitcoin-cli createrawtransaction &#39;[{&#34;txid&#34;:&#34;old_transaction&#34;,&#34;vout&#34;:0}]&#39; &#39;[{&#34;bc1q_my_destination_address&#34;:0.004}]&#39; 0 true</code><br>
+<samp>020000000_first_raw_transaction_XXXXX</samp><br>
+<br>
+<br>
+We can decode the created raw transaction to examine it:<br>
+<code>(online)$ bitcoin-cli decoderawtransaction &#34;020000000_first_raw_transaction_XXXXX&#34;</code><br>
+<pre>{
+  &#34;txid&#34;: &#34;XXXXX&#34;
+  &#34;hash&#34;: &#34;XXXXX&#34;
+  &#34;version&#34;: 2,
+  &#34;size&#34;: 83,
+  &#34;vsize&#34;: 83,
+  &#34;weight&#34;: 332,
+  &#34;locktime&#34;: 0,
+  &#34;vin&#34;: [
+    {
+      &#34;txid&#34;: &#34;old_transaction&#34;,
+      &#34;vout&#34;: 0,
+	  ...
+    }
+  ],
+  &#34;vout&#34;: [
+    {
+      &#34;value&#34;: 0.004,
+      &#34;n&#34;: 0,
+      &#34;scriptPubKey&#34;: {
+	    ...
+        &#34;addresses&#34;: [
+          &#34;bc1q_my_destination_address&#34;
+        ]
+      }
+    }
+  ]
+}</pre><br>
+<br>
+<br>
+<br>
+<h4>Fund the Raw Transaction</h4><br>
+UTXO contains 0.0098 btc, we send 0.004 btc to bc1_my_destination_address and we want to receive 0.0058 change in our change address bc1q_my_change_address.<br>
+<br>
+We set feerate to 0.00005.<br>
+<br>
+Because we created the transaction with bc1_my_destination_address at vout: 0 we tell fundrawtransaction command that change address comes at position 1.<br>
+<br>
+More info at <code>$ bitcoin-cli help fundrawtransaction</code><br>
+<br>
+<code>(online)$ bitcoin-cli fundrawtransaction &#34;020000000_first_raw_transaction_XXXXX&#34; &#39;{&#34;changeAddress&#34;:&#34;bc1q_my_change_address&#34; ,&#34;includeWatching&#34;:false, &#34;feeRate&#34;:0.00005, &#34;replaceable&#34;:true, &#34;changePosition&#34;:1, &#34;subtractFeeFromOutputs&#34;:[0]}&#39; true</code><br>
+<pre>{
+  &#34;hex&#34;: &#34;020000000_second_raw_transaction_XXXXX&#34;,
+  &#34;fee&#34;: 0.00000701,
+  &#34;changepos&#34;: 1
+}</pre><br>
+<br>
+NOTE: Even if we send the whole UTXO amount we will need a fake change address for fundrawtransaction command.<br>
+<br>
+<br>
+We decode the raw transaction and check the change address appears:<br>
+<code>(online)$ bitcoin-cli decoderawtransaction &#34;020000000_second_raw_transaction_XXXXX&#34;</code><br>
+<pre>{
+  &#34;txid&#34;: &#34;XXXXX&#34;,
+  &#34;hash&#34;: &#34;XXXXX&#34;,
+  &#34;version&#34;: 2,
+  &#34;size&#34;: 113,
+  &#34;vsize&#34;: 113,
+  &#34;weight&#34;: 452,
+  &#34;locktime&#34;: 0,
+  &#34;vin&#34;: [
+    {
+      &#34;txid&#34;: &#34;old_transaction&#34;,
+      &#34;vout&#34;: 0,
+	  ...
+    }
+  ],
+  &#34;vout&#34;: [
+    {
+      &#34;value&#34;: 0.004,
+      &#34;n&#34;: 0,
+      &#34;scriptPubKey&#34;: {
+	    ...
+        &#34;addresses&#34;: [
+		  &#34;bc1q_my_destination_address&#34;
+        ]
+      }
+    },
+    {
+      &#34;value&#34;: 0.0058,
+      &#34;n&#34;: 1,
+      &#34;scriptPubKey&#34;: {
+	    ...
+        &#34;addresses&#34;: [
+		  &#34;bc1q_my_change_address&#34;
+        ]
+      }
+    }
+  ]
+}</pre><br>
+<br>
+<br>
+<br>
+<h4>Sign the Raw Transaction</h4><br>
+<b>Signing process is performed in the offline machine</b>.<br>
+<br>
+We unlock the wallet if it is secured by a passphrasse (recommended):<br>
+<code>(offline)$ bitcoin-cli walletpassphrase &#34;my_passphrase&#34; 300</code><br>
+<br>
+<br>
+We pass the scriptPubKey and the exact amount of the UTXO:<br>
+<code>(offline)$ bitcoin-cli signrawtransactionwithwallet &#34;020000000_second_raw_transaction_XXXXX&#34; &#39;[{&#34;txid&#34;:&#34;old_transaction&#34;,&#34;vout&#34;:0,&#34;scriptPubKey&#34;:&#34;my_old_address_scriptpubkey&#34;, &#34;amount&#34;:0.0098}]&#39;</code><br>
+<pre>{
+  &#34;hex&#34;: &#34;020000000_signed_raw_transaction_XXXXX&#34;,
+  &#34;complete&#34;: true
+}</pre><br>
+<br>
+<br>
+<br>
+<h4>Send the Raw Transaction to other nodes</h4><br>
+First in the online machine we test the new transaction:<br>
+<br>
+<code>(online)$ bitcoin-cli testmempoolaccept &#39;[&#34;020000000_signed_raw_transaction_XXXXX&#34;]&#39;</code><br>
+<pre>[
+  {
+    &#34;txid&#34;: &#34;new_raw_transaction_txid&#34;,
+    &#34;allowed&#34;: true
+  }
+]</pre><br>
+<br>
+<br>
+Then we <b>send the raw transaction</b>:<br>
+<br>
+<code>(online)$ bitcoin-cli sendrawtransaction &#34;020000000_signed_raw_transaction_XXXXX&#34;</code><br>
+<samp>&#34;new_raw_transaction_txid&#34;</samp><br>
+<br>
+<br>
+We can check state of the sent transaction:<br>
+<br>
+<code>$ bitcoin-cli gettransaction &#34;new_raw_transaction_txid&#34;</code><br>
+<pre>{ 
+  &#34;amount&#34;: 0.00000000,
+  &#34;confirmations&#34;: 0,
+  &#34;trusted&#34;: false,
+  &#34;txid&#34;: &#34;new_raw_transaction_txid&#34;,
+  &#34;walletconflicts&#34;: [
+  ],
+  &#34;hex&#34;: &#34;020000000_signed_raw_transaction_XXXXX&#34;
+}</pre><br>
+<br>
+After some time, when transaction is accepted in a block, confirmations will rise.<br>
+<br>
+6 confirmations or more is usually enough to consider the transaction as immutable in the blockchain.<br>
+<br>
+<br>
+We could also check the transaction in a block explorer:<br>
+<a href="https://blockstream.info/nojs/tx/new_raw_transaction_txid">https://blockstream.info/nojs/tx/new_raw_transaction_txid</a><br>
+<br>
+<br>
+<br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

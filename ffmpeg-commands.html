@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/ffmpeg-commands.html"/>
+	
+
+	
+	<title>FFmpeg commands - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>FFmpeg commands</h3></div>
+<div id="content"><br>
+<a href="https://ffmpeg.org/">FFmpeg</a> is a set of libraries and programs to convert and stream multimedia.<br>
+<br>
+<br>
+<h4>Install FFmpeg</h4><br>
+In Debian:<br>
+<code>$ sudo aptitude install ffmpeg</code><br>
+<br>
+<br>
+<h4>Show help</h4><br>
+<code>$ ffmpeg -h</code><br>
+<br>
+<code>$ man ffmpeg</code><br>
+<br>
+Show all options in help:<br>
+<code>$ ffmpeg -h full</code><br>
+<br>
+<br>
+<h4>Show all available codecs</h4><br>
+<code>$ ffmpeg -codecs</code><br>
+<samp>Codecs:<br>
+ D..... = Decoding supported<br>
+ .E.... = Encoding supported<br>
+ ..V... = Video codec<br>
+ ..A... = Audio codec<br>
+ ..S... = Subtitle codec<br>
+ ...I.. = Intra frame-only codec<br>
+ ....L. = Lossy compression<br>
+ .....S = Lossless compression<br>
+ -------<br>
+ D.VI.. 012v                 Uncompressed 4:2:2 10-bit<br>
+ D.V.L. 4xm                  4X Movie<br>
+ D.VI.S 8bps                 QuickTime 8BPS video<br>
+ .EVIL. a64_multi            Multicolor charset for Commodore 64 (encoders: a64multi )<br>
+ .EVIL. a64_multi5           Multicolor charset for Commodore 64, extended with 5th color (colram) (encoders: a64multi5 )<br>
+ D.V..S aasc                 Autodesk RLE<br>
+...</samp><br>
+<br>
+<br>
+<h4>Show supported file formats</h4><br>
+Display file formats and devices:<br>
+<code>$ ffmpeg -formats</code><br>
+<samp>File formats:<br>
+ D. = Demuxing supported<br>
+ .E = Muxing supported<br>
+ --<br>
+  E 3g2             3GP2 (3GPP2 file format)<br>
+  E 3gp             3GP (3GPP file format)<br>
+ D  4xm             4X Technologies<br>
+  E a64             a64 - video for Commodore 64<br>
+ D  aa              Audible AA format files<br>
+ D  aac             raw ADTS AAC (Advanced Audio Coding)<br>
+ DE ac3             raw AC-3<br>
+ D  act             ACT Voice file format<br>
+...<br>
+ DE avi             AVI (Audio Video Interleaved)<br>
+...<br>
+ DE flv             FLV (Flash Video)<br>
+...<br>
+  E webm            WebM<br>
+...<br>
+  E xv              XV (XVideo) output device</samp><br>
+<br>
+<br>
+<h4>Show devices</h4><br>
+Display input and output devices:<br>
+<code>$ffmpeg -devices</code><br>
+<samp>Devices:<br>
+ D. = Demuxing supported<br>
+ .E = Muxing supported<br>
+ --<br>
+ DE alsa            ALSA audio output<br>
+  E caca            caca (color ASCII art) output device<br>
+ D  dv1394          DV1394 A/V grab<br>
+ DE fbdev           Linux framebuffer<br>
+...<br>
+ D  openal          OpenAL audio capture device<br>
+  E opengl          OpenGL output<br>
+ DE oss             OSS (Open Sound System) playback<br>
+ DE pulse           Pulse audio output<br>
+  E sdl             SDL output device<br>
+  E v4l2            Video4Linux2 output device<br>
+ D  video4linux2,v4l2 Video4Linux2 device grab<br>
+ D  x11grab         X11 screen capture, using XCB<br>
+  E xv              XV (XVideo) output device</samp><br>
+<br>
+<br>
+<h4>Play a file</h4><br>
+E.g: Play media_file.avi<br>
+<code>$ ffplay media_file.avi</code><br>
+<br>
+Keystrokes enabled while playing:<br>
+<br>
+<samp><b>q</b>,<b>ESC</b>              quit<br>
+<b>f</b>                   toggle full screen<br>
+<b>p</b>,<b>SPC</b>              pause<br>
+<b>a</b>                   cycle audio channel in the current program<br>
+<b>v</b>                   cycle video channel<br>
+<b>t</b>                   cycle subtitle channel in the current program<br>
+<b>c</b>                   cycle program<br>
+<b>w</b>                   cycle video filters or show modes<br>
+<b>s</b>                   activate frame-step mode<br>
+<b>left</b>/<b>right</b>          seek backward/forward 10 seconds<br>
+<b>down</b>/<b>up</b>             seek backward/forward 1 minute<br>
+<b>page down</b>/<b>page up</b>   seek backward/forward 10 minutes<br>
+<b>mouse click</b>         seek to percentage in file corresponding to fraction of width</samp><br>
+<br>
+<br>
+<br>
+<h4>Interesting FFmpeg commands</h4><br>
+<h5>Resize video</h5><br>
+<code>$ ffmpeg -i some_film.mkv <b>-s 960x540</b> -c:a copy resized_film.mkv</code><br>
+This command copies the audio of film.mkv, <b>resizes video to 960x540</b> size and outputs the result to resized_film.mkv.<br>
+<br>
+<br>
+<h5>Resize video and encode it using mpeg4 codec</h5><br>
+<code>$ ffmpeg -i some_film.mkv -s 960x540 -c:a copy <b>-c:v mpeg4</b> resized_film.mkv</code><br>
+<br>
+<br>
+<h5>Convert an audio file to mp3 format</h5><br>
+<code>$ ffmpeg -formats | grep mp3</code>  # check if mp3 format is available<br>
+<code>$ ffmpeg -i input_file.wav <b>-f mp3</b> output_file.mp3</code><br>
+<br>
+<br>
+<h5>Trim a video file</h5><br>
+Trim a file starting at 4 minutes 41 seconds point and finish after a duration of 54 minutes and 12 seconds:<br>
+<code>$ ffmpeg <b>-ss 4:41 -t 54:12</b> -i input_file.mkv -c:a copy -c:v copy trimmed_film.mkv</code><br>
+<br>
+<b>-ss start_position</b> and <b>-t duration</b> options come before <b>-i</b> one in this case.<br>
+<br>
+<br>
+<br>
+<h4>Reference</h4><br>
+<a href="https://en.wikipedia.org/wiki/FFmpeg">FFmpeg (Wikipedia)</a><br>
+<br>
+<code>$ man ffmpeg</code><br>
+<code>$ man ffmpeg-devices</code><br>
+<code>$ man ffmpeg-utils</code><br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

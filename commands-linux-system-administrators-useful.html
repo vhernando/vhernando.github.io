@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/commands-linux-system-administrators-useful.html"/>
+	
+
+	
+	<title>Useful Linux Commands for System Administrators - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>Useful Linux Commands for System Administrators</h3></div>
+<div id="content"><br>
+Useful commands to administer a Linux based system.<br>
+<br>
+<br>
+<h4>sudo command</h4><br>
+<b>Execute a command as another user.</b><br>
+It will ask for your user password and will execute the command if you have permissions enough in /etc/sudoers file.<br>
+<br>
+By default sudo executes a command as root:<br>
+<code>$ sudo cat /etc/sudoers</code> # Show content of /etc/sudoers file. <br>
+<br>
+Execute a command as user vincent:<br>
+<code>$ sudo -u vincent ls /tmp</code> # List /tmp directory as user vincent.<br>
+<br>
+Run a login shell for another user (root by default):<br>
+<code>$ sudo -i</code><br>
+<br>
+Edit sudo permissions for users in /etc/sudoers file:<br>
+<code>$ visudo</code><br>
+<br>
+<br>
+<h4>ps command</h4><br>
+<b>ps</b> tool lists unix processes<br>
+<br>
+List all processes in the system:<br>
+<code>$ ps -e</code><br>
+<br>
+<br>
+<h4>top</h4><br>
+It shows processes, CPU consumption, PID, etc.<br>
+<br>
+<br>
+<h4>htop</h4><br>
+Improved version of top tool.<br>
+<br>
+<br>
+<h4>iotop</h4><br>
+Monitor input and outputs (disk reads and writes) in a top like manner.<br>
+<br>
+Show only processes that perform I/O and accumulate values:<br>
+<code>$ sudo iotop -o -a</code><br>
+<br>
+<br>
+<h4>free</h4><br>
+Show amount of free and used memory in the system:<br>
+<br>
+In human readable format:<br>
+<code>$ free -h</code><br>
+<br>
+<br>
+<h4>uname</h4><br>
+Print system information:<br>
+<code>$ uname -a</code><br>
+<samp>Linux mySystem 4.4.0-1-amd64 #1 SMP Debian 4.4.8-2 (2016-05-16) x86_64 GNU/Linux</samp><br>
+<br>
+<br>
+<h4>lsusb</h4><br>
+<b>List USB devices</b><br>
+<br>
+<code>$ lsusb</code><br>
+<samp>Bus 002 Device 022: ID 1c4f:0002 SiGma Micro Keyboard TRACER Gamma Ivory<br>
+Bus 002 Device 002: ID 8087:0020 Intel Corp. Integrated Rate Matching Hub<br>
+Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub<br>
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub<br>
+</samp><br>
+<br>
+<br>
+<h4>udevadm</h4><br>
+<b>udev management tool</b>.<br>
+<br>
+Show usb related (--subsystem-match=usb) kernel uevents (--kernel), events sent out by udev rules (--udev) and display properties too (--property):<br>
+<code>$ sudo udevadm monitor --subsystem-match=usb --kernel --property --udev</code><br>
+<br>
+<br>
+<br>
+<h4>STORAGE AND FILESYSTEM RELATED COMMANDS</h4><br>
+<h5>lsblk</h5><br>
+<b>List block devices</b>, partition sizes, mount points, etc<br>
+<br>
+<code>$ lsblk</code><br>
+<samp>NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT<br>
+sda      8:0    0 931.5G  0 disk <br>
+├─sda1   8:1    0   100G  0 part /<br>
+├─sda2   8:2    0   100G  0 part <br>
+├─sda3   8:3    0    50G  0 part [SWAP]<br>
+└─sda4   8:4    0 681.5G  0 part /home<br>
+sr0     11:0    1  1024M  0 rom  <br>
+</samp><br>
+<br>
+Show <b>info about filesystems</b><br>
+<code>$ <b>lsblk -f</b></code><br>
+<samp>NAME   FSTYPE LABEL            UUID                                 MOUNTPOINT<br>
+sda                                                                 <br>
+├─sda1 ext4   system           cb3d3c17-0865-448e-b7c1-04a50f2a7e80 /<br>
+├─sda2 ext4   secondary        c0fb3dca-eb48-49e8-ace3-4326fd168439 <br>
+├─sda3 swap                    ee7d92ec-a542-4c42-8b2e-f9e14b8b9980 [SWAP]<br>
+└─sda4 ext4   home             9f93bcb8-8723-43e1-8d08-8e40d3f5340a /home<br>
+</samp><br>
+<br>
+<br>
+<h5>fdisk</h5><br>
+fdisk manipulates disk partition tables.<br>
+<br>
+List current partitions:<br>
+<code>$ fdisk -l</code><br>
+<samp>Disk /dev/sdb: 15 GiB, 16131293184 bytes, 31506432 sectors<br>
+Units: sectors of 1 * 512 = 512 bytes<br>
+Sector size (logical/physical): 512 bytes / 512 bytes<br>
+I/O size (minimum/optimal): 512 bytes / 512 bytes<br>
+Disklabel type: dos<br>
+Disk identifier: 0x04030201<br>
+<br>
+Device     Boot Start      End  Sectors Size Id Type<br>
+/dev/sdb1          63 31503464 31503402  15G  b W95 FAT32<br>
+</samp><br>
+<br>
+Partition /dev/sdb device<br>
+<code>$ fdisk /dev/sdb</code><br>
+<br>
+<br>
+<h5>mkfs.ext4</h5><br>
+<b>Create an ext4 filesystem</b> in /dev/sdb1 partition:<br>
+<code>$ sudo <b>mkfs.ext4 /dev/sdb1</b></code><br>
+<br>
+Create an ext4 filesystem in /dev/sdb1 partitional and <b>label the volume</b> &#39;myLabel&#39;:<br>
+<code>$ sudo mkfs.ext4 <b>-L &#39;myLabel&#39;</b> /dev/sdb1</code><br>
+<br>
+Same but <b>disabling journaling</b> to minimize writes to disk:<br>
+<code>$ sudo mkfs.ext4 <b>-O &#34;^has_journal&#34;</b> -L &#39;myLabel&#39; /dev/sdb1</code><br>
+<br>
+<br>
+<h5>mount, umount</h5><br>
+Mount and umount a filesystem in the big tree that pends from / root<br>
+<br>
+Show all currently mounted filesystems:<br>
+<code>$ mount</code><br>
+<br>
+Mount sda2 device as an ext4 filesystem in /home directory: <br>
+<code>$ sudo mount -t ext4 /dev/sda2 /home</code><br>
+<br>
+<br>
+Remount part of filesystem hierarchy (/home) in another place (/tmp/foo):<br>
+<code>$ sudo mount --bind /home /tmp/foo</code><br>
+<br>
+Remount part of filesystem hierarchy and also its submounts in another place:<br>
+<code>$ sudo mount --rbind /dev chroot/dev</code><br>
+<br>
+<br>
+Mount again but in read only way:<br>
+<code>$ sudo mount -o remount,ro /dev/sda1 /</code><br>
+<br>
+<br>
+Unmount a directory or a device:<br>
+<code>$ sudo umount /dev/sda2</code><br>
+<code>$ sudo umount /home</code><br>
+<br>
+Unumount a directory recursively: (it will fail if any submount fails)<br>
+<code>$ sudo umount -R /home</code><br>
+<br>
+<br>
+<h5>lsof</h5><br>
+Without arguments lsof <b>lists all open files</b> in the system belonging to active processes.<br>
+<br>
+Passing a file path to lsof it returns info about processes which have opened that file.<br>
+<code>$ lsof /dev/tty1</code><br>
+<samp>COMMAND     PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME<br>
+bash       1482 vicente    0u   CHR    4,1      0t0 1042 /dev/tty1<br>
+bash       1482 vicente    1u   CHR    4,1      0t0 1042 /dev/tty1<br>
+</samp><br>
+<br>
+<br>
+<br>
+<br>
+<h4>NETWORK RELATED COMMANDS</h4><br>
+<h5>netstat</h5><br>
+netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships<br>
+<br>
+Show <b>network interfaces</b>:<br>
+<code>$ netstat -i</code><br>
+<br>
+Show <b>routing table</b>:<br>
+<code>$ netstat -r</code><br>
+<code>$ netstat -rn</code> # -n option make netstat show numerical addresses, ports, etc instead of determining host, port, etc.<br>
+<br>
+Show <b>listening connections</b>:<br>
+<code>$ netstat -l</code><br>
+<br>
+Show <b>name and PID of processes</b> running each socket:<br>
+<code>$ netstat -p</code><br>
+<br>
+<br>
+<h5>ip command</h5><br>
+<b>ip</b> - show / manipulate routing, devices, policy routing and tunnels<br>
+<br>
+Show devices and their IPv4 and IPv6 associated addresses:<br>
+<code>$ ip address</code><br>
+<br>
+Show routing table:<br>
+<code>$ ip route</code><br>
+<br>
+List all network devices:<br>
+<code>$ ip link</code><br>
+<br>
+Enable or disable enp0s3 device:<br>
+<code>$ ip link set enp0s3 up</code><br>
+<code>$ ip link set enp0s3 down</code><br>
+<br>
+<br>
+<h5>dhclient</h5><br>
+Client for DHDP<br>
+<br>
+Get an IP address for enp0s3 device from DHCP server:<br>
+<code>$ dhclient enp0s3</code><br>
+<br>
+Release current IP address for enp0s3 device:<br>
+<code>$ dhclient -r enp0s3</code><br>
+<br>
+<br>
+<h5>wget</h5><br>
+<b>wget</b> is a non-interactive network downloader. It can download web sites recursively. <br>
+<br>
+Download a file:<br>
+<code>$ wget https://cdn.kernel.org/pub/linux/kernel/v4.x/testing/linux-4.9-rc8.tar.xz</code><br>
+<br>
+<br>
+Download a ftp site:<br>
+<code>$ wget -c -r -l 0 --timeout 60 ftp://my_user:my_pass@www.foo.net/dir_app</code><br>
+Options stand for:<br>
+<b>-c</b> : continue downloading partially downloaded files<br>
+<b>-r</b> : download directories recursively<br>
+<b>-l 0</b> : recurse levels indefinitely<br>
+<b>--timeout 60</b> : timeout after 60 seconds.<br>
+<br>
+<br>
+Download a http site:<br>
+<code>$ wget -k -r -l 3 -D www.kernel.org https://www.kernel.org/pub/linux/</code><br>
+<b>-D</b> : follow links only to this address.<br>
+<b>-k</b> : convert links<br>
+<br>
+<br>
+curl vs wget:<br>
+<a href="https://daniel.haxx.se/docs/curl-vs-wget.html">https://daniel.haxx.se/docs/curl-vs-wget.html</a><br>
+<br>
+<br>
+<br>
+<h4>REFERENCE</h4><br>
+<a href="http://www.tldp.org/LDP/abs/html/system.html">Chapter 17. System and Administrative Commands (Advanced Bash Scripting Guide)</a><br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

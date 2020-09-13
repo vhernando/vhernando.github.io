@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/gdb-gnu-debugger-cheatsheet.html"/>
+	
+
+	
+	<title>GDB cheatsheet - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>GDB cheatsheet</h3></div>
+<div id="content"><br>
+<b>GDB</b> stands for <b>GNU Project Debugger</b>.<br>
+<br>
+It allows you to observe what does happen when a program runs or by using a core file when a program crashed. <br>
+<br>
+<br>
+<h4>Install GDB</h4><br>
+Install GDB in Debian:<br>
+<code>$ sudo aptitude install gdb</code><br>
+<br>
+<br>
+<h4>Run a program</h4><br>
+Debug a program:<br>
+<code>$ gdb ./my_program</code> <br>
+<br>
+<b>A (gdb) prompt appears when gdb executes:</b><br>
+<br>
+Pass some arguments:<br>
+<code>(gdb) set args -o file_name</code><br>
+<br>
+Set a breakpoint at a function:<br>
+<code>(gdb) break function_name</code><br>
+<br>
+Run the program:<br>
+<code>(gdb) run</code><br>
+<samp>Starting program: my_program -o file_name</samp><br>
+<br>
+<br>
+<h4>Quit GDB</h4><br>
+<code>(gdb) quit</code><br>
+<code>(gdb) q</code><br>
+<br>
+<br>
+<h4>Show GDB help</h4><br>
+GDB <b>man page</b>:<br>
+<code>$ man gdb</code><br>
+<br>
+Get <b>help inside GDB</b>:<br>
+<code>(gdb) help</code><br>
+<code>(gdb) h</code><br>
+<samp>List of classes of commands:<br>
+<br>
+aliases -- Aliases of other commands<br>
+breakpoints -- Making program stop at certain points<br>
+data -- Examining data<br>
+files -- Specifying and examining files<br>
+internals -- Maintenance commands<br>
+obscure -- Obscure features<br>
+running -- Running the program<br>
+stack -- Examining the stack<br>
+status -- Status inquiries<br>
+support -- Support facilities<br>
+tracepoints -- Tracing of program execution without stopping the program<br>
+user-defined -- User-defined commands<br>
+</samp><br>
+<br>
+<br>
+Get <b>help about a specific command</b>:<br>
+<code>(gdb) help run</code><br>
+<code>(gdb) h run</code><br>
+<code>(gdb) h r</code><br>
+<samp>Start debugged program.  You may specify arguments to give it.<br>
+Args may include &#34;*&#34;, or &#34;[...]&#34;; they are expanded using &#34;sh&#34;.<br>
+Input and output redirection with &#34;&gt;&#34;, &#34;&lt;&#34;, or &#34;&gt;&gt;&#34; are also allowed.<br>
+<br>
+With no arguments, uses arguments last specified (with &#34;run&#34; or &#34;set args&#34;).<br>
+To cancel previous arguments and run with no arguments,<br>
+use &#34;set args&#34; without arguments.</samp><br>
+<br>
+<br>
+<h4>Show source code</h4><br>
+<b>List source code</b>:<br>
+<code>(gdb) list</code><br>
+<code>(gdb) l</code><br>
+<samp>130	/**<br>
+131	 * @brief Process a running thread<br>
+132	 */<br>
+133	void* processing_thread(void *_thread_id)<br>
+134	{<br>
+135		long thread_id = (long) _thread_id;<br>
+136		char pcap_error_buffer[PCAP_ERRBUF_SIZE];<br>
+137	<br>
+138	    if (!quiet_mode) {<br>
+139			printf(&#34;Running thread %ld...\n&#34;, thread_id);<br>
+</samp><br>
+<br>
+<b>List around a specific line</b> of source code:<br>
+<code>(gdb) list 120</code><br>
+<code>(gdb) l 120</code><br>
+<br>
+<br>
+<h4>info command</h4><br>
+<code>(gdb) help info</code><br>
+Generic command for showing things about the program being debugged.<br>
+<br>
+<br>
+<b>List all breakpoints</b>:<br>
+<code>(gdb) info break</code><br>
+<br>
+<br>
+<b>Show local variables</b> of current stack frame:<br>
+<code>(gdb) i locals</code><br>
+<samp>rkm = 0x55fa3d905f40<br>
+err = <optimized out><br>
+errnox = 8732417<br>
+</samp><br>
+<br>
+<br>
+<h4>Debug a crash using a core file</h4><br>
+You may have cores disabled for your shell:<br>
+<code>$ ulimit -c</code><br>
+<samp>0</samp><br>
+<br>
+To enable them:<br>
+<code>$ ulimit -c unlimited</code><br>
+<br>
+Systemd places coredum by default in /var/lib/systemd/coredump directory.<br>
+<br>
+If core is in lz4 format, to decompress it:<br>
+<code>$ unlz4 core.my_program.1000.a5a9801317064638a15481fbebfa686f.2010317.1582046615000000000000.lz4</code><br>
+<br>
+Run GDB using that core file:<br>
+<code><b>$ gdb my_program core_file</b></code><br>
+E.g: <code>$ gdb my_program core.my_program.1000.a5a9801317064638a15481fbebfa686f.2010317.1582046615000000000000</code><br>
+<br>
+<br>
+<h5>Show stack</h5><br>
+<b>backtrace</b> (<b>bt</b>) or <b>where</b> command shows the call stack:<br>
+<code>(gdb) bt</code><br>
+<br>
+or <br>
+<br>
+<code>(gdb) where</code><br>
+<br>
+<br>
+<h5>Show full stack</h5><br>
+Show call stack and local variables:<br>
+<code>(gdb) bt full</code><br>
+<br>
+or <br>
+<br>
+<code>(gdb) where full</code><br>
+<br>
+<br>
+<br>
+<h4>Breakpoints</h4><br>
+Help about commands related to breakpoints:<br>
+<code>(gdb) help breakpoints</code><br>
+<br>
+<br>
+<b>Set a breakpoint</b> at the beginning of a function:<br>
+<code>(gdb) break function_name</code><br>
+<code>(gdb) b function_name</code> <br>
+<br>
+<br>
+<b>List</b> current <b>breakpoints</b>:<br>
+<code>(gdb) info b</code><br>
+<code>(gdb) i b</code><br>
+<samp>Num     Type           Disp Enb Address            What<br>
+1       breakpoint     keep n   0x00007ffff7c14210 in rd_kafka_msg_partitioner <br>
+                                                   at rdkafka_msg.c:945<br>
+	breakpoint already hit 1 time<br>
+</samp><br>
+<br>
+<br>
+<b>Continue execution</b> after a breakpoint:<br>
+<code>(gdb) continue</code><br>
+<code>(gdb) c</code><br>
+<br>
+<br>
+<h5>Disable breakpoints</h5><br>
+Disable all breakpoints:<br>
+<code>(gdb) disable breakpoints</code><br>
+<br>
+Disable breakpoint number 1:<br>
+<code>(gdb) disable breakpoints 1</code><br>
+<br>
+<br>
+<h5>Enable breakpoints</h5><br>
+Enable all breakpoints:<br>
+<code>(gdb) enable breakpoints</code><br>
+<br>
+Enable breakpoint number 1:<br>
+<code>(gdb) enable breakpoints 1</code><br>
+<br>
+<br>
+<h4>Step through the source code</h4><br>
+Step into next line but do not enter in functions:<br>
+<code>next</code><br>
+<code>n</code><br>
+<br>
+You can also execute a number of lines:<br>
+<code>next number</code><br>
+<code>n 5</code> # Execute 5 lines.<br>
+<br>
+Step into next line but enter inside functions:<br>
+<code>step</code><br>
+<code>s</code><br>
+<code>s 3</code> # Execute 3 lines.<br>
+<br>
+<br>
+<h4>Print value of a variable</h4><br>
+<code>(gdb) print my_variable</code><br>
+<code>(gdb) p my_variable</code><br>
+<br>
+<br>
+<h4>REFERENCE</h4><br>
+<code>$ man gdb</code><br>
+<br>
+<a href="https://www.gnu.org/software/gdb/">https://www.gnu.org/software/gdb/</a><br>
+<br>
+<a href="https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf">https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf</a><br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

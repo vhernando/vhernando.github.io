@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/gcc-options.html"/>
+	
+
+	
+	<title>GCC Options - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>GCC Options</h3></div>
+<div id="content"><br><a href="https://gcc.gnu.org/"><b>GCC, the GNU Compiler Collection</b></a>, is a <b>compiler system</b>, part of the GNU toolchain, produced by the <b>GNU Project</b>.<br><br>It provides frontends for C, C++, Java, Ada, Go, etc.<br><br><a href="https://en.wikipedia.org/wiki/GNU_Compiler_Collection">GCC (Wikipedia)</a><br><br><a href="https://gcc.gnu.org/onlinedocs/">GCC Manual</a><br><br><br><h4>Install GCC</h4><br>In Debian:<br><code>$ sudo aptitude install gcc</code><br><br><br><h4>Query GCC Version</h4><br><code>$ gcc --version</code><br><samp>gcc (Debian 5.3.1-8) 5.3.1 20160205<br>Copyright (C) 2015 Free Software Foundation, Inc.<br>This is free software; see the source for copying conditions.  There is NO<br>warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</samp><br><br><br><h4>Help</h4><br>Get <b>basic help</b>:<br><code>$ gcc --help</code><br><br><pre>Usage: gcc [options] file...<br>Options:<br>  -pass-exit-codes         Exit with highest error code from a phase<br>  --help                   Display this information<br>  --target-help            Display target specific command line options<br>  --help={common|optimizers|params|target|warnings|[^]{joined|separate|undocumented}}[,...]<br>                           Display specific types of command line options<br>  (Use &#39;-v --help&#39; to display command line options of sub-processes)<br>  --version                Display compiler version information<br>  -dumpspecs               Display all of the built in spec strings<br>  -dumpversion             Display the version of the compiler<br>  -dumpmachine             Display the compiler&#39;s target processor<br>  -print-search-dirs       Display the directories in the compiler&#39;s search path<br>  -print-libgcc-file-name  Display the name of the compiler&#39;s companion library<br>  -print-file-name=<lib>   Display the full path to library <lib><br>  -print-prog-name=<prog>  Display the full path to compiler component <prog><br>  -print-multiarch         Display the target&#39;s normalized GNU triplet, used as<br>                           a component in the library path<br>  -print-multi-directory   Display the root directory for versions of libgcc<br>  -print-multi-lib         Display the mapping between command line options and<br>                           multiple library search directories<br>  -print-multi-os-directory Display the relative path to OS libraries<br>  -print-sysroot           Display the target libraries directory<br>  -print-sysroot-headers-suffix Display the sysroot suffix used to find headers<br>  -Wa,<options>            Pass comma-separated <options> on to the assembler<br>  -Wp,<options>            Pass comma-separated <options> on to the preprocessor<br>  -Wl,<options>            Pass comma-separated <options> on to the linker<br>  -Xassembler <arg>        Pass <arg> on to the assembler<br>  -Xpreprocessor <arg>     Pass <arg> on to the preprocessor<br>  -Xlinker <arg>           Pass <arg> on to the linker<br>  -save-temps              Do not delete intermediate files<br>  -save-temps=<arg>        Do not delete intermediate files<br>  -no-canonical-prefixes   Do not canonicalize paths when building relative<br>                           prefixes to other gcc components<br>  -pipe                    Use pipes rather than intermediate files<br>  -time                    Time the execution of each subprocess<br>  -specs=<file>            Override built-in specs with the contents of <file><br>  -std=<standard>          Assume that the input sources are for <standard><br>  --sysroot=<directory>    Use <directory> as the root directory for headers<br>                           and libraries<br>  -B <directory>           Add <directory> to the compiler&#39;s search paths<br>  -v                       Display the programs invoked by the compiler<br>  -###                     Like -v but options quoted and commands not executed<br>  -E                       Preprocess only; do not compile, assemble or link<br>  -S                       Compile only; do not assemble or link<br>  -c                       Compile and assemble, but do not link<br>  -o <file>                Place the output into <file><br>  -pie                     Create a position independent executable<br>  -shared                  Create a shared library<br>  -x <language>            Specify the language of the following input files<br>                           Permissible languages include: c c++ assembler none<br>                           &#39;none&#39; means revert to the default behavior of<br>                           guessing the language based on the file&#39;s extension<br><br>Options starting with -g, -f, -m, -O, -W, or --param are automatically<br> passed on to the various sub-processes invoked by gcc.  In order to pass<br> other options on to these processes the -W<letter> options must be used.</pre><br><br><br><h4>Display enabled options</h4><br><code>$ gcc -Q -v file</code><br><br>Display enabled options in compiler and subprocesses.<br><br>If we set no options it shows default ones.<br><br><br><h4>Debug symbols</h4><br><code>$ gcc -g</code><br><br><b>Add debugging info</b> in the operating system native format. This info is useful for gdb.<br><br>It is allowed to use -g option together with optimization ones.<br><br><br><h4>Optimization</h4><br>Without compilation options (or <b>-O0</b>) compiler tries to minimize compilation time.<br><br><b>Optimize</b> to reduce <b>code size</b><br><code>$ gcc -Os</code><br><br><b>Optimize for speed</b><br><code>$ gcc -O1</code><br><code>$ gcc -O2</code><br><code>$ gcc -O3</code><br><br>The higher the number the more optimizations enabled.<br><br><b>-O0</b> means no optimization enabled.<br><br><br><h4>Preprocess only</h4><br><code>$ gcc -E file</code><br><br>Only preprocess the code. Stop after preprocessing the code. <br><br><br><h4>Show the assembler code</h4><br><code>$ gcc -S file</code><br><br>Stop after preprocessing and compilation (do not assemble the code).<br><br><br><h4>REFERENCE</h4><br><code>$ man gcc</code><br><br></div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

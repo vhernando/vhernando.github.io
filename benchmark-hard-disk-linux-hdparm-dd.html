@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/benchmark-hard-disk-linux-hdparm-dd.html"/>
+	
+
+	
+	<title>How to Benchmark Hard Disks using hdparm and dd (linux) - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>How to Benchmark Hard Disks using hdparm and dd (linux)</h3></div>
+<div id="content"><br/>We are going to <b>benchmark reads and writes</b> for a hard disk in a <b>linux</b> based system, using <b>dd</b> and <b>hdparm</b> tools.<br/><br/><b>IMPORTANT</b>: We assume our device to test is <b>/dev/sda</b> (choose carefully yours, specially for writing tests.)<br/><br/><br/><h4>Info about Hard Disk</h4><br/><b>Display basic settings</b> from the drive:<br/><code>$ sudo hdparm -v /dev/sda</code><br/><br/><samp>/dev/sda:<br/> multcount     = 16 (on)<br/> IO_support    =  1 (32-bit)<br/> readonly      =  0 (off)<br/> readahead     = 256 (on)<br/> geometry      = 38913/255/63, sectors = 625142448, start = 0</samp><br/><br/><br/>Get <b>detailed information</b> directly from the drive:<br/><code>$ sudo hdparm -I /dev/sda</code><br/><br/><pre>/dev/sda:<br/><br/>ATA device, with non-removable media<br/>	Model Number:       TOSHIBA <br/>	Serial Number:      91XXXXXXX<br/>	Firmware Revision:  GT001U  <br/>	Transport:          Serial, ATA8-AST, SATA 1.0a, SATA II Extensions, SATA Rev 2.5, SATA Rev 2.6<br/>Standards:<br/>	Supported: 8 7 6 5 <br/>	Likely used: 8<br/>Configuration:<br/>	Logical		max	current<br/>	cylinders	16383	16383<br/>	heads		16	16<br/>	sectors/track	63	63<br/>	--<br/>	CHS current addressable sectors:   16514064<br/>	LBA    user addressable sectors:  268435455<br/>	LBA48  user addressable sectors:  625142448<br/>	Logical  Sector size:                   512 bytes<br/>	Physical Sector size:                  4096 bytes<br/>	device size with M = 1024*1024:      305245 MBytes<br/>	device size with M = 1000*1000:      320072 MBytes (320 GB)<br/>	cache/buffer size  = 8192 KBytes<br/>	Form Factor: 2.5 inch<br/>	Nominal Media Rotation Rate: 5400<br/>Capabilities:<br/>	LBA, IORDY(can be disabled)<br/>	Queue depth: 32<br/>	Standby timer values: spec'd by Standard, no device specific minimum<br/>	R/W multiple sector transfer: Max = 16	Current = 16<br/>	Advanced power management level: 254<br/>	DMA: sdma0 sdma1 sdma2 mdma0 mdma1 mdma2 udma0 udma1 udma2 udma3 udma4 *udma5 <br/>	     Cycle time: min=120ns recommended=120ns<br/>	PIO: pio0 pio1 pio2 pio3 pio4 <br/>	     Cycle time: no flow control=120ns  IORDY flow control=120ns<br/>....<br/></pre><br/><br/><h4>READ benchmark</h4><br/><code>$ sudo hdparm -Tt /dev/sda</code><br/><br/><pre>/dev/sda:<br/> Timing cached reads:   5278 MB in  2.00 seconds = <b>2639.99 MB/sec</b><br/> Timing buffered disk reads: 234 MB in  3.00 seconds =  <b>77.90 MB/sec</b></pre><br/><br/><br/><h4>WRITE benchmark</h4><br/>We write to a file "/tmp/output" because device is already mounted in /<br/>If not we could write directly to the device /dev/sdX<br/><br/><code>$ dd if=/dev/zero of=/tmp/output conv=fdatasync bs=4M count=100; rm -f /tmp/output</code><br/><samp>100+0 records in<br/>100+0 records out<br/>419430400 bytes (419 MB) copied, 8.73378 s, <b>48.0 MB/s</b></samp><br/><br/><b>fdatasync</b> forces write to flush out to hard disk.<br/><br/>Change bs and count values to suit you.<br/><br/><br/><h4>REFERENCE</h4><br/><code>$ man hdparm</code><br/><br/><code>$ man dd</code><br/><br/><a href="https://wiki.archlinux.org/index.php/Benchmarking/Data_storage_devices">https://wiki.archlinux.org/index.php/Benchmarking/Data_storage_devices</a><br/><br/><a href="http://askubuntu.com/questions/87035/how-to-check-hard-disk-performance">http://askubuntu.com/questions/87035/how-to-check-hard-disk-performance</a><br/><br/><a href="https://wiki.archlinux.org/index.php/hdparm">https://wiki.archlinux.org/index.php/hdparm</a><br/><br/></div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

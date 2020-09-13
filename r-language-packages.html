@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/r-language-packages.html"/>
+	
+
+	
+	<title>R packages - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>R packages</h3></div>
+<div id="content"><br>R language is divided in packages. Some are part of the standard R system and mostly others are loaded on demand.<br><br><br><h4>List packages installed in the system</h4><br><code>&gt; library()</code>  # Show which <b>packages</b> are </b>installed</b> in the system.<br><br>See which <b>packages</b> are <b>currently loaded</b> (that appear in the search path)<br><code>&gt; search()</code><br><samp>[1] &#34;.GlobalEnv&#34;        &#34;package:stats&#34;     &#34;package:graphics&#34; <br>[4] &#34;package:grDevices&#34; &#34;package:utils&#34;     &#34;package:datasets&#34; <br>[7] &#34;package:methods&#34;   &#34;Autoloads&#34;         &#34;package:base&#34;</samp><br><br>E.g: Load codetools package:<br><code>&gt; library(codetools)</code><br><code>&gt; search()</code><br><samp> [1] &#34;.GlobalEnv&#34;        <b>&#34;package:codetools&#34;</b> &#34;package:stats&#34;    <br> [4] &#34;package:graphics&#34;  &#34;package:grDevices&#34; &#34;package:utils&#34;    <br> [7] &#34;package:datasets&#34;  &#34;package:methods&#34;   &#34;Autoloads&#34;        <br>[10] &#34;package:base&#34;     </samp><br><br><br><h4>Help about a package</h4><br>Information on a package:<br>E.g: package base<br><br><code>&gt; library(help = base)</code><br>or<br><code>&gt; help(package = base)</code><br><br><br><h4>Where to get a list of R packages</h4><br><b>Standard packages</b> which come with R installation:<br>base, compiler, datasets, grDevices, graphics, grid, methods, parallel, splines, stats, stats4, tcltk, tools, utils.<br><br>Which <b>add-on packages</b> exist <b>for R</b> (some <b>recommended packages</b> and <b>repositories</b>)?:<br><a href="https://cran.r-project.org/doc/manuals/r-release/R-FAQ.html#Which-add_002don-packages-exist-for-R_003f">https://cran.r-project.org/doc/manuals/r-release/R-FAQ.html#Which-add_002don-packages-exist-for-R_003f</a><br><br><br><b>Contributed packages</b> in <b>CRAN</b>:<br><a href="https://cran.r-project.org/web/packages/">https://cran.r-project.org/web/packages/</a><br><br><br><b>List available packages from R interpreter</b>:<br><code>&gt; available.packages()</code><br><br><br>Show packages loaded by default:<br><code>&gt; getOption(&#34;defaultPackages&#34;)</code><br><samp>[1] &#34;datasets&#34;  &#34;utils&#34;     &#34;grDevices&#34; &#34;graphics&#34;  &#34;stats&#34;     &#34;methods&#34;  </samp><br><br><br><h4>Install CRAN packages</h4><br><code>&gt; install.packages()</code>  # It asks for a mirror and then asks for a package to install.<br><br>E.g: I tell it to <b>install gdata</b> package:<br><br><samp>Installing package into ‘/usr/local/lib/R/site-library’<br>(as ‘lib’ is unspecified)<br>Warning in install.packages() :<br>  &#39;lib = &#34;/usr/local/lib/R/site-library&#34;&#39; is not writable<br>Would you like to use a personal library instead?  (y/n) <br><br>GCC compiler is needed for the source to compile.<br><br>gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c roman2int.c -o roman2int.o<br>gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c setTCPNoDelay.c -o setTCPNoDelay.o<br>gcc -std=gnu99 -shared -L/usr/lib/R/lib -Wl,-z,relro -o gtools.so roman2int.o setTCPNoDelay.o -L/usr/lib/R/lib -lR<br>installing to /home/vicente/R/x86_64-pc-linux-gnu-library/3.2/gtools/libs</samp><br><br><br>or I could <b>install</b> a specific <b>package directly</b>:<br><br><code>&gt; install.packages(&#34;gdata&#34;)</code><br><samp>Installing package into ‘/home/vicente/R/x86_64-pc-linux-gnu-library/3.2’</samp><br><br><br>Load a package:<br><code>&gt; library(gdata)</code><br><br><code>&gt; search()</code><br><samp> [1] &#34;.GlobalEnv&#34;        <b>&#34;package:gdata&#34;</b>     &#34;package:stats&#34;    <br> [4] &#34;package:graphics&#34;  &#34;package:grDevices&#34; &#34;package:utils&#34;    <br> [7] &#34;package:datasets&#34;  &#34;package:methods&#34;   &#34;Autoloads&#34;        <br>[10] &#34;package:base&#34;</samp><br><br><br>You can <b>unload</b> the loaded <b>package</b> by:<br><br><code>&gt; detach(&#34;package:gdata&#34;)</code><br><br>or <br><br><code>&gt; detach(&#34;package:gdata&#34;, unload = TRUE)</code><br>(where unload = TRUE is needed only <b>for packages with a namespace</b>, see ?unload). <br><br><br><br>Find help for a funtion within the package:<br><code>&gt; ?gdata::read.xls</code><br><br>or <br><br><code>&gt; help(package=gdata, read.xls)</code><br><br><br><h4>UPDATING PACKAGES</h4><br>List <b>status of installed packages</b>:<br><code>&gt; packageStatus()</code><br><br><samp>Number of installed packages:<br>                                                 <br>                                                  ok upgrade unavailable<br>  /home/vicente/R/x86_64-pc-linux-gnu-library/3.2  2       0           0<br>  /usr/local/lib/R/site-library                    0       0           0<br>  /usr/lib/R/site-library                          0       0           0<br>  /usr/lib/R/library                              24       5           0<br><br>Number of available packages (each package counted only once):<br>                                       <br>                                        installed not installed<br>  https://ftp.cixug.es/CRAN/src/contrib        17          8366</samp><br><br><br><b>Update packages:</b><br><code>&gt; update.packages()</code><br><samp>boot :<br> Version 1.3-17 installed in /usr/lib/R/library <br> Version 1.3-18 available at https://ftp.cixug.es/CRAN<br>Update (y/N/c)?  <br> .....</samp><br><br><br><h4>REMOVE PACKAGES:</h4><br>From a running R process they can be removed by<br><br><code>&gt; remove.packages(c(&#34;pkg1&#34;, &#34;pkg2&#34;),<br>                  lib = file.path(&#34;path&#34;, &#34;to&#34;, &#34;library&#34;))</code><br><br>E.g:<br>&gt; remove.packages(&#34;gdata&#34;)<br><br><br><br><h4>Reference</h4><br><a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Packages">https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Packages</a><br><br><a href="https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Add_002don-packages">https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Add_002don-packages</a><br><br><br></div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

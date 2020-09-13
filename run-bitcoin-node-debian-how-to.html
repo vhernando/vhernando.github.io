@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/run-bitcoin-node-debian-how-to.html"/>
+	
+
+	
+	<title>How to run a Bitcoin node in Debian - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>How to run a Bitcoin node in Debian</h3></div>
+<div id="content"><br>
+We are going to run a Bitcoin full node in a Debian system (Sid)<br>
+<br>
+<br>
+<br>
+<h4>Download Bitcoin precompiled binaries</h4><br>
+I download the Bitcoin Core binary suitable for my system architecture (e.g: linux amd 64 bits)<br>
+<a href="https://bitcoincore.org/en/download/">https://bitcoincore.org/en/download/</a><br>
+<br>
+I download 64 bit version for linux:<br>
+<code>$ wget https://bitcoincore.org/bin/bitcoin-core-0.14.2/bitcoin-0.14.2-x86_64-linux-gnu.tar.gz</code><br>
+<br>
+Extract the tar ball:<br>
+<code>$ tar xvzf bitcoin-0.14.2-x86_64-linux-gnu.tar.gz</code><br>
+<br>
+Install the binaries in /usr/local/bin directory<br>
+<code>$ sudo install -m 0755 -o root -g root -t /usr/local/bin bitcoin-0.14.2/bin/*</code><br>
+<br>
+<br>
+<br>
+<h4>Run Bitcoin node</h4><br>
+By now we are going to run only Bitcoin node with no graphical interface:<br>
+<br>
+I create a new user to run the Bitcoin node<br>
+<code>$ sudo adduser bitcoin_user</code><br>
+<br>
+Then we log in with the new user<br>
+<code>$ sudo login bitcoin_user</code><br>
+<br>
+And launch the Bitcoin node (in daemon mode listening to commands):<br>
+<code>bitcoin_user@my_box:~$ bitcoind -daemon</code><br>
+<samp>Bitcoin server starting</samp><br>
+<br>
+you can execute <code>$ bitcoind -server</code> to accept RPC-JSON commands.<br>
+<br>
+<br>
+If you do not want to print the log to stdout:<br>
+<code>$ bitcoind -printtoconsole=0 ...</code><br>
+<br>
+<br>
+Disable wallet functionality:<br>
+<code>$ bitcoind -disablewallet ...</code><br>
+<br>
+<br>
+Disable network:<br>
+<code>$ bitcoind -noconnect ...</code><br>
+<br>
+<br>
+Show help about bitcoin server options:<br>
+<code>$ bitcoind -help</code><br>
+<br>
+We can list configuration files:<br>
+<code>$ cd .bitcoin</code><br>
+<code>$ ls</code><br>
+<samp>banlist.dat  bitcoind.pid  blocks  chainstate  database  db.log  debug.log  peers.dat  wallet.dat</samp><br>
+<br>
+<a href="https://en.bitcoin.it/wiki/Data_directory">Data directory</a><br>
+<a href="https://en.bitcoin.it/wiki/Running_Bitcoin#Bitcoin.conf_Configuration_File">bitcoin.conf configuration file</a><br>
+<br>
+<br>
+<b>NOTE: Right now, if we do not open the necessary ports in the router we are only using our Bitcoin node as a wallet.</b><br>
+<br>
+<br>
+<br>
+<h4>Communicate with the server using Bitcoin client for command line</h4><br>
+<a href="https://bitcoincore.org/en/doc/0.16.2/rpc/">https://bitcoincore.org/en/doc/0.16.2/rpc/</a><br>
+<a href="https://bitcoin.org/en/developer-reference#rpc-quick-reference">https://bitcoin.org/en/developer-reference#rpc-quick-reference</a><br>
+<br>
+Get general help:<br>
+<code>$ bitcoin-cli help</code><br>
+<br>
+Get help for a specific command:<br>
+<code>$ bitcoin-cli help getinfo</code><br>
+<br>
+<br>
+<code>$ bitcoin-cli getinfo</code><br>
+<br>
+<code>$ bitcoin-cli getblockchaininfo</code><br>
+<br>
+<code>$ bitcoin-cli getnetworkinfo</code><br>
+<br>
+<code>$ bitcoin-cli getnettotals</code><br>
+<br>
+<code>$ bitcoin-cli getwalletinfo</code><br>
+<br>
+<br>
+<br>
+<code>$ bitcoin-cli getconnectioncount</code><br>
+<samp>8</samp><br>
+<br>
+To stop the Bitcoin server:<br>
+<code>$ bitcoin-cli stop</code><br>
+<br>
+<br>
+List my accounts:<br>
+<code>$ bitcoin-cli listaccounts</code><br>
+<samp>{<br>
+  &#34;&#34;: 0.00000000<br>
+}</samp><br>
+NOTE: &#34;&#34; is the default account.<br>
+<br>
+<br>
+Get addresses for your default account:<br>
+<code>$ bitcoin-cli getaddressesbyaccount &#34;&#34;</code><br>
+<samp>[<br>
+  &#34;1pXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&#34;, <br>
+  &#34;1JXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&#34;<br>
+]</samp><br>
+<br>
+<br>
+Validate an address:<br>
+<code>$ bitcoin-cli validateaddress &#34;1pXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&#34;</code><br>
+It shows public key, etc for that address.<br>
+<br>
+<br>
+Dump private key:<br>
+<code>$ bitcoin-cli dumpprivkey &#34;1pXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&#34;</code><br>
+It shows private key associated to that address. Be careful!!!<br>
+<br>
+<br>
+Show info about a block based on its hash:<br>
+<code>$ bitcoin-cli getblock &#34;0000000000000000038726af63010f9b3e8fa34ac75050d620d1253176ed88fc&#34;</code><br>
+<br>
+<br>
+<br>
+We recommend you to <b>encrypt your wallet</b>: <a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a><br>
+<br>
+If your wallet is encrypted, you need to enther the passphrase to execute dumpprivkey and other protected commands.<br>
+<br>
+E.g: We <b>enable the passphrase for 300 seconds</b>:<br>
+<code>$ bitcoin-cli walletpassphrase &#34;my_pass_phrase&#34; 300</code><br>
+<br>
+Now we can dump the private key if we want to:<br>
+<code>$ bitcoin-cli dumpprivkey &#34;XXXXXXXXXXXXXXXXXXXXXXXX&#34;</code><br>
+<br>
+We can <b>manually lock the wallet</b> if we do not want to wait until timeout:<br>
+<code>$ bitcoin-cli walletlock</code><br>
+<br>
+<br>
+<br>
+<h5>How to perform a transaction</h5><br>
+We will use <b>sendtoaddress</b> command:<br>
+<br>
+<code>$ bitcoin-cli help sendtoaddress</code><br>
+<samp>sendtoaddress &#34;address&#34; amount ( &#34;comment&#34; &#34;comment_to&#34; subtractfeefromamount )<br>
+<br>
+Send an amount to a given address.<br>
+<br>
+Requires wallet passphrase to be set with walletpassphrase call.<br>
+Arguments:<br>
+1. &#34;address&#34;            (string, required) The bitcoin address to send to.<br>
+2. &#34;amount&#34;             (numeric or string, required) The amount in BTC to send. eg 0.1<br>
+3. &#34;comment&#34;            (string, optional) A comment used to store what the transaction is for.<br>
+                             This is not part of the transaction, just kept in your wallet.<br>
+4. &#34;comment_to&#34;         (string, optional) A comment to store the name of the person or organization<br>
+                             to which you&#39;re sending the transaction. This is not part of the<br>
+                             transaction, just kept in your wallet.<br>
+5. subtractfeefromamount  (boolean, optional, default=false) The fee will be deducted from the amount being sent.<br>
+                             The recipient will receive less bitcoins than you enter in the amount field.<br>
+<br>
+Result:<br>
+&#34;txid&#34;                  (string) The transaction id.<br>
+<br>
+Examples:<br>
+&gt; bitcoin-cli sendtoaddress &#34;1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd&#34; 0.1<br>
+&gt; bitcoin-cli sendtoaddress &#34;1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd&#34; 0.1 &#34;donation&#34; &#34;seans outpost&#34;<br>
+&gt; bitcoin-cli sendtoaddress &#34;1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd&#34; 0.1 &#34;&#34; &#34;&#34; true<br>
+&gt; curl --user myusername --data-binary &#39;{&#34;jsonrpc&#34;: &#34;1.0&#34;, &#34;id&#34;:&#34;curltest&#34;, &#34;method&#34;: &#34;sendtoaddress&#34;, &#34;params&#34;: [&#34;1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd&#34;, 0.1, &#34;donation&#34;, &#34;seans outpost&#34;] }&#39; -H &#39;content-type: text/plain;&#39; http://127.0.0.1:8332/<br>
+</samp><br>
+<br>
+First we introduce wallet pass phrase if our wallet is encrypted:<br>
+<code>$ bitcoin-cli walletpassphrase &#34;my_wallet_pass_phrase&#34; 500</code><br>
+<br>
+We need to set a transaction fee amount in Bitcoins per kilo byte:<br>
+<code>$ bitcoin-cli help settxfee</code><br>
+<samp>settxfee amount<br>
+<br>
+Set the transaction fee per kB. Overwrites the paytxfee parameter.<br>
+<br>
+Arguments:<br>
+1. amount         (numeric or string, required) The transaction fee in BTC/kB<br>
+<br>
+Result<br>
+true|false        (boolean) Returns true if successful<br>
+<br>
+Examples:<br>
+&gt; bitcoin-cli settxfee 0.00001<br>
+&gt; curl --user myusername --data-binary &#39;{&#34;jsonrpc&#34;: &#34;1.0&#34;, &#34;id&#34;:&#34;curltest&#34;, &#34;method&#34;: &#34;settxfee&#34;, &#34;params&#34;: [0.00001] }&#39; -H &#39;content-type: text/plain;&#39; http://127.0.0.1:8332/<br>
+</samp><br>
+<br>
+URLs to find a suitable transaction fee:<br>
+<a href="https://bitcoinfees.21.co/">https://bitcoinfees.21.co/</a><br>
+<a href="https://estimatefee.com/">https://estimatefee.com/</a><br>
+<br>
+<br>
+<b>Convert satoshis per byte into BTC per kB</b><br>
+<br>
+When writing this article 200 satoshis per byte was a good value.<br>
+<br>
+<b>100000000 satoshis equal 1 Bitcoin.</b><br>
+<br>
+200 satoshis per byte   ==  200000 satoshis per kB  ==  0.002 BTC per kB<br>
+<br>
+As a general rule:<br>
+X satoshis per byte  ==  X*1000 satoshis per kB  ==  X/100000 BTC per kB<br>
+<br>
+<br>
+<code>$ bitcoin-cli settxfee 0.002</code><br>
+<samp>true</samp><br>
+<br>
+<br>
+<code>$ bitcoin-cli getbalance</code><br>
+<samp>0.05000000</samp><br>
+<br>
+<br>
+True in the end means fee will substract from transfered value so less than 0.05 BTC will arrive.<br>
+<br>
+<code>$ bitcoin-cli sendtoaddress &#34;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&#34; 0.05 &#34;test&#34; &#34;to_destiny&#34; <b>true</b></code><br>
+<samp>1eXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</samp><br>
+<br>
+It returns the transfer Id. You can use that Id to show info about the transaction<br>
+<code>$ bitcoin-cli gettransaction &#34;1eXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX&#34;</code><br>
+<br>
+After transaction completed we can check balance:<br>
+<code>$ bitcoin-cli getbalance</code><br>
+<code>0.00000000</code><br>
+<br>
+To show amount of bitcoins each of your addresses currently contains:<br>
+<code>$ bitcoin-cli listunspent</code><br>
+<br>
+ <br>
+You can find info about your address, transfer, etc in this URL:<br>
+<a href="https://bitinfocharts.com/bitcoin/explorer/">https://bitinfocharts.com/bitcoin/explorer/</a><br>
+<a href="https://blockexplorer.com">https://blockexplorer.com</a><br>
+<br>
+<br>
+<br>
+<h5>Change address</h5><br>
+If after a transaction the bitcoin node generates a <b>change address</b> which does not appear in current account, then <br>
+<code>$ bitcoin-cli listunspent</code> command won&#39;t show the new address and correct values.<br>
+<br>
+<code>$ bitcoin-cli listaddressgroupings</code> will show the new address, among other used addresses.<br>
+<br>
+To add the new change address to default account:<br>
+<code>$ bitcoin-cli setaccount &#34;1XXXXXXYYYYYYYYYZZZZZZZZZZZZZZZZZZ&#34; &#34;&#34;</code><br>
+<br>
+Now <code>$ bitcoin-cli listunspent</code> and <code>$ bitcoin-cli getaddressesbyaccount &#34;&#34;</code> commands will work again.<br>
+<br>
+<br>
+<br>
+<br>
+<h4>Reference</h4><br>
+How to run a bitcoin full node:<br>
+<a href="https://bitcoin.org/en/full-node">https://bitcoin.org/en/full-node</a><br>
+<br>
+Secure your wallet:<br>
+<a href="https://bitcoin.org/en/secure-your-wallet">https://bitcoin.org/en/secure-your-wallet</a><br>
+<br>
+Download bitcoin core:<br>
+<a href="https://bitcoincore.org/en/download/">https://bitcoincore.org/en/download/</a><br>
+<br>
+Original Bitcoin client/API calls list:<br>
+<a href="https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list">https://en.bitcoin.it/wiki/Original_Bitcoin_client/API_calls_list</a><br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

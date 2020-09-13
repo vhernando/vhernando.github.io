@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/doxygen-syntax-howto-document.html"/>
+	
+
+	
+	<title>Doxygen syntax - How to document with Doxygen - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>Doxygen syntax - How to document with Doxygen</h3></div>
+<div id="content"><br>
+Doxygen is a documentation generator for C, C++, and other programming languages.<br>
+<br>
+<br>
+How to document the sources:<br>
+<a href="http://www.doxygen.nl/manual/starting.html#step3">http://www.doxygen.nl/manual/starting.html#step3</a><br>
+<br>
+Manual overview:<br>
+<a href="http://www.doxygen.nl/manual/index.html">http://www.doxygen.nl/manual/index.html</a><br>
+<br>
+Documenting the code:<br>
+<a href="http://www.doxygen.nl/manual/docblocks.html">http://www.doxygen.nl/manual/docblocks.html</a><br>
+<br>
+<br>
+<br>
+<br>
+You can document most entities with doxygen in two ways:<br>
+<ul><li>Special block near the definition</li><br>
+<li>Structural commands</li></ul><br>
+<br>
+<h4>Special documentation block near the definition or declaration</h4><br>
+Write a special documentation block in front of the definition or declaration of the entity (member, class, namespace, etc)<br>
+<br>
+E.g: Document a function<br>
+<br>
+<pre>/**
+ * @brief Free an object.
+ *
+ * @return 0 on success.
+ */
+static int obj_free(msg_t *msg)</pre><br>
+<br>
+<br>
+Sometimes is also allowed to write the documentation directly after the member.<br>
+<br>
+E.g:<br>
+<pre>int start = 0; /**&lt; Start value of counting sequence. Negative values not allowed. */</pre><br>
+<br>
+<br>
+Learn more about special documentation blocks:<br>
+<a href="http://www.doxygen.nl/manual/docblocks.html#specialblock">http://www.doxygen.nl/manual/docblocks.html#specialblock</a><br>
+<br>
+<br>
+<br>
+Prior to document a member of a C++ class, namespace or structure, you must also document the class, namespace or structure itself.<br>
+<br>
+You must first document the file that contains a global C function, typedef, enum or preprocessor definition before documenting that function, typedef, etc.<br>
+<br>
+<br>
+<h4>Use a structural command</h4><br>
+Write a special documentation block somewhere else (another file or another location). Not near the entity you document.<br>
+<br>
+You need to put a structural command in the documentation block.<br>
+<a href="http://www.doxygen.nl/manual/docblocks.html#structuralcommands">http://www.doxygen.nl/manual/docblocks.html#structuralcommands</a><br>
+<br>
+<br>
+Using structural commands require to write again the name of the entity being documented.<br>
+Writing special blocks near the documented entity is recommended over using structural commands.<br>
+<br>
+<br>
+Documenting with structural commands is the only available way for @file command (To document a file)<br>
+<br>
+Structural commands:<br>
+<pre>
+    <b>@struct</b> to document a C-struct.
+    <b>@union</b> to document a union.
+    <b>@enum</b> to document an enumeration type.
+    <b>@fn</b> to document a function.
+    <b>@var</b> to document a variable or typedef or enum value.
+    <b>@def</b> to document a #define.
+    <b>@typedef</b> to document a type definition.
+    <b>@file</b> to document a file.
+    <b>@namespace</b> to document a namespace.
+    <b>@package</b> to document a Java package.
+    <b>@interface</b> to document an IDL interface.
+</pre><br>
+<br>
+E.g:<br>
+<br>
+Structural commands require to write the name of the entity again. (Here the name of the function)<br>
+<br>
+<pre>/** @fn static int obj_free(msg_t *msg)
+ * @brief Free an object
+ * @return 0 on success
+*/</pre><br>
+<br>
+<br>
+<br>
+<br>
+<h4>Examples of Doxygen comments</h4><br>
+I am going to describe a style to write doxygen comments, but there are other styles too.<br>
+<br>
+<br>
+Doxygen comments: <br>
+<br>
+Start with <b>/** </b><br>
+End with <b>*/</b><br>
+<br>
+Each intermediate line has &#39;space * space&#39; but this is optional.<br>
+<br>
+Commands start with @ or \  E.g: @file, @brief, \file, \brief<br>
+<br>
+<br>
+Special commands:<br>
+<a href="http://www.doxygen.nl/manual/commands.html">http://www.doxygen.nl/manual/commands.html</a><br>
+<br>
+<br>
+<pre>/**
+ * @file
+ * @ingroup my_group
+ * @brief my_group A group created to show in an example.
+ *
+ */
+</pre><br>
+<br>
+<br>
+ <b>@brief</b> command adds a short description.<br>
+<br>
+<br>
+Usually doxygen comments come before the object we want to document:<br>
+<br>
+E.g: before a function:<br>
+<br>
+<pre>/**
+ * &lt;A short one line description&gt;
+ *
+ * &lt;Longer description&gt;
+ * &lt;May span multiple lines or paragraphs as needed&gt;
+ *
+ * @param  Description of method&#39;s or function&#39;s input parameter
+ * @param  ...
+ * @return Description of the return value
+ */
+</pre><br>
+<br>
+E.g:<br>
+<pre>/**
+ * @brief Looks for the header
+ *
+ * On error content pointed by s is undefined. (This is part of the
+ * detailed description)
+ *
+ * @param msg - the message
+ * @param s  pointer to string where we will store the header.
+ *
+ * @return 0 on success
+ * @return -1 on failure
+ */
+static int get_header(struct _msg *msg, char *s)
+</pre><br>
+<br>
+<b>@brief</b> short description.<br>
+<br>
+After the short description may come a detailed description.<br>
+<br>
+<b>@param</b> describes a parameter of the function.<br>
+<br>
+<b>@return</b> describes the return of the function.<br>
+Several returns are appended.<br>
+<br>
+<br>
+If we document this function using a structural command, then we do not need to write the doc before the function, but anywhere else.<br>
+Nevertheless writing the doc using structural commands is not recommended.<br>
+<br>
+<pre>/**
+ * @fn get_header(struct _msg *msg, char *s)
+ * @brief Looks for the header
+ *
+ * On error content pointed by s is undefined. (This is part of the
+ * detailed description)
+ *
+ * @param msg - the message
+ * @param s  pointer to string where we will store the header.
+ *
+ * @return 0 on success
+ * @return -1 on failure
+ */
+</pre><br>
+<br>
+<br>
+<br>
+Document after a member:<br>
+<br>
+Sometimes is allowed to write documentation after the documented entity by using /**&lt; <br>
+<br>
+E.g:<br>
+<pre>int start = 0; /**&lt; Start value of counting sequence. */
+int end = 0; /**&lt; End value of counting sequence. */
+</pre><br>
+<br>
+<br>
+<h5>Grouping:</h5><br>
+If we want to group some entities.<br>
+<br>
+Create a group:<br>
+<br>
+<pre>/**
+ * @defgroup my_group This is a group created for this example.
+ *
+ * This is a detailed description of the new group.
+ * It can expand along several lines.
+ */
+</pre><br>
+<br>
+Another way to create a group. This command does not care if the group was already defined.<br>
+Then it only appends the description to former definition.<br>
+<br>
+<pre>/** @addtogroup my_group
+ * @ingroup upper_group
+ * @{
+ *
+ * This is an example of how to define my_group.
+ * If already defined it appends this description to the group description.
+ */
+</pre><br>
+<br>
+ <b>@ingroup</b> command adds some entity to a group.<br>
+<br>
+<br>
+Manually indicate start and end of a group:<br>
+<br>
+<pre>/** @{ */
+ 
+ Items to group.
+
+ /** @} */
+</pre><br>
+<br>
+We can assign a name to a group:<br>
+<br>
+<pre>
+/**
+ * @name Module parameters
+ *
+ * @brief Here comes all parameters of the module.
+ *
+ * @{
+ */
+
+ int first_parameter;
+ int second_parameter;
+
+ /** @} */
+</pre><br>
+<br>
+<br>
+<br>
+<h5>Add a reference to something</h5><br>
+<b>@ref</b> creates a reference to a named section, subsection, page or anchor.<br>
+<br>
+E.g: reference to my_group group:<br>
+<br>
+<pre> @ref my_group</pre><br>
+<br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

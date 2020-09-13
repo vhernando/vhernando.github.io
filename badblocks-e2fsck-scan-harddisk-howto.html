@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/badblocks-e2fsck-scan-harddisk-howto.html"/>
+	
+
+	
+	<title>How to scan a hard disk partition using badblocks (or e2fsck) - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>How to scan a hard disk partition using badblocks (or e2fsck)</h3></div>
+<div id="content"><br>
+<b>e2fsck</b> and <b>badblocks</b> come inside e2fsprogs package.<br>
+<br>
+e2fsprogs is a set of tools used to create, check or maintain ext2, ext3 and ext4 based file systems.<br>
+<br>
+To install badblocks and e2fsck tools in Debian:<br>
+<code>$ sudo aptitude install e2fsprogs</code><br>
+<br>
+<br>
+<h4>badblocks tool</h4><br>
+badblocks <b>searches for bad blocks</b> on a storage device (usually a disk partition).<br>
+<br>
+<br>
+badblocks man page:<br>
+<code>$ man badblocks</code><br>
+<br>
+<br>
+<b>IMPORTANT</b>: If we are going to use badblocks output to feed e2fsck or mke2fs tools, we need to <b>accurately specify</b> the <b>block size</b>.<br>
+This happens because output block numbers depend on the block size.<br>
+So it is recommended to use e2fsck or mke2fs programs with -c option instead of directly calling badblocks.<br>
+<br>
+<br>
+Nevertheless we are going to run badblocks directly.<br>
+<br>
+To list current devices in our system:<br>
+<code>$ lsblk</code><br>
+<samp>NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT<br>
+ sdb      8:16   0  3.7T  0 disk <br>
+ └─sdb1   8:17   0  3.7T  0 part <br>
+</samp><br>
+<br>
+I am going to check /dev/sdb1 partition.<br>
+<br>
+<br>
+<b>Dump filesystem information</b> (to <b>find block size</b>):<br>
+<code>$ sudo dumpe2fs /dev/sdb1</code><br>
+<br>
+In my /dev/sdb device block size equals 4096.<br>
+<br>
+<br>
+I use badblocks directly with right block size:<br>
+<br>
+<br>
+<code>$ sudo badblocks -b 4096 -n -o out_sdb1 -s -v /dev/sdb1</code><br>
+<samp>Checking for bad blocks in non-destructive read-write mode<br>
+ From block 0 to 976754384<br>
+ Checking for bad blocks (non-destructive read-write test)<br>
+ Testing with random pattern:   0.00% done, 0:09 elapsed. (0/0/0 errors)<br>
+</samp><br>
+<br>
+<b>-b</b> option indicates block size.<br>
+<br>
+<b>-n</b> read-write test.<br>
+<br>
+<b>-o</b> output file with data for e2fsck or mke2fs programs.<br>
+<br>
+<b>-s</b> show progress of the scan.<br>
+<br>
+<b>-v</b> verbose mode<br>
+<br>
+<br>
+<br>
+If I <b>stop badblocks</b> while running, I can <b>restart it</b> again <b>later</b> by indicating the block to start it with:<br>
+<br>
+E.g:<br>
+<br>
+<code>$ sudo badblocks -b 4096 -n -o out_sdb1 -s -v /dev/sdb1</code><br>
+<samp>Checking for bad blocks in non-destructive read-write mode<br>
+ From block 0 to 976754384<br>
+ Checking for bad blocks (non-destructive read-write test)<br>
+ Testing with random pattern: <br>
+</samp><br>
+<br>
+I interrupt it by using Ctrl-c signal.<br>
+<br>
+<samp>1.18% done, 1:35:07 elapsed. (0/0/0 errors)<br>
+<br>
+ Interrupted at block 11481408<br>
+<br>
+ Interrupt caught, cleaning up<br>
+</samp><br>
+<br>
+<br>
+out_sdb1 file shows nothing:<br>
+<code>$ cat out_sdb1</code><br>
+<br>
+<br>
+I rerun badblocks again starting a block 11481408:<br>
+<br>
+<code>$ sudo badblocks -b 4096 -n -o out_sdb1 -s -v /dev/sdb1 976754384 11481408</code><br>
+<samp>Checking for bad blocks in non-destructive read-write mode<br>
+ From block 11481408 to 976754384<br>
+ Checking for bad blocks (non-destructive read-write test)<br>
+ Testing with random pattern:   1.18% done, 0:04 elapsed. (0/0/0 errors)<br>
+</samp><br>
+<br>
+<br>
+If we want to <b>perform read only test</b> (without -n option):<br>
+(it is quicker than read-write one, also read-write scans are not allowed on mounted devices):<br>
+<br>
+<code>$ sudo badblocks -b 4096 -o out_sdb1_002.txt -s -v /dev/sdb1 976754384</code><br>
+<samp>Checking blocks 0 to 976754384<br>
+ Checking for bad blocks (read-only test):   0.01% done, 0:07 elapsed. (0/0/0 errors)<br>
+<br>
+ Checking for bad blocks (read-only test):   3.73% done, 1:01:53 elapsed. (0/0/0 errors)<br>
+</samp><br>
+<br>
+After completed. E.g:<br>
+<br>
+<samp>Checking for bad blocks (read-only test): done<br>
+ Pass completed, 0 bad blocks found. (0/0/0 errors)<br>
+</samp><br>
+<br>
+<br>
+<br>
+<h4>e2fsck tool</h4><br>
+We can <b>check ext2/ext3/ext4</b> type of file systemse2fsck <b>with e2fsck</b> program.<br>
+<br>
+It is <b>not safe to run e2fsck on mounted filesystems</b>.<br>
+<br>
+e2fsck man page:<br>
+<code>$ man e2fsck</code><br>
+<br>
+(From man page):<br>
+When <b>running e2fsck in interactive mode</b> (that it is none of -y, -n, or -p are specified), <br>
+the program will ask the user to fix each problem found in the filesystem. A response of <br>
+&#39;y&#39; will fix the error; &#39;n&#39; will leave the error unfixed; and &#39;a&#39; will fix<br>
+the problem and all subsequent problems; pressing Enter will proceed with the default<br>
+response,  which  is  printed before the question mark.  Pressing Control-C terminates<br>
+e2fsck immediately.<br>
+<br>
+<br>
+Interesting options (from man page):<br>
+<br>
+<b>-c</b>     This option causes e2fsck to use badblocks(8) program to do a read-only scan of<br>
+        the  device in order to find any bad blocks.  If any bad blocks are found, they<br>
+        are added to the bad block inode to prevent them from being allocated to a file<br>
+        or  directory.  If this option is specified twice, then the bad block scan will<br>
+        be done using a non-destructive read-write test.<br>
+<br>
+<br>
+<b>-p</b>     Automatically repair (&#34;preen&#34;) the file system.  This option will cause  e2fsck<br>
+               to  automatically  fix any filesystem problems that can be safely fixed without<br>
+               human intervention.  If e2fsck discovers a problem which may require the system<br>
+               administrator  to  take  additional  corrective  action,  e2fsck  will  print a<br>
+               description of the problem and then exit with the value 4 logically or&#39;ed  into<br>
+               the  exit  code.  (See the EXIT CODE section.)  This option is normally used by<br>
+               the system&#39;s boot scripts.  It may not be specified at the same time as the  -n<br>
+               or -y options.<br>
+<br>
+<b>-t</b>     Print timing statistics for e2fsck.  If this option is used  twice,  additional<br>
+        timing statistics are printed on a pass by pass basis.<br>
+<br>
+<b>-v</b>     Verbose mode.<br>
+<br>
+<br>
+<br>
+I run e2fsck tool in /dev/sdb1 partition:<br>
+<br>
+Only <b>check the file system but do not scan for bad blocks</b>:<br>
+<code>$ sudo e2fsck -p -t -v /dev/sdb1</code><br>
+<samp>BACKUP_DISK: clean, 3485338/244195328 files, 815515700/976754385 blocks</samp><br>
+<br>
+<br>
+<b>Scan the file system in read-write mode</b>:<br>
+<code>$ sudo e2fsck -cc -p -t -v /dev/sdb1</code><br>
+<br>
+Internaly e2fsck calls badblocks:<br>
+<code>$ sudo iotop</code>  # shows badblocks at work:<br>
+<samp> 16.00 M/s   15.76 M/s  0.00 % 97.13 % badblocks -b 4096 -X -n /dev/sdb1 976754384</samp><br>
+<br>
+<br>
+<br>
+If I use <b>e2fcsk without read-write mode</b>:<br>
+<br>
+<code>$ sudo e2fsck -c -p -t -v /dev/sdb1</code><br>
+<samp><br>
+ 38.30 M/s    0.00 B/s  0.00 % 98.03 % badblocks -b 4096 -X /dev/sdb1 976754384<br>
+</samp><br>
+<br>
+<br>
+<br>
+<h5>Call e2fsck passing badblocks output file as argument</h5><br>
+I am going to pass output file results from badblocks as input to e2fsck program to mark bad blocks.<br>
+<br>
+<br>
+From <code>$man e2fsck</code><br>
+<br>
+<b>-l filename</b><br>
+               Add the block numbers listed in the file specified by filename to the list  of<br>
+               bad  blocks.   The format of this file is the same as the one generated by the<br>
+               badblocks(8) program.  Note that the block numbers are based on the  blocksize<br>
+               of  the  filesystem.   Hence,  badblocks(8) must be given the blocksize of the<br>
+               filesystem in order to obtain correct results.  As a result, it is  much  sim‐<br>
+               pler  and  safer to use the -c option to e2fsck, since it will assure that the<br>
+               correct parameters are passed to the badblocks program.<br>
+<br>
+<b>-L filename</b><br>
+               Set the bad blocks list to be the list of blocks specified by filename.  (This<br>
+               option  is  the  same  as the -l option, except the bad blocks list is cleared<br>
+               before the blocks listed in the file are added to the bad blocks list.)<br>
+<br>
+<br>
+<code>$ time sudo e2fsck -l out_sdb1_002.txt -t -v /dev/sdb1</code><br>
+<samp>e2fsck 1.43.6 (29-Aug-2017)<br>
+ BACKUP_DISK: Updating bad block inode.<br>
+ Pass 1: Checking inodes, blocks, and sizes<br>
+ Pass 2: Checking directory structure<br>
+ Pass 3: Checking directory connectivity<br>
+ Pass 4: Checking reference counts<br>
+ Pass 5: Checking group summary information<br>
+<br>
+ BACKUP_DISK: ***** FILE SYSTEM WAS MODIFIED *****<br>
+<br>
+      3485338 inodes used (1.43%, out of 244195328)<br>
+         7109 non-contiguous files (0.2%)<br>
+         1889 non-contiguous directories (0.1%)<br>
+              # of inodes with ind/dind/tind blocks: 0/0/0<br>
+              Extent depth histogram: 3448933/2825/6<br>
+	815515700 blocks used (83.49%, out of 976754385)<br>
+			0 bad blocks<br>
+           37 large files<br>
+<br>
+      3061125 regular files<br>
+       374601 directories<br>
+			7 character device files<br>
+			0 block device files<br>
+			0 fifos<br>
+          271 links<br>
+		49595 symbolic links (33558 fast symbolic links)<br>
+			1 socket<br>
+ ------------<br>
+      3485600 files<br>
+ Memory used: 15984k/1868k (879k/15106k), time: 196.82/44.74/ 6.47<br>
+ I/O read: 2753MB, write: 2MB, rate: 14.00MB/s<br>
+<br>
+ real    3m20.105s<br>
+ user    0m44.778s<br>
+ sys     0m6.615s<br>
+</samp><br>
+<br>
+<br>
+<br>
+<h4>REFERENCE</h4><br>
+<code>$ man badblocks</code><br>
+<br>
+<code>$ man e2fsck</code><br>
+<br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/bitcoin-core-node-build-sources-debian.html"/>
+	
+
+	
+	<title>How to build BitcoinCore from sources in Debian - Vicente Hernando</title>
+	
+	<script data-ad-client="ca-pub-5012168473890397" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script type="text/javascript" language="javascript">
+	  // Supply ads personalization default for EEA readers
+	  // See https://support.google.com/admanager/answer/7678538?authuser=0
+	  adsbygoogle = window.adsbygoogle || [];
+	  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+		  adsbygoogle.requestNonPersonalizedAds = 1;
+	  }
+	</script>
+  </head>
+  <body>
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, cars, singularity, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+<ul>
+
+<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+
+<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+
+<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+
+<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+
+</ul>
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>How to build BitcoinCore from sources in Debian</h3></div>
+<div id="content"><br>
+BitcoinCore is Bitcoin reference implementation.<br>
+<br>
+We are going to download <b>BitcoinCore</b> source code and then <b>build and install</b> it on a <b>Debian</b> Sid system.<br>
+<br>
+<a href="https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md">https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md</a><br>
+<br>
+<br>
+<h4>Get Bitcoin source code</h4><br>
+First we download source code from BitcoinCore repository by using git:<br>
+<code>$ sudo aptitude install git</code><br>
+<br>
+<b>clone Bitcoin repo:</b><br>
+<code>$ git clone https://github.com/bitcoin/bitcoin</code><br>
+<code>$ cd bitcoin</code><br>
+<br>
+We have downloaded master development branch. We rather a stable one, e.g: 0.15 one<br>
+<code>bitcoin$ git branch</code><br>
+<samp>* master</samp><br>
+<br>
+<code>bitcoin$ git remote show</code><br>
+<samp>origin</samp><br>
+<br>
+<code>bitcoin$ git remote show origin</code><br>
+<samp>* remote origin<br>
+  Fetch URL: https://github.com/bitcoin/bitcoin<br>
+  Push  URL: https://github.com/bitcoin/bitcoin<br>
+  HEAD branch: master<br>
+  Remote branches:<br>
+    0.10   tracked<br>
+    0.11   tracked<br>
+    0.12   tracked<br>
+    0.13   tracked<br>
+    0.14   tracked<br>
+    0.15   tracked<br>
+    0.8    tracked<br>
+    0.9    tracked<br>
+    master tracked<br>
+  Local branch configured for &#39;git pull&#39;:<br>
+    master merges with remote master<br>
+  Local ref configured for &#39;git push&#39;:<br>
+    master pushes to master (up to date)</samp><br>
+<br>
+We <b>change into 0.15 branch</b>:<br>
+<code>$ git checkout -b 0.15 --track origin/0.15</code><br>
+<samp>Branch &#39;0.15&#39; set up to track remote branch &#39;0.15&#39; from &#39;origin&#39;.<br>
+Switched to a new branch &#39;0.15&#39;</samp><br>
+<br>
+<code>$ git branch</code><br>
+<samp>* 0.15<br>
+  master</samp><br>
+<br>
+<br>
+<h4>Generate configure file</h4><br>
+We install some dependencies and <b>execute autogen.sh</b> to generate configure file:<br>
+<code>$ sudo aptitude install autoconf libtool pkg-config</code><br>
+<code>$ bash autogen.sh</code><br>
+<br>
+We are going to compile Bitcoin node in a separate directory bitcoin_build<br>
+<code>$ cd ..</code><br>
+<code>$ mkdir bitcoin_build</code><br>
+<code>$ cd bitcoin_build</code><br>
+<br>
+<br>
+<h4>Install Berkeley database version 4.8</h4><br>
+If we install some dependencies more and try to compile:<br>
+<code>$ sudo aptitude install gawk</code><br>
+<code>$ sudo aptitude install g++ make</code><br>
+<code>$ ../bitcoin/configure</code><br>
+<br>
+We get this error:<br>
+<samp>configure: error: libdb_cxx headers missing, Bitcoin Core requires this library for wallet functionality (--disable-wallet to disable wallet functionality)</samp><br>
+<br>
+<br>
+It <b>needs Berkeley database version 4.8 for compatibility with old wallet.dat</b> files.<br>
+<br>
+<a href="https://github.com/bitcoin/bitcoin/issues/3686">https://github.com/bitcoin/bitcoin/issues/3686</a><br>
+<a href="https://talk.peercoin.net/t/xolominer-how-to-compile-and-run-in-linux/825">https://talk.peercoin.net/t/xolominer-how-to-compile-and-run-in-linux/825</a><br>
+<br>
+<br>
+We <b>download Berkeley database and build it</b>:<br>
+<code>$ mkdir bdb-4.8</code><br>
+<code>$ cd bdb_4.8</code><br>
+<code>$ wget http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz</code><br>
+<code>$ tar xvzf db-4.8.30.tar.gz</code><br>
+<code>$ cd db-4.8.30/build_unix/</code><br>
+<code>$ ../dist/configure --enable-cxx</code><br>
+<br>
+<br>
+An <b>error</b> happens <b>because a builtin function in gcc has same name as a macro in bdb</b>:<br>
+<a href="http://rupasundar.blogspot.com.es/2015/02/warning-conflicting-types-for-built-in.html">http://rupasundar.blogspot.com.es/2015/02/warning-conflicting-types-for-built-in.html</a><br>
+<a href="https://github.com/narkoleptik/os-x-berkeleydb-patch/blob/master/atomic.patch">https://github.com/narkoleptik/os-x-berkeleydb-patch/blob/master/atomic.patch</a><br>
+<br>
+<pre>../dist/../dbinc/atomic.h:179:19: warning: conflicting types for built-in function &#39;__atomic_compare_exchange&#39; [-Wbuiltin-declaration-mismatch]
+ static inline int __atomic_compare_exchange(
+
+../dist/../dbinc/atomic.h:147:2: error: incorrect number of arguments to function &#39;__atomic_compare_exchange&#39;
+  __atomic_compare_exchange((p), (o), (n))</pre><br>
+<br>
+I rename __atomic_compare_exchange to __atomic_compare_exchange_db:<br>
+<code>$ nano ../dbinc/atomic.h</code><br>
+<br>
+<pre>#define atomic_compare_exchange(env, p, o, n)   \
+        __atomic_compare_exchange_db((p), (o), (n))</pre><br>
+<br>
+Now we can finish installation of BDB<br>
+<code>$ make</code><br>
+<code>$ sudo make install</code><br>
+<br>
+<br>
+Once bdb-4.8 is installed we continue with Bitcoin compilation:<br>
+<br>
+We need to <b>tell our system where to find db4.8</b><br>
+<code>$ export BDB_INCLUDE_PATH=&#34;/usr/local/BerkeleyDB.4.8/include&#34;</code><br>
+<code>$ export BDB_LIB_PATH=&#34;/usr/local/BerkeleyDB.4.8/lib&#34;</code><br>
+<code>$ sudo ln -s /usr/local/BerkeleyDB.4.8/lib/libdb-4.8.so /usr/lib/libdb-4.8.so</code><br>
+<code>$ sudo ln -s /usr/local/BerkeleyDB.4.8/lib/libdb_cxx-4.8.so /usr/lib/libdb_cxx-4.8.so</code><br>
+<code>$ sudo ldconfig</code><br>
+<br>
+<code>$ cd ~/devel/bitcoin_build$ ../bitcoin/configure</code><br>
+<samp>checking for Berkeley DB C++ headers... no<br>
+configure: error: libdb_cxx headers missing, Bitcoin Core requires this library for wallet functionality (--disable-wallet to disable wallet functionality)</samp><br>
+<br>
+We will <b>set CPPFLAGS and LDFLAGS variables for the compiler and linker to find BDB headers and libraries</b>.<br>
+<code>$ ../bitcoin/configure <b>CPPFLAGS=&#34;-I/usr/local/BerkeleyDB.4.8/include -O2&#34; LDFLAGS=&#34;-L/usr/local/BerkeleyDB.4.8/lib&#34;</b></code><br>
+<br>
+<br>
+<h4>Finish BitcoinCore compilation</h4><br>
+We install boost dependency<br>
+<code>$ sudo aptitude install libboost-all-dev</code><br>
+<br>
+For hexdump binary dependency:<br>
+<code>$ sudo aptitude install bsdmainutils</code><br>
+<br>
+SSL dependency:<br>
+<code>$ sudo aptitude install openssl libssl-dev</code><br>
+<br>
+Finally we compile BitcoinCore:<br>
+<code>$ ../bitcoin/configure CPPFLAGS=&#34;-I/usr/local/BerkeleyDB.4.8/include -O2&#34; LDFLAGS=&#34;-L/usr/local/BerkeleyDB.4.8/lib&#34;</code><br>
+<br>
+<code>$ make</code><br>
+<br>
+<code>$ sudo make install</code><br>
+<br>
+<br>
+Now you can run your BitcoinCore node.<br>
+<a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a><br>
+<br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bash-shell-redirections.html">Bash redirections</a></li>
+
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto.html">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+
+<li><a href="/gdb-gnu-debugger-cheatsheet.html">GDB cheatsheet</a></li>
+
+<li><a href="/gnu-screen-quick-guide-cheatsheet.html">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+<li><a href="/javascript-language-ecmascript.html">JavaScript Language</a></li>
+
+<li><a href="/doxygen-syntax-howto-document.html">Doxygen syntax - How to document with Doxygen</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest updated articles</h4>
+<ul>
+
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+
+<li><a href="/quotes-interesting.html">Interesting Quotes</a></li>
+
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+
+<li><a href="/cryptocoins.html">Cryptocoins</a></li>
+
+<li><a href="/shell-scripting.html">Shell Script Programming</a></li>
+
+</ul>
+</div> <!-- sidebar last updated -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+</ul>
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2020 by Vicente Hernando.</div>
+  </body>
+</html>
