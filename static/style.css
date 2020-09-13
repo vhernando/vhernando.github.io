@@ -1,0 +1,260 @@
+body {
+    margin: 0;
+    padding: 20px 30px;
+	text-align: left;
+	font-family: sans-serif;
+	font-size: 16px;
+	line-height: 1.2;
+	/* color: #090401; */
+}
+
+strong { 
+	font-weight: bold;
+}
+
+code {
+	font-family: courier;
+	display: inline-block;
+    font-size:105%;
+    color:crimson;
+    background-color:#f1f1f1;
+    padding:0.2em;
+}
+
+samp {
+	font-family: courier;
+	display: inline-block;
+    font-size:105%;
+    color:black;
+    background-color:#f1f1f1;
+    padding:0.2em;
+}
+
+kbd {
+	font-family: courier;
+	display: inline-block;
+    font-size:105%;
+    color:#0000bb;
+    background-color:#f1f1f1;
+    padding:0.2em;
+}
+
+pre {
+	font-family: courier;
+	font-size: 105%;
+	color:black;
+	background-color:#f0f0ff;
+	padding:0.4em;
+	border: 1px solid #aaaaaa;
+	border-radius: 0.3em;
+	margin-top: 0.5em;
+	margin-bottom: 0.0em;
+	overflow-x: scroll;
+}
+
+h1 { 
+	color: #2d76c6;
+    font-family: sans-serif;
+    font-size: 2.0em;
+	margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
+h2 { 
+    color: #00AAFF;
+    font-family: sans-serif;
+    font-size: 1.5em;
+	margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
+h3 {
+    font-family: sans-serif;
+    color: #EE8800;
+	font-style: bold;
+    font-size: 1.4em;
+    border-bottom: 1px dotted #aaaa77;
+    text-decoration: none;
+    margin-top: 0.3em;
+    margin-bottom: 0.2em;
+	padding-bottom: 0.3em;
+} 
+
+h4 {
+    font-family: sans-serif;
+    color: #0033ff;
+    /* font-style: bold; */
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight:600;
+    margin-top: 0.3em;
+    margin-bottom: 0.2em;
+}
+
+h5,h6 {
+    font-family: sans-serif;
+    color: #007000;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-top: 0.3em;
+    //margin-left: 1em;
+    margin-bottom: 0.1em;
+}
+
+a:link, a:visited {
+	text-decoration: underline;
+	color: #4d96d6;
+}
+
+a:hover, a:active {
+	text-decoration: underline;
+	color: #2d76c6;
+}
+
+a#web_name {
+	text-decoration: none;
+	color: #2d76c6;
+}
+
+li a{line-height: 1.2;}
+
+#header {
+	padding: 1em;
+	border: solid;
+	border-width: 0.1em;
+	border-color: #2d76c6;
+	border-radius: 1.0em;
+	background: linear-gradient(to right, #CCE0FF, #E6F0FF);
+}
+
+#preview {
+	background-color: #FF4747;
+	color: white;
+	padding: 0.2em;
+	padding-left: 0.5em;
+	margin-bottom: 0.2em;
+	border-radius: 0.5em;
+}
+
+#footer {
+	background-color: #f0f0f0;
+	padding: 0.2em;
+	padding-left: 0.5em;
+	margin-top: 0.5em;
+	margin-bottom: 0.2em;
+	border-radius: 0.5em;
+	border: solid;
+	border-color: #a0a0a0;
+	border-width: 0.1em;
+	clear: both;
+}
+
+.clearfix {
+    overflow: auto;
+}
+
+#content_wrapper {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	padding: 0;
+	overflow: auto;
+	word-wrap: break-word; /* Fix for long words to break into several lines. */
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	padding: 0em;
+}
+
+hr {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	padding: 0em;
+}
+
+#content_page {
+	width: 75%;
+	float: left;
+	margin: 0;
+}
+
+#content {
+	margin: 0;
+	margin-top: 1.0em;
+	margin-bottom: 0.5em;
+}
+
+#page_title {
+	margin: 0;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.sidebar_first {
+	width: 22%;
+	/* max-width: 300px; */
+	padding: 0.3em;
+	background-color: #f9f9ff;
+	float: right;
+	border-radius: 0.5em;
+	border: solid;
+	border-color: #000000;
+	border-width: 0.1em;
+	margin: 0;
+	margin-bottom: 0.2em;
+}
+
+.sidebar_last {
+	width: 22%;
+	/* max-width: 300px; */
+	padding: 0.3em;
+	background-color: #f9f9ff;
+	float: right;
+	clear: right;
+	border-radius: 0.5em;
+	border: solid;
+	border-color: #000000;
+	border-width: 0.1em;
+	margin: 0;
+	margin-bottom: 0.2em;
+}
+
+.sidebar_title {
+	font-size: 1.0em;
+	color: #ffffff;
+	background-color: #00aaff;
+	padding: 0.1em;
+	padding-left:0.2em;
+	margin: 0.2em;
+	border-radius: 0.2em;
+}
+
+.edit_content {
+	margin: 0%;
+	width: 99.5%;
+	height: 25em;
+}
+
+@media (max-width: 1000px) {
+	#header {padding: 0.2em;}
+	h1 {font-size: 1.6em;}
+	li a{line-height: 1.8;}
+	#content_page {
+		float: none;
+		clear: both;
+		width: 100%;
+		margin-top: 1.0em;
+		margin-bottom: 1.0em;
+	}
+	.sidebar_first {
+		float: none;
+		clear: both;
+		width: auto;
+	}
+	.sidebar_last {
+		float: none;
+		clear: both;
+		width: auto;
+	}
+}
