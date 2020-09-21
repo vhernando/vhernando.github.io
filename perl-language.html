@@ -6,11 +6,11 @@
 	
 	<link rel="shortcut icon"  href="/static/favicon.ico"/>
 	<link rel="stylesheet" href="/static/style.css"/>
-	<link rel="canonical" href="https://vhernando.github.io/factorial-function-scheme.html"/>
+	<link rel="canonical" href="https://vhernando.github.io/perl-language.html"/>
 	
 
 	
-	<title>Scheme: factorial function - Vicente Hernando</title>
+	<title>Perl language - Vicente Hernando</title>
 	
 	<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -63,33 +63,87 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <div id="content_page" class="clearfix">
-<div id="page_title"><h3>Scheme: factorial function</h3></div>
+<div id="page_title"><h3>Perl language</h3></div>
 <div id="content"><br>
-Implementation of factorial function in Scheme language.<br>
+Perl is a high-level, general-purpose, interpreted, dynamic programming language designed by Larry Wall.<br>
 <br>
-It is based on the formula:<br>
-<samp>n! = n * (n - 1)!</samp><br>
-and<br>
-<samp>0! = 1</samp><br>
+<a href="https://en.wikipedia.org/wiki/Perl">Perl (Wikipedia)</a><br>
+<br>
+Official site:<br>
+<a href="https://www.perl.org/">https://www.perl.org/</a><br>
 <br>
 <br>
-This first implementation in a recursive way:<br>
+<br>
+<h4>Perl introduction</h4><br>
+<a href="https://perldoc.perl.org/5.32.0/perlintro.html">https://perldoc.perl.org/5.32.0/perlintro.html</a><br>
+<br>
+<br>
+<br>
+<h4>Tutorials</h4><br>
+<a href="https://www.tutorialspoint.com/perl/index.htm">https://www.tutorialspoint.com/perl/index.htm</a><br>
+<br>
+<br>
+<br>
+<h4>Example: calculate square root number</h4><br>
+<br>
+We create a file with this code. E.g: square_big.pl<br>
 <pre>
-(define (factorial x)
-  (if (= x 0)
-	  1
-	  (* x (factorial (- x 1)))))
+#!/usr/bin/perl
+
+# Calculate square root of a number.
+
+use strict;
+use warnings;
+use bignum;
+
+# 500 digits maximum precision.
+Math::BigFloat-&gt;precision(-500);
+
+my $number = shift;
+die &#34;No number to calculate square root\n&#34; unless (defined $number);
+
+die &#34;Number shall be greater or equal than zero\n&#34; unless ($number &gt;= 0);
+
+# Hardcoded precision limit.
+my $limit = 1e-490;
+
+sub square_root {
+
+	my $num = shift;
+
+	my $low = 0;
+	my $high = ($num &lt; 1) ? $num: 1;
+
+	my $av = ($low + $high) / 2;
+
+	my $square;
+
+	while ($high - $low &gt; $limit) {
+
+		$square = $av * $av;
+
+		if ($square &gt; $num) {
+			$high = $av;
+		} elsif ($square &lt; $num) {
+			$low = $av;
+		} else {
+			return $av;
+		}
+
+		$av = ($low + $high) / 2;
+	}
+
+	return $av;
+}
+
+
+print &#34;Square root of $number: &#34;, square_root($number), &#34;\n&#34;;
 </pre><br>
 <br>
-This second implementation in a iterative way:<br>
-<pre>
-(define (factorial x)
-  (define (fact-iter a product)
-	(if (= a 0)
-		product
-		(fact-iter (- a 1) (* product a))))
-  (fact-iter x 1))
-</pre><br>
+To invoque this script:<br>
+<code>$ perl square_big.pl 2</code><br>
+<samp>Square root of 2: 1.41421356237309504880168872420969807856967187537694807317667973799073247846210703885038753432764157273501384623091229702492483605585073721264412149709993583141322266592750559275579995050115278206057147010955997160597027453459686201472851741864088919860955232923048430871432145083976260362799525140798968725339654633180882964062061525835239505474575028775996172983557522033753185701135437460340849884716038689997069900481503054402779031645424782306849293691862158057846311159666871301301561854084226857<br>
+</samp><br>
 <br>
 </div> <!-- content -->
 </div><!-- content_page -->
