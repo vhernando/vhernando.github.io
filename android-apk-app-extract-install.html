@@ -6,7 +6,7 @@
 	
 	<link rel="shortcut icon"  href="/static/favicon.ico"/>
 	<link rel="stylesheet" href="/static/style.css"/>
-	<link rel="canonical" href="https://vhernando.github.io/android-apk-app-extract-install.html"/>
+	<link rel="canonical" href="https://vhernando.github.io/android-apk-app-extract-install"/>
 	
 
 	
@@ -49,22 +49,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
 <ul>
 
-<li><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a></li>
+<li><a href="/android-how-to-install-adb-fastboot-debian">Android: How to install adb and fastboot in Debian</a></li>
 
-<li><a href="/sqlite3-cheat-sheet.html">SQLite3 Cheat Sheet</a></li>
+<li><a href="/sqlite3-cheat-sheet">SQLite3 Cheat Sheet</a></li>
 
-<li><a href="/sqlite3-cross-compile-arm-howto.html">How to cross-compile SQLite3 for ARM architecture</a></li>
+<li><a href="/sqlite3-cross-compile-arm-howto">How to cross-compile SQLite3 for ARM architecture</a></li>
 
-<li><a href="/benchmark-hard-disk-linux-hdparm-dd.html">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
 
-<li><a href="/archlinux-install-usb-from-debian-existing-linux.html">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+<li><a href="/archlinux-install-usb-from-debian-existing-linux">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
 
 </ul>
 </div>
 
 <div id="content_page" class="clearfix">
 <div id="page_title"><h3>Android aplication: How to extract an APK file and reinstall it</h3></div>
-<div id="content"><br>We are going to find an <b>Android application</b> and <b>extract</b> its <b>APK file</b>.<br><br>After that we will reinstall it.<br><br><br><h4>List installed packages and find the app name</h4><br>This adb command <b>list all installed applications</b> in your phone.<br><br><code>$ adb shell pm list packages</code><br><samp>package:com.firestudio.movietube<br>package:com.tmsoft.whitenoise.lite<br>package:com.skype.raider<br>package:com.halfbrick.jetpackjoyride<br>package:com.aob.android.mnm<br>package:com.farproc.wifi.analyzer<br>package:com.android.providers.telephony<br>package:com.bigduckgames.flow<br>package:com.google.android.googlequicksearchbox<br>....</samp><br><br><br>There are a lot, so another way to <b>find the application name</b> is using a <b>web browser</b>, going to <b>Google Play</b> and finding there the app.<br><br>The <b>URL contains the app name</b>:<br><br>E.g: https://play.google.com/store/apps/details?id=com.psa.sa<br><br>The app name I am looking for is <b>com.psa.sa</b>.<br><br><br><br>Other way, <b>when installing the app</b> I could <b>perform a diff in the list</b>:<br><code>$ adb shell pm list packages &gt; list_pre.txt</code><br>Install the app<br><code>$ adb shell pm list packages &gt; list_post.txt</code><br><code>$ diff list_pre.txt list_post.txt</code><br><samp>95a96<br>&gt; package:com.psa.sa</samp><br><br><br><h4>Find the application actual path to extract it</h4><br>Find the path of the application file:<br><code>$ adb shell pm path com.psa.sa</code><br><samp>package:/data/app/com.psa.sa-1/base.apk</samp><br><br><b>Extract the APK file</b> to your hard disk:<br><code>$ adb pull /data/app/com.psa.sa-1/base.apk</code><br><samp>3783 KB/s (4785000 bytes in 1.235s)</samp><br><br><br>We get base.apk file.<br><br><br><h4>Install the app from the APK file</h4><br>To install the app:<br><code>$ adb install -s base.apk</code><br><samp>3403 KB/s (4785000 bytes in 1.372s)<br>	pkg: /sdcard/tmp/base.apk<br>Success</samp><br><br>or <b>uninstall</b> it:<br><br><code>$ adb uninstall com.psa.sa</code><br><samp>Success</samp><br><br><br><h4>REFERENCE</h4><br><a href="http://stackoverflow.com/questions/4032960/how-do-i-get-an-apk-file-from-an-android-device">http://stackoverflow.com/questions/4032960/how-do-i-get-an-apk-file-from-an-android-device</a><br><br><a href="/android-how-to-install-adb-fastboot-debian.html">Android: How to install adb and fastboot in Debian</a><br><br></div> <!-- content -->
+<div id="content"><br>We are going to find an <b>Android application</b> and <b>extract</b> its <b>APK file</b>.<br><br>After that we will reinstall it.<br><br><br><h4>List installed packages and find the app name</h4><br>This adb command <b>list all installed applications</b> in your phone.<br><br><code>$ adb shell pm list packages</code><br><samp>package:com.firestudio.movietube<br>package:com.tmsoft.whitenoise.lite<br>package:com.skype.raider<br>package:com.halfbrick.jetpackjoyride<br>package:com.aob.android.mnm<br>package:com.farproc.wifi.analyzer<br>package:com.android.providers.telephony<br>package:com.bigduckgames.flow<br>package:com.google.android.googlequicksearchbox<br>....</samp><br><br><br>There are a lot, so another way to <b>find the application name</b> is using a <b>web browser</b>, going to <b>Google Play</b> and finding there the app.<br><br>The <b>URL contains the app name</b>:<br><br>E.g: https://play.google.com/store/apps/details?id=com.psa.sa<br><br>The app name I am looking for is <b>com.psa.sa</b>.<br><br><br><br>Other way, <b>when installing the app</b> I could <b>perform a diff in the list</b>:<br><code>$ adb shell pm list packages &gt; list_pre.txt</code><br>Install the app<br><code>$ adb shell pm list packages &gt; list_post.txt</code><br><code>$ diff list_pre.txt list_post.txt</code><br><samp>95a96<br>&gt; package:com.psa.sa</samp><br><br><br><h4>Find the application actual path to extract it</h4><br>Find the path of the application file:<br><code>$ adb shell pm path com.psa.sa</code><br><samp>package:/data/app/com.psa.sa-1/base.apk</samp><br><br><b>Extract the APK file</b> to your hard disk:<br><code>$ adb pull /data/app/com.psa.sa-1/base.apk</code><br><samp>3783 KB/s (4785000 bytes in 1.235s)</samp><br><br><br>We get base.apk file.<br><br><br><h4>Install the app from the APK file</h4><br>To install the app:<br><code>$ adb install -s base.apk</code><br><samp>3403 KB/s (4785000 bytes in 1.372s)<br>	pkg: /sdcard/tmp/base.apk<br>Success</samp><br><br>or <b>uninstall</b> it:<br><br><code>$ adb uninstall com.psa.sa</code><br><samp>Success</samp><br><br><br><h4>REFERENCE</h4><br><a href="http://stackoverflow.com/questions/4032960/how-do-i-get-an-apk-file-from-an-android-device">http://stackoverflow.com/questions/4032960/how-do-i-get-an-apk-file-from-an-android-device</a><br><br><a href="/android-how-to-install-adb-fastboot-debian">Android: How to install adb and fastboot in Debian</a><br><br></div> <!-- content -->
 </div><!-- content_page -->
 
 <div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
@@ -89,22 +89,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
 
 <ul>
-<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher.html">How to encrypt and decrypt your Bitcoin wallet</a></li>
-<li><a href="/bitcoin-core-node-build-sources-debian.html">How to build BitcoinCore from sources in Debian</a></li>
-<li><a href="/pacman-cheat-sheet-archlinux.html">Pacman cheat sheet (Arch Linux)</a></li>
-<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b.html">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
-<li><a href="/run-bitcoin-node-debian-how-to.html">How to run a Bitcoin node in Debian</a></li>
-<li><a href="/android-apk-app-extract-install.html">Android aplication: How to extract an APK file and reinstall it</a></li>
-<li><a href="/ffmpeg-commands.html">FFmpeg commands</a></li>
-<li><a href="/factorial-function-scheme.html">Scheme: factorial function</a></li>
-<li><a href="/ratpoison-window-manager.html">Ratpoison window manager</a></li>
-<li><a href="/directfb-generate-api-documentation-html.html">How to generate API reference documentation for DirectFB</a></li>
-<li><a href="/xbindkeys-grab-keys-X.html">xbindkeys: how to bind keys to commands (X window)</a></li>
-<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin.html">bitcoind: How to create a wallet with no private keys</a></li>
-<li><a href="/imagemagick-intro-convert-montage-identify.html">ImageMagick: Introduction (identify, convert, montage)</a></li>
-<li><a href="/keyboard-shorcuts-bash-readline-default.html">Bash shell: default keyboard shortcuts</a></li>
-<li><a href="/git-command-quick-reminder.html">Git Command Quick Reminder</a></li>
-<li><a href="/rpm-yum-quick-reference.html">RPM Package Management Quick Reference</a></li>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/android-apk-app-extract-install">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme">Scheme: factorial function</a></li>
+<li><a href="/ratpoison-window-manager">Ratpoison window manager</a></li>
+<li><a href="/directfb-generate-api-documentation-html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/xbindkeys-grab-keys-X">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/imagemagick-intro-convert-montage-identify">ImageMagick: Introduction (identify, convert, montage)</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/git-command-quick-reminder">Git Command Quick Reminder</a></li>
+<li><a href="/rpm-yum-quick-reference">RPM Package Management Quick Reference</a></li>
 </ul>
 </div> <!-- sidebar recommended -->
 
