@@ -84,8 +84,8 @@ Official site:<br>
 <br>
 <br>
 <br>
-<h4>Example: calculate square root of a number</h4><br>
-<br>
+<h4>Examples:</h4><br>
+<h5>Calculate square root of a number</h5><br>
 We create a file with this code. E.g: square_big.pl<br>
 <pre>
 #!/usr/bin/perl
@@ -144,6 +144,88 @@ To execute this script:<br>
 <code>$ perl square_big.pl 2</code><br>
 <samp>Square root of 2: 1.41421356237309504880168872420969807856967187537694807317667973799073247846210703885038753432764157273501384623091229702492483605585073721264412149709993583141322266592750559275579995050115278206057147010955997160597027453459686201472851741864088919860955232923048430871432145083976260362799525140798968725339654633180882964062061525835239505474575028775996172983557522033753185701135437460340849884716038689997069900481503054402779031645424782306849293691862158057846311159666871301301561854084226857<br>
 </samp><br>
+<br>
+<br>
+<h5>Calculate PI number</h5><br>
+We create a file with this code. E.g: pi_big.pl<br>
+<pre>
+#!/usr/bin/perl -w
+
+# Calculate PI number using this formula:
+#   r[0] = 0;
+#   r[i+1] = sqrt((1 + r[i]) / 2);
+#   delta[i] = (2**(i+1)) * (1 - r[i]) * sqrt(1 - r[i]*r[i]);
+#   pi = delta[0] + delta[1] + delta[2] + ... + delta[i] + ...  ; i = 0 .. inf
+
+use strict;
+use warnings;
+use bignum;
+
+Math::BigFloat-&gt;precision(-500);
+
+my $digits = shift or 20;
+
+my $limit = 1e-490;
+
+sub square_root {
+
+	my $num = shift;
+
+	# print &#34;num: $num\n&#34;;
+
+	my $low = 0;
+	my $high = ($num &gt; 1) ? $num: 1;
+
+	my $av = ($low + $high) / 2;
+
+	my $square;
+
+	while ($high - $low &gt; $limit) {
+
+		$square = $av * $av;
+
+		if ($square &gt; $num) {
+			$high = $av;
+		} elsif ($square &lt; $num) {
+			$low = $av;
+		} else {
+			return $av;
+		}
+
+		$av = ($low + $high) / 2;
+	}
+
+	return $av;
+}
+
+
+my $count = 0;
+my $rr = 0;
+my $rr_sq = 0;
+my $acc = 0;
+my $mult = 2;
+
+while ($count &lt; $digits) {
+
+	$acc += ($mult * (1 - $rr) * square_root(1 - $rr_sq));
+	$rr_sq = (1 + $rr) / 2;
+	$rr = square_root($rr_sq);
+	
+	print &#34;\ncount: $count -&gt; acc: $acc\n&#34;;
+	$count++;
+	$mult *= 2;
+}
+
+print &#34;PI: $acc\n&#34;;
+
+</pre><br>
+<br>
+To execute this script:<br>
+<code>$ perl pi_big.pl 50</code><br>
+<samp>$ perl pi_big04.pl 50<br>
+PI: 3.14159265358979323846264338327542627761557698854124379668821332323163585454318619321347588827072794848299290125513043752475748631743709756275331493480837846155277063608424036342205923256904780973128978200129229250763907729304707285930150362119621428986239487332176390225309519883197664464156069660363571538639339858639258251218865408882290823280739309476412316920700408387459099100919685855465403907867105565899417280273100454810773478888978992514659302910842961017524463089418768200086897001863102645<br>
+</samp><br>
+<br>
 <br>
 </div> <!-- content -->
 </div><!-- content_page -->
