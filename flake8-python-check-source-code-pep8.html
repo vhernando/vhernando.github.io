@@ -6,11 +6,11 @@
 	
 	<link rel="shortcut icon"  href="/static/favicon.ico"/>
 	<link rel="stylesheet" href="/static/style.css"/>
-	<link rel="canonical" href="https://vhernando.github.io/sqlite3-cross-compile-arm-howto"/>
+	<link rel="canonical" href="https://vhernando.github.io/flake8-python-check-source-code-pep8"/>
 	
 
 	
-	<title>How to cross-compile SQLite3 for ARM architecture - Vicente Hernando</title>
+	<title>Flake8 tool to check python source code - Vicente Hernando</title>
 	
 	<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -63,56 +63,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <div id="content_page" class="clearfix">
-<div id="page_title"><h3>How to cross-compile SQLite3 for ARM architecture</h3></div>
-<div id="content"><br>
-We are going to cross-compile SQLite3 database for ARM architecture.<br>
-<br>
-<br>
-<h4>Download source code</h4><br>
-SQLite download page: (This page needs JavaScript enabled)<br>
-<a href="http://www.sqlite.org/download.html">http://www.sqlite.org/download.html</a><br>
-<br>
-We download tar.gz source code.<br>
-<br>
-<code>$ wget http://www.sqlite.org/2017/sqlite-autoconf-3160200.tar.gz</code><br>
-<code>$ tar xvzf sqlite-autoconf-3160200.tar.gz</code><br>
-<br>
-<code>$ cd sqlite-autoconf-3160200/</code><br>
-<br>
-<br>
-<h4>Configure for cross-compilation</h4><br>
-When executing configure script we indicate:<br>
-<ul><li><b>arm-linux</b> in host option</li><br>
-<li>the location of the C cross-compiler from our toolchain in CC option</li><br>
-<li>Set prefix option to a place where you want to install SQLite3</li></ul><br>
-<code>$ ./configure --host=arm-linux --prefix=devel/Libs CC=/opt/compiler/glibc-oabi-toolchain-arm-generic/bin/arm-unknown-linux-gnu-gcc</code><br>
-<br>
-<br>
-<h4>Build and Install</h4><br>
-The process to compile is straight forward<br>
-<code>$ make</code><br>
-<br>
-A binary sqlite3 appears and libraries are placed in .libs directory:<br>
-<br>
-<pre>
-$ ls -l .libs
-total 8364
--rw-r--r--. 1 root root 2926316 Jan 23 21:23 libsqlite3.a
-lrwxrwxrwx. 1 root root      16 Jan 23 21:23 libsqlite3.la -&gt; ../libsqlite3.la
--rw-r--r--. 1 root root     958 Jan 23 21:23 libsqlite3.lai
-lrwxrwxrwx. 1 root root      19 Jan 23 21:23 libsqlite3.so -&gt; libsqlite3.so.0.8.6
-lrwxrwxrwx. 1 root root      19 Jan 23 21:23 libsqlite3.so.0 -&gt; libsqlite3.so.0.8.6
--rwxr-xr-x. 1 root root 2655892 Jan 23 21:23 libsqlite3.so.0.8.6
--rw-r--r--. 1 root root 2969604 Jan 23 21:22 sqlite3.o
-</pre><br>
-<br>
-To install them:<br>
-<code>$ make install</code><br>
-<br>
-sqlite3 and libsqlite3 binaries can now be used in an ARM platform.<br>
-<br>
-<br>
-</div> <!-- content -->
+<div id="page_title"><h3>Flake8 tool to check python source code</h3></div>
+<div id="content"><b>Flake8</b> is a wrapper around several tools:<br/><br/><ul><li><b>PyFlakes</b>:</li> check source files for errors.<br/><li><b>pycodestyle</b>:</li> check source code against PEP8 conventions.<br/><li><b>Ned Batchelder’s McCabe script</b>:</li> perform McCabe complexity check.<br/></ul><br/><br/>Source code in GitLab repo:<br/><a href="https://gitlab.com/pycqa/flake8">https://gitlab.com/pycqa/flake8</a><br/><br/><br/><br/>Flake8 documentation:<br/><a href="https://flake8.pycqa.org/en/latest/index.html">https://flake8.pycqa.org/en/latest/index.html</a><br/><br/>Flake8 quickstart:<br/><a href="https://flake8.pycqa.org/en/latest/index.html#quickstart">https://flake8.pycqa.org/en/latest/index.html#quickstart</a><br/><br/><br/><br/><a href="https://pypi.org/project/flake8/">https://pypi.org/project/flake8/</a><br/><br/><b>Install flake8</b> using pip installer:<br/><code>$ pip install flake8</code><br/><br/><br/><b>Show help:</b><br/><br/><a href="https://flake8.pycqa.org/en/latest/user/options.html">https://flake8.pycqa.org/en/latest/user/options.html</a><br/><br/><code>$ flake8 --help</code><br/><samp>usage: flake8 [options] file file ...<br/><br/>positional arguments:<br/>  filename<br/><br/>optional arguments:<br/>  -h, --help            show this help message and exit<br/>  -v, --verbose         Print more information about what is happening in flake8. This option is repeatable and will increase verbosity each time it is repeated.<br/>  --output-file OUTPUT_FILE<br/></samp><br/><br/><br/><br/><b>Execute flake8</b> to test one or several files:<br/><br/><code>$ flake8 main.py</code><br/><br/><code>$ flake8 main.py database.py</code><br/><br/><br/>or for the whole project in current directory:<br/><br/><code>$ flake8 .</code><br/><samp>./main.py:18:1: F401 'wtforms.StringField' imported but unused<br/>./main.py:186:13: F821 undefined name 'l'<br/>./main.py:327:9: F841 local variable 'save' is assigned to but never used<br/>./database.py:5:1: F401 'logging' imported but unused<br/>./database.py:8:1: F401 'logging.warning as lwarn' imported but unused<br/>./database.py:10:1: F401 'logging.exception as lexcept' imported but unused<br/></samp><br/><br/><br/><b>Check for several specific errors or warnings</b>:<br/><code>$ flake8 --select E303,E501 main.py</code><br/><samp>main.py:5:80: E501 line too long (92 > 79 characters)<br/>main.py:6:80: E501 line too long (94 > 79 characters)<br/></samp><br/><br/><br/><b>Ignore several warnings or errors</b>:<br/><code>$ flake8 --ignore E501 main.py</code><br/><br/><br/><br/>We can <b>create a configuration file</b> (using INI format):<br/><a href="https://flake8.pycqa.org/en/latest/user/configuration.html">https://flake8.pycqa.org/en/latest/user/configuration.html</a><br/><a href="https://flake8.pycqa.org/en/latest/user/options.html#options-list">https://flake8.pycqa.org/en/latest/user/options.html#options-list</a><br/><a href="https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-select">https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-select</a><br/><br/>E.g: <b>.flake8</b> in the project directory:<br/><br/><nl_off><pre>[flake8]<br/>ignore = E501,E303<br/><br/>select = E,W<br/><br/>exclude = .git,<br/>          __pycache__,<br/>	  main.py<br/><br/>max-line-length = 100<br/><br/>max-complexity = 10<br/></pre><nl_on><br/><br/><br/>We can execute <code>$ flake8</code> and it will read options from config file <b>.flake8</b><br/><br/>Command line options override configuration file ones.<br/><br/><br/><br/><br/><br/></div> <!-- content -->
 </div><!-- content_page -->
 
 <div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
