@@ -6,11 +6,11 @@
 	
 	<link rel="shortcut icon"  href="/static/favicon.ico"/>
 	<link rel="stylesheet" href="/static/style.css"/>
-	<link rel="canonical" href="https://vhernando.github.io/programming"/>
+	<link rel="canonical" href="https://vhernando.github.io/calculate-pi-digits-python-high-precision"/>
 	
 
 	
-	<title>Programming - Vicente Hernando</title>
+	<title>Calculate PI digits (arbitrary-precision) using Python - Vicente Hernando</title>
 	
 	<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -63,61 +63,114 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <div id="content_page" class="clearfix">
-<div id="page_title"><h3>Programming</h3></div>
+<div id="page_title"><h3>Calculate PI digits (arbitrary-precision) using Python</h3></div>
 <div id="content"><br>
-<ul><li><a href="/C-language">C Language</a></li><br>
-<li><a href="/python-language">Python</a></li><br>
-<li><a href="/rust-language">Rust</a></li><br>
-<li><a href="/r-language">R language</a></li><br>
-<li><a href="/lua-language">Lua</a></li><br>
-<li><a href="/shell-scripting">Shell Script programming</a></li><br>
-<li><a href="/golang-hello-world-debian">Go language - hello world (in Debian)</a></li><br>
-<li><a href="/scheme-language">Scheme language</a></li><br>
-<li><a href="/web-development">Web Development</a></li><br>
-<li><a href="/javascript-language-ecmascript">JavaScript Language</a></li><br>
-<li><a href="https://en.wikipedia.org/wiki/Criticism_of_Java">Criticism of Java (Wikipedia)</a></li><br>
-<li><a href="/perl-language">Perl language</a></li></ul><br>
+We are going to <b>calculate PI</b> number with an arbitrarily <b>high precision</b>.<br>
 <br>
 <br>
-<h4>Ebooks</h4><br>
-<a href="https://mitpress.mit.edu/sicp/">Structure and Interpretation of Computer Programs</a> By Abelson, Sussman and Sussman.<br>
+We copy following code in a file. e.g: <b>pi_digits.py</b><br>
 <br>
-<a href="http://www.catb.org/esr/writings/taoup/html/">The Art of Unix Programming</a> By Eric Steven Raymond.<br>
-<a href="http://www.faqs.org/docs/artu/ch01s06.html">Basics of the Unix Philosophy</a><br>
+Then we will execute it like this:<br>
 <br>
-<br>
-<h4>Algorithms</h4><br>
-<a href="http://www2.units.it/ipl/students_area/imm2/files/Numerical_Recipes.pdf">Numerical Recipes in C</a><br>
+<code>$ python3 pi_digits.py 100</code><br>
+<samp>PI:  3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068</samp><br>
 <br>
 <br>
-<h4>Crockford on JavaScript talks</h4><br>
-<a href="https://www.youtube.com/watch?v=JxAXlJEmNMg">Crockford on JavaScript - Volume 1: The Early Years</a><br>
 <br>
-<a href="https://www.youtube.com/watch?v=RO1Wnu-xKoY">Crockford on JavaScript - Chapter 2: And Then There Was JavaScript</a><br>
+<pre>#!/usr/bin/python3
+
+# Calculate PI number using this formula:
+# x[n+1] = x[n] + sin(x[n])
+#
+# x[n+1] = x[n] + x[n] + x[n]**3/fact(3) - x[n]**5/fact(5) + x[n]**7/fact(7) - x[n]**9/fact(9) + ....
+
+from decimal import getcontext, Decimal
+import sys
+
+if len(sys.argv) &lt; 2:
+    print(&#39;Not enough arguments&#39;)
+    quit()
+
+precision = int(sys.argv[1])
+excess_prec = 2
+
+prec_cur = 100 if precision &gt; 100 else precision
+
+getcontext().prec = prec_cur + excess_prec
+
+second = Decimal(3)  # Current element for PI
+queue_cur = [Decimal(0), Decimal(0), Decimal(0), second]
+
+qq_append = queue_cur.append
+qq_pop = queue_cur.pop
+
+limit = Decimal(10) ** (-prec_cur - excess_prec)
+
+while True:
+
+    sec_sq = second * second
+    term = second
+    acc = second + term
+    count = Decimal(1)
+
+    while term &gt; limit:
+
+        term *= sec_sq / ((count + 1) * (count + 2))
+        acc -= term
+        # print (&#39;term1: {}&#39;.format(term))
+
+        term *= sec_sq / ((count + 3) * (count + 4))
+        acc += term
+
+        count += 4
+        # print (&#39;term2: {}&#39;.format(term))
+
+    # print (&#39;acc: {}&#39;.format(second))
+    if acc in queue_cur:
+        if prec_cur &lt; precision:
+            prec_cur += prec_cur
+            if prec_cur &gt; precision:
+                prec_cur = precision
+            limit = Decimal(10) ** (-prec_cur - excess_prec)
+            getcontext().prec = prec_cur + excess_prec
+
+        else:
+            second = acc
+            break
+
+    qq_append(acc)
+    qq_pop(0)
+    second = acc
+    # print (&#39;second: {}&#39;.format(second))
+
+getcontext().prec = precision
+print(&#34;PI: &#34;, +second)
+</pre><br>
 <br>
-<a href="https://www.youtube.com/watch?v=ya4UHuXNygM">Crockford on JavaScript - Act III: Function the Ultimate</a><br>
-<br>
-<a href="https://www.youtube.com/watch?v=Fv9qT9joc0M">Crockford on JavaScript - Episode IV: The Metamorphosis of Ajax</a><br>
-<br>
-<a href="https://www.youtube.com/watch?v=47Ceot8yqeI">Crockford on JavaScript - Part 5: The End of All Things</a><br>
-<br>
-<a href="https://www.youtube.com/watch?v=QgwSUtYSUqA">Crockford on JavaScript - Scene 6: Loopage</a><br>
-<br>
-<a href="https://www.youtube.com/watch?v=UTEqr0IlFKY">Crockford on JavaScript - Level 7: ECMAScript 5: The New Parts</a><br>
 <br>
 <br>
-<h4>Security</h4><br>
-<a href="http://www.dwheeler.com/secure-programs/">Secure Programming HOWTO - Creating Secure Software</a><br>
+This code runs this <b>formula recursively</b>:<br>
+<code>x[n+1] = x[n] + sin(x[n])</code><br>
+<br>
+When near PI number (e.g: 3) it converges to PI.<br>
 <br>
 <br>
-<h4>Papers</h4><br>
-<a href="http://www.paulgraham.com/icad.html">Revenge of the Nerds</a><br>
+sin(x) function is also calculated using a Taylor series: <a href="https://en.wikipedia.org/wiki/Taylor_series">https://en.wikipedia.org/wiki/Taylor_series</a><br>
+<br>
+sin(x) = x - (x**3)/factorial(3) + (x**5)/factorial(5) - (x**7)/factorial(7) ...<br>
 <br>
 <br>
-<h4>Language comparison</h4><br>
-<a href="https://insights.stackoverflow.com/trends?tags=java%2Cc%2Cc%2B%2B%2Cpython%2Cc%23%2Cvb.net%2Cjavascript%2Cassembly%2Cphp%2Cperl%2Cruby%2Cswift%2Cr%2Cobjective-c">Stack Overflow Trends: Most Popular Languages</a><br>
+So our <b>formula to calculate PI</b> becomes:<br>
 <br>
-<a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The Computer Language Benchmarks Game</a><br>
+<code>x[n+1] = x[n] + x[n] - (x[n]**3)/factorial(3) + (x[n]**5)/factorial(5) - (x[n]**7)/factorial(7) + ...</code><br>
+<br>
+<br>
+<br>
+Code starts calculations using 100 digits of precision, and duplicates it until it reaches precision specified in command line.<br>
+<br>
+<br>
+<br>
+Let&#39;s test the script with a bigger precision: <a href="/pi-digits-500000-calculate">500000 digits of PI</a><br>
 <br>
 <br>
 </div> <!-- content -->

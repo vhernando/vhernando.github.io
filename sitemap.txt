@@ -1,3 +1,5 @@
+https://vhernando.github.io/pi-digits-500000-calculate
+https://vhernando.github.io/calculate-pi-digits-python-high-precision
 https://vhernando.github.io/flake8-python-check-source-code-pep8
 https://vhernando.github.io/perl-language
 https://vhernando.github.io/bash-shell-redirections

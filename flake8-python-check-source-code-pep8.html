@@ -64,11 +64,120 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div id="content_page" class="clearfix">
 <div id="page_title"><h3>Flake8 tool to check python source code</h3></div>
-<div id="content"><b>Flake8</b> is a wrapper around several tools:<br/><br/><ul><li><b>PyFlakes</b>:</li> check source files for errors.<br/><li><b>pycodestyle</b>:</li> check source code against PEP8 conventions.<br/><li><b>Ned Batchelder’s McCabe script</b>:</li> perform McCabe complexity check.<br/></ul><br/><br/>Source code in GitLab repo:<br/><a href="https://gitlab.com/pycqa/flake8">https://gitlab.com/pycqa/flake8</a><br/><br/><br/><br/>Flake8 documentation:<br/><a href="https://flake8.pycqa.org/en/latest/index.html">https://flake8.pycqa.org/en/latest/index.html</a><br/><br/>Flake8 quickstart:<br/><a href="https://flake8.pycqa.org/en/latest/index.html#quickstart">https://flake8.pycqa.org/en/latest/index.html#quickstart</a><br/><br/><br/><br/><a href="https://pypi.org/project/flake8/">https://pypi.org/project/flake8/</a><br/><br/><b>Install flake8</b> using pip installer:<br/><code>$ pip install flake8</code><br/><br/><br/><b>Show help:</b><br/><br/><a href="https://flake8.pycqa.org/en/latest/user/options.html">https://flake8.pycqa.org/en/latest/user/options.html</a><br/><br/><code>$ flake8 --help</code><br/><samp>usage: flake8 [options] file file ...<br/><br/>positional arguments:<br/>  filename<br/><br/>optional arguments:<br/>  -h, --help            show this help message and exit<br/>  -v, --verbose         Print more information about what is happening in flake8. This option is repeatable and will increase verbosity each time it is repeated.<br/>  --output-file OUTPUT_FILE<br/></samp><br/><br/><br/><br/><b>Execute flake8</b> to test one or several files:<br/><br/><code>$ flake8 main.py</code><br/><br/><code>$ flake8 main.py database.py</code><br/><br/><br/>or for the whole project in current directory:<br/><br/><code>$ flake8 .</code><br/><samp>./main.py:18:1: F401 'wtforms.StringField' imported but unused<br/>./main.py:186:13: F821 undefined name 'l'<br/>./main.py:327:9: F841 local variable 'save' is assigned to but never used<br/>./database.py:5:1: F401 'logging' imported but unused<br/>./database.py:8:1: F401 'logging.warning as lwarn' imported but unused<br/>./database.py:10:1: F401 'logging.exception as lexcept' imported but unused<br/></samp><br/><br/><br/><b>Check for several specific errors or warnings</b>:<br/><code>$ flake8 --select E303,E501 main.py</code><br/><samp>main.py:5:80: E501 line too long (92 > 79 characters)<br/>main.py:6:80: E501 line too long (94 > 79 characters)<br/></samp><br/><br/><br/><b>Ignore several warnings or errors</b>:<br/><code>$ flake8 --ignore E501 main.py</code><br/><br/><br/><br/>We can <b>create a configuration file</b> (using INI format):<br/><a href="https://flake8.pycqa.org/en/latest/user/configuration.html">https://flake8.pycqa.org/en/latest/user/configuration.html</a><br/><a href="https://flake8.pycqa.org/en/latest/user/options.html#options-list">https://flake8.pycqa.org/en/latest/user/options.html#options-list</a><br/><a href="https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-select">https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-select</a><br/><br/>E.g: <b>.flake8</b> in the project directory:<br/><br/><nl_off><pre>[flake8]<br/>ignore = E501,E303<br/><br/>select = E,W<br/><br/>exclude = .git,<br/>          __pycache__,<br/>	  main.py<br/><br/>max-line-length = 100<br/><br/>max-complexity = 10<br/></pre><nl_on><br/><br/><br/>We can execute <code>$ flake8</code> and it will read options from config file <b>.flake8</b><br/><br/>Command line options override configuration file ones.<br/><br/><br/><br/><br/><br/></div> <!-- content -->
+<div id="content"><b>Flake8</b> is a wrapper around several tools:<br>
+<br>
+<ul><li><b>PyFlakes</b>:</li> check source files for errors.<br>
+<li><b>pycodestyle</b>:</li> check source code against PEP8 conventions.<br>
+<li><b>Ned Batchelder’s McCabe script</b>:</li> perform McCabe complexity check.<br>
+</ul><br>
+<br>
+Source code in GitLab repo:<br>
+<a href="https://gitlab.com/pycqa/flake8">https://gitlab.com/pycqa/flake8</a><br>
+<br>
+<br>
+<br>
+Flake8 documentation:<br>
+<a href="https://flake8.pycqa.org/en/latest/index.html">https://flake8.pycqa.org/en/latest/index.html</a><br>
+<br>
+Flake8 quickstart:<br>
+<a href="https://flake8.pycqa.org/en/latest/index.html#quickstart">https://flake8.pycqa.org/en/latest/index.html#quickstart</a><br>
+<br>
+<br>
+<br>
+<a href="https://pypi.org/project/flake8/">https://pypi.org/project/flake8/</a><br>
+<br>
+<b>Install flake8</b> using pip installer:<br>
+<code>$ pip install flake8</code><br>
+<br>
+<br>
+<b>Show help:</b><br>
+<br>
+<a href="https://flake8.pycqa.org/en/latest/user/options.html">https://flake8.pycqa.org/en/latest/user/options.html</a><br>
+<br>
+<code>$ flake8 --help</code><br>
+<samp>usage: flake8 [options] file file ...<br>
+<br>
+positional arguments:<br>
+  filename<br>
+<br>
+optional arguments:<br>
+  -h, --help            show this help message and exit<br>
+  -v, --verbose         Print more information about what is happening in flake8. This option is repeatable and will increase verbosity each time it is repeated.<br>
+  --output-file OUTPUT_FILE<br>
+</samp><br>
+<br>
+<br>
+<br>
+<b>Execute flake8</b> to test one or several files:<br>
+<br>
+<code>$ flake8 main.py</code><br>
+<br>
+<code>$ flake8 main.py database.py</code><br>
+<br>
+<br>
+or for the whole project in current directory:<br>
+<br>
+<code>$ flake8 .</code><br>
+<samp>./main.py:18:1: F401 &#39;wtforms.StringField&#39; imported but unused<br>
+./main.py:186:13: F821 undefined name &#39;l&#39;<br>
+./main.py:327:9: F841 local variable &#39;save&#39; is assigned to but never used<br>
+./database.py:5:1: F401 &#39;logging&#39; imported but unused<br>
+./database.py:8:1: F401 &#39;logging.warning as lwarn&#39; imported but unused<br>
+./database.py:10:1: F401 &#39;logging.exception as lexcept&#39; imported but unused<br>
+</samp><br>
+<br>
+<br>
+<b>Check for several specific errors or warnings</b>:<br>
+<code>$ flake8 --select E303,E501 main.py</code><br>
+<samp>main.py:5:80: E501 line too long (92 &gt; 79 characters)<br>
+main.py:6:80: E501 line too long (94 &gt; 79 characters)<br>
+</samp><br>
+<br>
+<br>
+<b>Ignore several warnings or errors</b>:<br>
+<code>$ flake8 --ignore E501 main.py</code><br>
+<br>
+<br>
+<br>
+We can <b>create a configuration file</b> (using INI format):<br>
+<a href="https://flake8.pycqa.org/en/latest/user/configuration.html">https://flake8.pycqa.org/en/latest/user/configuration.html</a><br>
+<a href="https://flake8.pycqa.org/en/latest/user/options.html#options-list">https://flake8.pycqa.org/en/latest/user/options.html#options-list</a><br>
+<a href="https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-select">https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-select</a><br>
+<br>
+E.g: <b>.flake8</b> in the project directory:<br>
+<br>
+<pre>[flake8]
+ignore = E501,E303
+
+select = E,W
+
+exclude = .git,
+          __pycache__,
+	  main.py
+
+max-line-length = 100
+
+max-complexity = 10
+</pre><br>
+<br>
+<br>
+We can execute <code>$ flake8</code> and it will read options from config file <b>.flake8</b><br>
+<br>
+Command line options override configuration file ones.<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</div> <!-- content -->
 </div><!-- content_page -->
 
 <div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
 <ul>
+
+<li><a href="/pi-digits-500000-calculate">500000 digits of PI</a></li>
+
+<li><a href="/calculate-pi-digits-python-high-precision">Calculate PI digits (arbitrary-precision) using Python</a></li>
 
 <li><a href="/flake8-python-check-source-code-pep8">Flake8 tool to check python source code</a></li>
 
@@ -77,10 +186,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <li><a href="/bash-shell-redirections">Bash redirections</a></li>
 
 <li><a href="/badblocks-e2fsck-scan-harddisk-howto">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
-
-<li><a href="/gdb-gnu-debugger-cheatsheet">GDB cheatsheet</a></li>
-
-<li><a href="/gnu-screen-quick-guide-cheatsheet">GNU Screen : Quick Reference : Cheatsheet</a></li>
 
 </ul>
 </div> <!-- sidebar last created -->
