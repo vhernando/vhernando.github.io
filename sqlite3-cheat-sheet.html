@@ -151,7 +151,7 @@ We can access client database tables preceded by &#39;client.&#39; prefix.<br>
 <b>Create a new table</b>:<br>
 <code>sqlite&gt; CREATE TABLE VARS (name VARCHAR(128) PRIMARY KEY  ,value   VARCHAR(512)  NOT NULL);</code><br>
 <br>
-Create the table only if it does not exist already:<br>
+Create the table only if it does not already exist:<br>
 <code>sqlite&gt; CREATE TABLE <b>IF NOT EXISTS</b> VARS (name VARCHAR(128) PRIMARY KEY  ,value   VARCHAR(512)  NOT NULL);</code><br>
 <br>
 <b>Show contents of a table</b>:<br>
@@ -165,15 +165,13 @@ Display at most three rows.<br>
 This LIMIT keyword can be used along ORDER BY to specify a column to order results.<br>
 <code>sqlite&gt; select * from CLIENTS ORDER BY Name DESC LIMIT 3</code><br>
 <br>
-<b>Delete a table</b>:<br>
-<code>sqlite&gt; drop table ticket;</code><br>
 <br>
-<b>Rename a table</b>:<br>
-<code>sqlite&gt; .tables</code><br>
-<samp>CASHIER</samp><br>
-<code>sqlite&gt; alter table CASHIER rename to CLIENTS;<br>
-sqlite&gt; .tables</code><br>
-<samp>CLIENTS</samp><br>
+<b>Insert a row in a table</b>:<br>
+<code>sqlite&gt; INSERT INTO VARS (name,value) VALUES(&#39;color&#39;, &#39;blue&#39;);</code><br>
+<br>
+Insert a row in a table, but if a conflict arises because of a UNIQUE or PRIMARY KEY constraint then <b>replace</b> that row:<br>
+<code>sqlite&gt; INSERT OR REPLACE INTO VARS (name,value) VALUES(&#39;color&#39;, &#39;blue&#39;);</code><br>
+<a href="https://www.sqlite.org/lang_conflict.html">SQL As Understood By SQLite (On conflict)</a><br>
 <br>
 <br>
 <b>Copy contents from a table into another one</b>:<br>
@@ -185,9 +183,16 @@ Copy some contents from a table into another one:<br>
 <code>sqlite&gt; INSERT INTO CLIENT (name,value,state,address) SELECT name,value,-1,address FROM CLIENT_OLD;</code><br>
 <br>
 <br>
-<b>Insert a column in a table</b>, but if a conflict arises because of a UNIQUE or PRIMARY KEY constraint then replace that column:<br>
-<code>sqlite&gt; INSERT OR REPLACE INTO VARS (name,value) VALUES(&#39;color&#39;, &#39;blue&#39;);</code><br>
-<a href="https://www.sqlite.org/lang_conflict.html">SQL As Understood By SQLite (On conflict)</a><br>
+<b>Delete a table</b>:<br>
+<code>sqlite&gt; drop table ticket;</code><br>
+<br>
+<b>Rename a table</b>:<br>
+<code>sqlite&gt; .tables</code><br>
+<samp>CASHIER</samp><br>
+<code>sqlite&gt; alter table CASHIER rename to CLIENTS;<br>
+sqlite&gt; .tables</code><br>
+<samp>CLIENTS</samp><br>
+<br>
 <br>
 <br>
 <h5>Add a new column to a table</h5><br>
