@@ -73,8 +73,9 @@ Then we will execute it like this:<br>
 <samp>PI:  3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068</samp><br>
 <br>
 <br>
-<br>
-<pre>#!/usr/bin/python3
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<pre><code class="language-python">#!/usr/bin/python3
 
 # Calculate PI number using this formula:
 # x[n+1] = x[n] + sin(x[n])
@@ -142,7 +143,9 @@ while True:
 
 getcontext().prec = precision
 print(&#34;PI: &#34;, +second)
-</pre><br>
+</code></pre>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 <br>
 <br>
 <br>
@@ -168,7 +171,6 @@ Code starts calculations using 100 digits of precision, and duplicates it until 
 <br>
 <br>
 Let&#39;s test the script with a bigger precision: <a href="/pi-digits-500000-calculate">500000 digits of PI</a><br>
-<br>
 <br>
 </div> <!-- content -->
 </div><!-- content_page -->
