@@ -192,6 +192,14 @@ Trim a file starting at 4 minutes 41 seconds point and finish after a duration o
 <b>-ss start_position</b> and <b>-t duration</b> options come before <b>-i</b> one in this case.<br>
 <br>
 <br>
+<h5>Extract subtitles from a video file and store them in srt format</h5><br>
+Extract subtitles from a video file and store them in srt format.<br>
+<code>ffmpeg -i input_file.mkv <b>-map 0:s:1</b> output_subtitle_file.srt</code><br>
+<br>
+<b>-map 0:s:1</b> selects the second subtitle stream (1) from the first input file (0).<br>
+<br>
+<br>
+<br>
 <br>
 <h4>Reference</h4><br>
 <a href="https://en.wikipedia.org/wiki/FFmpeg">FFmpeg (Wikipedia)</a><br>
