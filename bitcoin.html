@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/bitcoin"/>
+	
+
+	
+	<title>Bitcoin - Vicente Hernando</title>
+	
+	<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WNT6FCF');</script>
+<!-- End Google Tag Manager -->
+  </head>
+  <body>
+	<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WNT6FCF"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, privacy, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+
+<ul>
+<li><a href="/sqlite3-cheat-sheet">SQLite3 Cheat Sheet</a></li>
+<li><a href="/pi-digits-500000-calculate">500000 digits of PI</a></li>
+<li><a href="/doxygen-syntax-howto-document">Doxygen syntax - How to document with Doxygen</a></li>
+<li><a href="/android-how-to-install-adb-fastboot-debian">Android: How to install adb and fastboot in Debian</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/gnu-screen-quick-guide-cheatsheet">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+</ul>
+
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>Bitcoin</h3></div>
+<div id="content"><br>
+<a href="https://en.wikipedia.org/wiki/Bitcoin">Bitcoin (Wikipedia)</a><br>
+<br>
+<a href="https://en.wikipedia.org/wiki/Bitcoin_Core">Bitcoin Core (Wikipedia)</a><br>
+<a href="https://bitcoincore.org/">Bitcoin Core official site</a><br>
+<a href="https://bitcoincore.org/en/download/">Bitcoin Core (Download)</a><br>
+<br>
+<br>
+<a href="https://lists.linuxfoundation.org/pipermail/bitcoin-dev/">Bitcoin-dev mailing list</a><br>
+<br>
+<a href="https://bitcointalk.org/">Bitcoin Forum (Bitcointalk)</a><br>
+<a href="https://bitcointalk.org/index.php?board=6.0">Bitcoin Forum (Bitcointalk)  Development &amp; Technical Discussion</a><br>
+<br>
+<a href="https://www.reddit.com/r/Bitcoin/">Bitcoin at Reddit</a><br>
+<br>
+<a href="https://en.bitcoin.it/wiki/Main_Page">Bitcoin Wiki</a><br>
+<br>
+<br>
+Bitcoin original paper from Satoshi Nakamoto:<br>
+<a href="https://bitcoin.org/bitcoin.pdf">Bitcoin: A Peer-to-Peer Electronic Cash System</a><br>
+<br>
+Bitcoin transations are hashed in a Merkle tree:<br>
+<a href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle tree - Wikipedia</a><br>
+<br>
+Bitcoin scalability (Paper):<br>
+<a href="http://fc16.ifca.ai/bitcoin/papers/CDE+16.pdf">http://fc16.ifca.ai/bitcoin/papers/CDE+16.pdf</a><br>
+<br>
+<br>
+<br>
+<a href="https://lopp.net/bitcoin.html">Bitcoin Resources</a><br>
+<br>
+<a href="https://lopp.net/lightning.html">Lightning Network Resources</a><br>
+<br>
+<br>
+<br>
+Format of a transaction:<br>
+<a href="https://en.bitcoin.it/wiki/Transaction">https://en.bitcoin.it/wiki/Transaction</a><br>
+<a href="https://en.bitcoin.it/wiki/Raw_Transactions">https://en.bitcoin.it/wiki/Raw_Transactions</a><br>
+<br>
+Bitcoin protocol:<br>
+<a href="https://en.bitcoin.it/wiki/Protocol_documentation">https://en.bitcoin.it/wiki/Protocol_documentation</a><br>
+<a href="http://www.righto.com/2014/02/bitcoin-mining-hard-way-algorithms.html">Bitcoin mining the hard way: the algorithms, protocols, and bytes</a><br>
+<a href="http://www.righto.com/2014/02/bitcoins-hard-way-using-raw-bitcoin.html">Bitcoins the hard way: Using the raw Bitcoin protocol</a><br>
+<br>
+<a href="https://bitcoincore.org/en/doc/">Bitcoin Core RPC</a><br>
+<br>
+<br>
+<br>
+<h4>Proof of Work vs Proof of Stake</h4><br>
+<a href="http://www.truthcoin.info/blog/pow-cheapest/">Nothing is Cheaper than Proof of Work</a><br>
+<br>
+<a href="https://download.wpsoftware.net/bitcoin/pos.pdf">On Stake and Consensus (Andrew Poelstra)</a><br>
+<br>
+<br>
+<br>
+<h4>Statistics and Block explorers</h4><br>
+<a href="https://bitinfocharts.com/">Statistics about Cryptocurrencies</a><br>
+<br>
+<a href="https://bitinfocharts.com/top-100-richest-bitcoin-addresses.html">Top 100 Richest Bitcoin Addresses and Bitcoin Distribution</a><br>
+<br>
+<a href="https://blockstream.info">https://blockstream.info</a><br>
+<br>
+<br>
+<br>
+<h4>IRC Channels</h4><br>
+<b>#bitcoin</b>, <b>#bitcoin-core-dev</b> and <b>#bitcoin-wizards</b> at irc.freenode.net<br>
+<br>
+<br>
+Channel logs:<br>
+<br>
+<a href="https://botbot.me/freenode/bitcoin-core-dev/">https://botbot.me/freenode/bitcoin-core-dev/</a><br>
+<br>
+<a href="https://botbot.me/freenode/bitcoin-wizards/">https://botbot.me/freenode/bitcoin-wizards/</a><br>
+<br>
+<a href="https://en.bitcoin.it/wiki/IRC_channels">List of IRC channels (Bitcoin Wiki)</a><br>
+<br>
+<br>
+<br>
+<h4>Fee estimation</h4><br>
+<a href="https://estimatefee.com/">https://estimatefee.com/</a><br>
+<br>
+<a href="https://bitcoinfees.21.co/">https://bitcoinfees.21.co/</a><br>
+<br>
+<a href="https://jochen-hoenicke.de/queue/#1,1w">https://jochen-hoenicke.de/queue/#1,1w</a><br>
+<br>
+<br>
+<br>
+<h4>Other</h4><br>
+<a href="/run-bitcoin-node-debian-how-to">How to run a Bitcoin node in Debian</a><br>
+<br>
+<a href="/bitcoin-wallet-encrypt-decrypt-cipher">How to encrypt and decrypt your Bitcoin wallet</a><br>
+<br>
+<a href="/bitcoin-core-node-build-sources-debian">How to build BitcoinCore from sources in Debian</a><br>
+<br>
+<a href="/bitcoind-raw-transaction-create-howto">How to create a Bitcoin raw transaction using bitcoind</a><br>
+<br>
+<a href="/bitcoind-create-wallet-without-private-keys-bitcoin">bitcoind: How to create a wallet with no private keys</a><br>
+<br>
+<br>
+<br>
+Sidechains paper:<br>
+<a href="https://blockstream.com/sidechains.pdf">https://blockstream.com/sidechains.pdf</a><br>
+<br>
+<br>
+Software related to Bitcoin:<br>
+<a href="https://en.bitcoin.it/wiki/Software">https://en.bitcoin.it/wiki/Software</a><br>
+<br>
+<br>
+Resources for Lightning Network developers:<br>
+<a href="http://dev.lightning.community/resources/">http://dev.lightning.community/resources/</a><br>
+<br>
+<br>
+<br>
+<h4>Bitcoin development</h4><br>
+<a href="https://bitcoincore.org/en/contribute/">How Can I Contribute?</a><br>
+<br>
+<a href="https://bitcoincore.org/en/faq/contributing-code/">How to contribute code to Bitcoin Core</a><br>
+<br>
+<a href="https://github.com/bitcoin">Bitcoin related repositories in Github</a><br>
+<br>
+<a href="https://github.com/bitcoin/bitcoin/issues">Bitcoin open issues</a><br>
+<br>
+<a href="https://github.com/bitcoin/bitcoin/pulls">Bitcoin pull requests</a><br>
+<br>
+<a href="https://lists.linuxfoundation.org/pipermail/bitcoin-dev/">Bitcoin-dev mailing list</a><br>
+<br>
+<a href="https://en.bitcoin.it/wiki/Protocol_specification">Documentation for Bitcoin protocol</a><br>
+<br>
+<a href="https://github.com/bitcoin/bips">Bitcoin Improvement Proposals (BIP)</a><br>
+<br>
+<br>
+<br>
+<h4>Bitcoin privacy</h4><br>
+<a href="https://en.bitcoin.it/wiki/Privacy">https://en.bitcoin.it/wiki/Privacy</a><br>
+<br>
+<a href="https://en.bitcoin.it/wiki/CoinJoin">https://en.bitcoin.it/wiki/CoinJoin</a><br>
+<br>
+<a href="https://medium.com/@rickytheghost1981/bitcoin-anonymity-guide-2019-how-to-use-btc-like-a-straight-up-g-e3bf55f680fa">Bitcoin Anonymity Guide 2019: How to use BTC like a straight up G</a><br>
+<br>
+<a href="https://medium.com/human-rights-foundation-hrf/privacy-and-cryptocurrency-part-i-how-private-is-bitcoin-e3a4071f8fff">Privacy and Cryptocurrency, Part I: How Private is Bitcoin?</a><br>
+<br>
+<a href="https://en.bitcoin.it/wiki/JoinMarket">https://en.bitcoin.it/wiki/JoinMarket</a><br>
+<br>
+<a href="https://en.bitcoin.it/wiki/PayJoin">https://en.bitcoin.it/wiki/PayJoin</a><br>
+<br>
+<br>
+<br>
+<a href="/bitcoin-security"><h4>Bitcoin Security</h4></a><br>
+<br>
+<br>
+<h4><a href="/bitcoin-multimedia-podcast-videos-related">Bitcoin related multimedia</a></h4><br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/bitcoin">Bitcoin</a></li>
+
+<li><a href="/privacy">Privacy</a></li>
+
+<li><a href="/pi-digits-500000-calculate">500000 digits of PI</a></li>
+
+<li><a href="/calculate-pi-digits-python-high-precision">Calculate PI digits (arbitrary-precision) using Python</a></li>
+
+<li><a href="/flake8-python-check-source-code-pep8">Flake8 tool to check python source code</a></li>
+
+<li><a href="/perl-language">Perl language</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/sqlite3-cross-compile-arm-howto">How to cross-compile SQLite3 for ARM architecture</a></li>
+<li><a href="/bitcoind-raw-transaction-create-howto">How to create a Bitcoin raw transaction using bitcoind</a></li>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/archlinux-install-usb-from-debian-existing-linux">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/android-apk-app-extract-install">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme">Scheme: factorial function</a></li>
+<li><a href="/xbindkeys-grab-keys-X">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+<li><a href="/git-command-quick-reminder">Git Command Quick Reminder</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/directfb-generate-api-documentation-html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/ratpoison-window-manager">Ratpoison window manager</a></li>
+</ul>
+
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2026 by Vicente Hernando.</div>
+  </body>
+</html>
