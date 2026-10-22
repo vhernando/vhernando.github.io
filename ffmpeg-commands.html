@@ -201,11 +201,12 @@ Extract subtitles from a video file and store them in srt format.<br>
 <br>
 <br>
 <h5>Delay or advance subtitles in a SRT file</h5><br>
-Advance subtitles for a second, and store subtitles in same SRT format.<br>
+Advance the subtitles by one second and save them in the same SRT format.<br>
 <code>$ ffmpeg <b>-itsoffset -1</b> -i input_file.srt -c copy output_file.srt</code><br>
 <br>
 <b>-itsoffset -1</b>  advances subtitles by one second relative to the audio. A positive number delays the subtitles by the specified number of seconds.<br>
 <b>-c copy</b> selects the “copy” encoder (stream copy), which means no decoding or encoding takes place.<br>
+<br>
 <br>
 <br>
 <h4>Reference</h4><br>
