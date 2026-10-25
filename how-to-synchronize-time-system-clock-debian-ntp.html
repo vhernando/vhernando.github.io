@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang=en-US>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	
+	<link rel="shortcut icon"  href="/static/favicon.ico"/>
+	<link rel="stylesheet" href="/static/style.css"/>
+	<link rel="canonical" href="https://vhernando.github.io/how-to-synchronize-time-system-clock-debian-ntp"/>
+	
+
+	
+	<title>How to synchronize system clock in Debian - Vicente Hernando</title>
+	
+	<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WNT6FCF');</script>
+<!-- End Google Tag Manager -->
+  </head>
+  <body>
+	<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WNT6FCF"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<script defer='' src="/static/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'This site uses cookies from Google for traffic analysis and to provide its services. Your IP address, user-agent and some security and performance metrics will be shared with Google, in order to guarantee quality of service, gather statistics and solve misuses.',
+          (window.cookieOptions && cookieOptions.close) || 'Accept',
+          (window.cookieOptions && cookieOptions.learn) || 'More information',
+          (window.cookieOptions && cookieOptions.link) || 'https://policies.google.com/technologies/cookies');
+    });
+  </script>
+
+	
+	<div id="header">
+	  
+	  <h1 style="text-align:center"><a id="web_name" href="/">Vicente Hernando&#39;s web site</a></h1>
+	  
+	  <h2 style="text-align:center">computers, free software, privacy, ...</h2>
+	</div>
+	<div id="content_wrapper">
+
+<div class="sidebar_first"><h4 class="sidebar_title">Popular articles</h4>
+
+<ul>
+<li><a href="/sqlite3-cheat-sheet">SQLite3 Cheat Sheet</a></li>
+<li><a href="/pi-digits-500000-calculate">500000 digits of PI</a></li>
+<li><a href="/doxygen-syntax-howto-document">Doxygen syntax - How to document with Doxygen</a></li>
+<li><a href="/android-how-to-install-adb-fastboot-debian">Android: How to install adb and fastboot in Debian</a></li>
+<li><a href="/run-bitcoin-node-debian-how-to">How to run a Bitcoin node in Debian</a></li>
+<li><a href="/gnu-screen-quick-guide-cheatsheet">GNU Screen : Quick Reference : Cheatsheet</a></li>
+
+</ul>
+
+</div>
+
+<div id="content_page" class="clearfix">
+<div id="page_title"><h3>How to synchronize system clock in Debian</h3></div>
+<div id="content"><br>
+<h4>Fixing systemd-timesyncd NTP Synchronization in Debian</h4><br>
+<br>
+<br>
+The <b>timedatectl</b> command is provided by systemd. It allows you to <b>query and change the system clock</b> and its settings, and to <b>enable or disable time synchronization</b> services.<br>
+<br>
+You can also use it to display the current status of time synchronization services such as `systemd-timesyncd.service`.<br>
+<br>
+<br>
+<b>systemd-timesyncd.service</b> is a system service that synchronizes the local system clock with a remote Network Time Protocol (NTP) server.<br>
+<br>
+<br>
+<br>
+<h5>To enable system time synchronization:</h5><br>
+<br>
+<code>$ sudo timedatectl set-ntp true</code><br>
+<br>
+or<br>
+<br>
+<code>$ sudo systemctl enable --now systemd-timesyncd</code><br>
+<br>
+<br>
+<br>
+<h5>Check the current time status:</h5><br>
+<br>
+<code>$ timedatectl</code><br>
+<samp>               Local time: Sun 2026-10-18 22:39:56 CEST<br>
+           Universal time: Sun 2026-10-18 20:39:56 UTC<br>
+                 RTC time: Sun 2026-10-18 20:44:46<br>
+                Time zone: Europe/Madrid (CEST, +0200)<br>
+System clock synchronized: no<br>
+              NTP service: active<br>
+          RTC in local TZ: no</samp><br>
+<br>
+The system clock is not synchronized. The NTP service is active but not working.<br>
+<br>
+<br>
+<br>
+<b>Show the current status of the systemd-timesyncd service:</b><br>
+<br>
+<code>$ timedatectl timesync-status</code><br>
+<samp>       Server: 130.149.17.8 (130.149.17.8)<br>
+Poll interval: 1min 4s (min: 32s; max 34min 8s)<br>
+ Packet count: 0</samp><br>
+<br>
+<br>
+<code>$ timedatectl show-timesync --all</code><br>
+<samp>LinkNTPServers=<br>
+SystemNTPServers=130.149.17.8<br>
+RuntimeNTPServers=<br>
+FallbackNTPServers=0.debian.pool.ntp.org 1.debian.pool.ntp.org 2.debian.pool.ntp.org 3.debian.pool.ntp.org<br>
+ServerName=130.149.17.8<br>
+ServerAddress=130.149.17.8<br>
+RootDistanceMaxUSec=5s<br>
+PollIntervalMinUSec=32s<br>
+PollIntervalMaxUSec=34min 8s<br>
+PollIntervalUSec=4min 16s<br>
+Frequency=0</samp><br>
+<br>
+<br>
+<b>Check the service status for more details:</b><br>
+<br>
+<code>$ systemctl status systemd-timesyncd</code><br>
+
+<samp><pre> systemd-timesyncd.service - Network Time Synchronization
+     Loaded: loaded (/usr/lib/systemd/system/systemd-timesyncd.service; enabled; preset: enabled)
+     Active: active (running) since Fri 2026-09-11 18:04:49 CEST; 1 month 6 days ago
+ Invocation: bf81505bea374140d869fejf1d98f5fbad
+       Docs: man:systemd-timesyncd.service(8)
+   Main PID: 1055311 (systemd-timesyn)
+     Status: &#34;Idle.&#34;
+      Tasks: 2 (limit: 18886)
+     Memory: 696K (peak: 3.1M, swap: 908K, swap peak: 912K)
+        CPU: 18.970s
+     CGroup: /system.slice/systemd-timesyncd.service
+             └─1055311 /usr/lib/systemd/systemd-timesyncd
+
+Oct 18 16:57:32 mySys systemd-timesyncd[1053311]: Timed out waiting for reply from 130.149.17.8:123 (130.149.17.8).
+Oct 18 17:31:50 mySys systemd-timesyncd[1053311]: Timed out waiting for reply from 130.149.17.8:123 (130.149.17.8).
+Oct 18 18:06:09 mySys systemd-timesyncd[1053311]: Timed out waiting for reply from 130.149.17.8:123 (130.149.17.8).
+Oct 18 18:40:27 mySys systemd-timesyncd[1053311]: Timed out waiting for reply from 130.149.17.8:123 (130.149.17.8).
+Oct 18 19:14:46 mySys systemd-timesyncd[1053311]: Timed out waiting for reply from 130.149.17.8:123 (130.149.17.8).</pre></samp>
+<br>
+<br>
+The configured server `130.149.17.8` is not responding.<br>
+<br>
+<br>
+<br>
+<h5>Solution: Update the NTP Configuration</h5><br>
+<br>
+<b>Edit the timesyncd configuration file</b>:<br>
+<br>
+<code>$ sudo nano /etc/systemd/timesyncd.conf</code><br>
+<br>
+Set a reliable NTP server:<br>
+<samp>NTP=debian.pool.ntp.org</samp><br>
+<br>
+<br>
+The resulting file looks like this:<br>
+<br>
+<code>$ cat /etc/systemd/timesyncd.conf</code><br>
+<samp><pre>
+...
+# Use &#39;systemd-analyze cat-config systemd/timesyncd.conf&#39; to display the full config.
+#
+# See timesyncd.conf(5) for details.
+
+[Time]
+NTP=debian.pool.ntp.org
+FallbackNTP=0.debian.pool.ntp.org 1.debian.pool.ntp.org 2.debian.pool.ntp.org 3.debian.pool.ntp.org
+#RootDistanceMaxSec=5
+#PollIntervalMinSec=32
+#PollIntervalMaxSec=2048
+#ConnectionRetrySec=30
+#SaveIntervalSec=60</pre></samp><br>
+<br>
+<br>
+<b>View the effective configuration</b> (including any drop-ins):<br>
+<br>
+<code>$ systemd-analyze cat-config systemd/timesyncd.conf</code><br>
+<samp><pre># /etc/systemd/timesyncd.conf
+#  This file is part of systemd.
+#
+...
+#
+# See timesyncd.conf(5) for details.
+
+[Time]
+NTP=debian.pool.ntp.org
+FallbackNTP=0.debian.pool.ntp.org 1.debian.pool.ntp.org 2.debian.pool.ntp.org 3.debian.pool.ntp.org
+#RootDistanceMaxSec=5
+#PollIntervalMinSec=32
+#PollIntervalMaxSec=2048
+#ConnectionRetrySec=30
+#SaveIntervalSec=60
+
+# /run/systemd/timesyncd.conf.d/dhcpcd-enp2s0.dhcp.conf
+# Generated by dhcpcd from enp2s0.dhcp
+[Time]
+NTP=130.149.17.8
+</pre></samp><br>
+<br>
+<br>
+Note that a DHCP-generated drop-in is still injecting the non-working server. Restart the service to apply the changes:<br>
+<br>
+<code>$ sudo systemctl restart systemd-timesyncd</code><br>
+<br>
+<br>
+<br>
+<h5>Verification</h5><br>
+<br>
+<b>Confirm the new configuration is active:</b><br>
+<br>
+<code>$ timedatectl show-timesync --all</code><br>
+<samp><pre>LinkNTPServers=
+SystemNTPServers=debian.pool.ntp.org 130.149.17.8
+RuntimeNTPServers=
+FallbackNTPServers=0.debian.pool.ntp.org 1.debian.pool.ntp.org 2.debian.pool.ntp.org 3.debian.pool.ntp.org
+ServerName=debian.pool.ntp.org
+ServerAddress=195.95.153.43
+RootDistanceMaxUSec=5s
+PollIntervalMinUSec=32s
+PollIntervalMaxUSec=34min 8s
+PollIntervalUSec=32s
+NTPMessage={ Leap=0, Version=4, Mode=4, Stratum=1, Precision=-23, RootDelay=0, RootDispersion=0, Reference=GNSS, OriginateTimestamp=Sun 2026-10-18 22:47:36 CEST, ReceiveTimestamp=Sun 2026-10-18 22:52:37 CEST, TransmitTimestamp=Sun 2026-10-18 22:52:37 CEST, DestinationTimestamp=Sun 2026-10-18 22:47:36 CEST, Ignored=no, PacketCount=1, Jitter=0 }
+Frequency=0
+</pre></samp><br>
+<br>
+<br>
+<b>Check overall time status:</b><br>
+<br>
+<code>$ timedatectl</code><br>
+<samp>               Local time: Sun 2026-10-18 22:53:10 CEST<br>
+           Universal time: Sun 2026-10-18 20:53:10 UTC<br>
+                 RTC time: Sun 2026-10-18 20:53:10<br>
+                Time zone: Europe/Madrid (CEST, +0200)<br>
+System clock synchronized: yes<br>
+              NTP service: active<br>
+          RTC in local TZ: no</samp><br>
+<br>
+<br>
+<b>Detailed synchronization status:</b><br>
+<br>
+<code>$ timedatectl timesync-status</code><br>
+<samp><pre>       Server: 195.95.153.59 (debian.pool.ntp.org)
+Poll interval: 34min 8s (min: 32s; max 34min 8s)
+         Leap: normal
+      Version: 4
+      Stratum: 1
+    Reference: GNSS
+    Precision: 1us (-23)
+Root distance: 0 (max: 5s)
+       Offset: -5.712ms
+        Delay: 20.180ms
+       Jitter: 5.590ms
+ Packet count: 146
+    Frequency: +64.655ppm
+</pre></samp><br>
+<br>
+<br>
+The system clock is now synchronized.<br>
+<br>
+<br>
+<br>
+<h4>References</h4><br>
+<code>$ man timedatectl</code><br>
+<code>$ man systemd-timesyncd</code><br>
+<br>
+<a href="https://wiki.archlinux.org/title/Systemd-timesyncd">https://wiki.archlinux.org/title/Systemd-timesyncd</a><br>
+<br>
+<br>
+</div> <!-- content -->
+</div><!-- content_page -->
+
+<div class="sidebar_last"><h4 class="sidebar_title">Latest created articles</h4>
+<ul>
+
+<li><a href="/how-to-synchronize-time-system-clock-debian-ntp">How to synchronize system clock in Debian</a></li>
+
+<li><a href="/bitcoin">Bitcoin</a></li>
+
+<li><a href="/privacy">Privacy</a></li>
+
+<li><a href="/pi-digits-500000-calculate">500000 digits of PI</a></li>
+
+<li><a href="/calculate-pi-digits-python-high-precision">Calculate PI digits (arbitrary-precision) using Python</a></li>
+
+<li><a href="/flake8-python-check-source-code-pep8">Flake8 tool to check python source code</a></li>
+
+</ul>
+</div> <!-- sidebar last created -->
+
+
+<div class="sidebar_last"><h4 class="sidebar_title">Recommended articles</h4>
+
+<ul>
+<li><a href="/sqlite3-cross-compile-arm-howto">How to cross-compile SQLite3 for ARM architecture</a></li>
+<li><a href="/bitcoind-raw-transaction-create-howto">How to create a Bitcoin raw transaction using bitcoind</a></li>
+<li><a href="/bitcoin-wallet-encrypt-decrypt-cipher">How to encrypt and decrypt your Bitcoin wallet</a></li>
+<li><a href="/archlinux-install-usb-from-debian-existing-linux">How to install Arch Linux on a USB key from an existing Linux (Debian)</a></li>
+<li><a href="/bitcoin-core-node-build-sources-debian">How to build BitcoinCore from sources in Debian</a></li>
+<li><a href="/bitcoind-create-wallet-without-private-keys-bitcoin">bitcoind: How to create a wallet with no private keys</a></li>
+<li><a href="/benchmark-hard-disk-linux-hdparm-dd">How to Benchmark Hard Disks using hdparm and dd (linux)</a></li>
+<li><a href="/pacman-cheat-sheet-archlinux">Pacman cheat sheet (Arch Linux)</a></li>
+<li><a href="/android-apk-app-extract-install">Android aplication: How to extract an APK file and reinstall it</a></li>
+<li><a href="/ffmpeg-commands">FFmpeg commands</a></li>
+<li><a href="/factorial-function-scheme">Scheme: factorial function</a></li>
+<li><a href="/xbindkeys-grab-keys-X">xbindkeys: how to bind keys to commands (X window)</a></li>
+<li><a href="/install-raspbian-lite-raspberry-pi-3-model-b">How to install Raspbian Lite in Raspberry Pi 3 model B</a></li>
+<li><a href="/badblocks-e2fsck-scan-harddisk-howto">How to scan a hard disk partition using badblocks (or e2fsck)</a></li>
+<li><a href="/git-command-quick-reminder">Git Command Quick Reminder</a></li>
+<li><a href="/keyboard-shorcuts-bash-readline-default">Bash shell: default keyboard shortcuts</a></li>
+<li><a href="/directfb-generate-api-documentation-html">How to generate API reference documentation for DirectFB</a></li>
+<li><a href="/ratpoison-window-manager">Ratpoison window manager</a></li>
+</ul>
+
+</div> <!-- sidebar recommended -->
+
+</div><!-- content wrapper -->
+    <div id="footer">&copy; Copyright 2015-2026 by Vicente Hernando.</div>
+  </body>
+</html>
