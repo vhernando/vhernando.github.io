@@ -170,6 +170,11 @@ Keystrokes enabled while playing:<br>
 <b>mouse click</b>         seek to percentage in file corresponding to fraction of width</samp><br>
 <br>
 <br>
+<h4>Get info from a multimedia file</h4><br>
+<b>ffprobe analyzes multimedia streams</b> and outputs information in human- and machine-readable formats, including the container format and the format and type of each stream.<br>
+<br>
+<code>$ ffprobe some_film.mkv</code><br>
+<br>
 <br>
 <h4>Interesting FFmpeg commands</h4><br>
 <h5>Resize video</h5><br>
@@ -193,11 +198,17 @@ Trim a file starting at 4 minutes 41 seconds point and finish after a duration o
 <b>-ss start_position</b> and <b>-t duration</b> options come before <b>-i</b> one in this case.<br>
 <br>
 <br>
-<h5>Extract subtitles from a video file and store them in srt format</h5><br>
-Extract subtitles from a video file and store them in srt format.<br>
+<h5>Extract subtitles from a video file and save them in SRT format</h5><br>
+Extract subtitles from a video file and store them in SRT format.<br>
 <code>$ ffmpeg -i input_file.mkv <b>-map 0:s:1</b> output_subtitle_file.srt</code><br>
 <br>
 <b>-map 0:s:1</b> selects the second subtitle stream (1) from the first input file (0).<br>
+<br>
+ffmpeg automatically determines the output subtitle format from the file extension (.srt).<br>
+<br>
+<br>
+Alternatively, the output codec can be specified explicitly:<br>
+<code>$ ffmpeg -i input_file.mkv <b>-map 0:s:1</b> <b>-c:s srt</b> output_subtitle_file.srt</code><br>
 <br>
 <br>
 <h5>Delay or advance subtitles in a SRT file</h5><br>
